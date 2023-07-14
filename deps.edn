@@ -1,4 +1,5 @@
-{:deps    {org.clojure/clojure {:mvn/version "1.11.1"}}
+{:deps    {org.clojure/clojure {:mvn/version "1.11.1"}
+           big-bang/config     {:local/root "./components/config"}}
  :aliases {:dev  {:extra-paths ["development/src"
                                 "components/config/src"]
                   :extra-deps  {org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}}}
