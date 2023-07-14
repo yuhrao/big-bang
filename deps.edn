@@ -1,11 +1,19 @@
-{:aliases  {:dev {:extra-paths ["development/src"]
-                  :extra-deps {org.clojure/clojure {:mvn/version "1.10.3"}
-                               org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}}}
+{:deps    {org.clojure/clojure {:mvn/version "1.11.1"}}
+ :aliases {:dev  {:extra-paths ["development/src"
+                                "components/config/src"]
+                  :extra-deps  {org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}}}
 
-            :test {:extra-paths []}
+           :test {:extra-paths ["components/config/test"]
+                  :extra-deps  {nubank/matcher-combinators {:mvn/version "3.8.5"}}}
 
-            :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
-                   :extra-deps {polyfy/polylith
-                                {:git/url   "https://github.com/polyfy/polylith"
-                                 :sha       "1209a81e6b8f70987050d65d106e99d1a902969a"
-                                 :deps/root "projects/poly"}}}}}
+           :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
+                  :extra-deps {polyfy/polylith
+                               {:git/url   "https://github.com/polyfy/polylith"
+                                :sha       "1209a81e6b8f70987050d65d106e99d1a902969a"
+                                :deps/root "projects/poly"}
+
+                               polylith-kaocha/test-runner
+                               {:git/url   "https://github.com/imrekoszo/polylith-kaocha"
+                                :git/tag   "v0.8.2"
+                                :git/sha   "d1fcd40"
+                                :deps/root "projects/test-runner"}}}}}
