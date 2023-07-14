@@ -1,45 +1,70 @@
 (ns br.dev.yuhri.database.interface-test
-  (:require [clojure.test :as t]
-            [next.jdbc :as jdbc]
+  (:require [br.dev.yuhri.database.interface :as database]
             [clojure.java.io :as io]
+            [clojure.test :as t]
+            [matcher-combinators.matchers :as matcher]
             [matcher-combinators.test]
-            [br.dev.yuhri.database.interface :as database]))
+            [next.jdbc :as jdbc]
+            [tick.core :as tick]))
 
-(def ^:private db-spec {:dbtype "sqlite"
-                        :dbname "test.db"})
+(defn ^:private gen-db-spec
+  []
+  {:dbtype   "postgres"
+   :host     "localhost"
+   :port     5432
+   :dbname   "psql"
+   :user     "app"
+   :password "app"})
+
+(defn prepare-db [db-spec]
+  (database/run-migrations {:test {:datastore  db-spec
+                                   :migrations "migrations/test"}}
+                           {:skip-main? true}))
+
+(defn cleanup-db [db-spec]
+  (database/rollback-migration :test {:test {:datastore  db-spec
+                                             :migrations "migrations/test"}}))
 
 (t/deftest ^:integration migration
-  (let [migrations {:test {:datastore  db-spec
-                           :migrations "migrations/test"}}
+  (let [db-spec    (gen-db-spec)
         datasource (jdbc/get-datasource db-spec)]
 
-    (t/testing "database is empty"
-      (with-open [conn (jdbc/get-connection datasource)]
-        (let [res (->> (jdbc/execute! conn ["select name from sqlite_master where type='table' order by name;"]))]
-          (t/is (zero? (count res))))))
-
     (t/testing "migration up"
-      (database/run-migrations migrations
-                               {:skip-main? true})
+      (prepare-db db-spec)
       (with-open [conn (jdbc/get-connection datasource)]
         (let [res (->> (jdbc/execute! conn ["select * from ragtime_migrations"]))]
           (t/is (> (count res) 0)))
 
-        (let [res (->> (jdbc/execute! conn ["SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"])
-                       (map :sqlite_master/name)
+        (let [res (->> (jdbc/execute! conn ["SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"])
+                       (map :tables/table_name)
                        set)]
           (t/is (res "ragtime_migrations") "migrations' table should exist")
           (t/is (res "test_table")))))
 
     (t/testing "migration down"
-        (database/rollback-migration :test migrations)
-        (with-open [conn (jdbc/get-connection datasource)]
+      (database/rollback-migration :test {:test {:datastore  db-spec
+                                                 :migrations "migrations/test"}})
+      (with-open [conn (jdbc/get-connection datasource)]
         (let [res (->> (jdbc/execute! conn ["select * from ragtime_migrations"]))]
           (t/is (zero? (count res))))
 
-        (let [res (->> (jdbc/execute! conn ["SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"])
-                       (map :sqlite_master/name)
+        (let [res (->> (jdbc/execute! conn ["SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"])
+                       (map :tables/table_name)
                        set)]
           (t/is (res "ragtime_migrations") "migrations' table should exist")
           (t/is (not (res "test_table"))))))
-    (io/delete-file (:dbname db-spec))))
+    (cleanup-db db-spec)))
+
+(t/deftest ^:integration dml-dql-operations
+  (let [db-spec    (gen-db-spec)
+        table-name :test_table]
+    (prepare-db db-spec)
+    (let [entity {:id         (random-uuid)
+                  :name       "honey-sql"
+                  :created-at (tick/date)}
+          _      (database/insert! db-spec table-name entity)
+          res    (first (database/execute! db-spec {:select [:*]
+                                                    :from   [table-name]}))]
+      (t/is (match? (matcher/equals entity)
+                    res)))
+    (cleanup-db db-spec)))
