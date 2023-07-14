@@ -1,0 +1,2 @@
+{:tasks {test-all (do (println "Running all tests")
+                   (shell "clojure -Srepro -M:test:poly test :all-bricks :dev"))}}
