@@ -1,0 +1,2 @@
+{:up ["CREATE TABLE IF NOT EXISTS test_table (id VARCHAR(32) PRIMARY KEY, name TEXT, created_at DATE);"]
+ :down ["DROP TABLE test_table;"]}
