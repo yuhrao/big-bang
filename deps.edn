@@ -1,6 +1,7 @@
 {:deps    {org.clojure/clojure {:mvn/version "1.11.1"}
            big-bang/config     {:local/root "./components/config"}
            big-bang/database   {:local/root "./components/database"}}
+
  :aliases {:dev  {:extra-paths ["development/src"
                                 "components/config/src"
                                 "components/database/src"]

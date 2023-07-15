@@ -5,16 +5,25 @@
             [matcher-combinators.matchers :as matcher]
             [matcher-combinators.test]
             [next.jdbc :as jdbc]
-            [tick.core :as tick]))
+            [tick.core :as tick]
+            [br.dev.yuhri.config.interface :as config]))
 
 (defn ^:private gen-db-spec
   []
-  {:dbtype   "postgres"
-   :host     "localhost"
-   :port     5432
-   :dbname   "psql"
-   :user     "app"
-   :password "app"})
+  (let [cfg (config/create {:host     {:env     "HOST"
+                                       :default "localhost"}
+                            :port     {:env      "PORT"
+                                       :parse-fn #(Integer/parseInt %)
+                                       :default  5432}
+                            :dbname   {:env     "DB_NAME"
+                                       :default "psql"}
+                            :user     {:env     "DB_USER"
+                                       :default "app"}
+                            :password {:env     "DB_PASSWORD"
+                                       :default "app"}})]
+    (merge
+      {:dbtype   "postgres"}
+      cfg)))
 
 (defn prepare-db [db-spec]
   (database/run-migrations {:test {:datastore  db-spec

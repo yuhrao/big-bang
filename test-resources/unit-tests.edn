@@ -1,7 +1,7 @@
 #kaocha/v1
         {:tests [{:type         :kaocha.type/clojure.test
-                  :id           :feature
+                  :id           :unit
                   :ns-patterns  ["-test$"]
                   :source-paths ["src"]
                   :test-paths   ["test"]
-                  :foocus-meta  [:integration]}]}
+                  :skip-meta  [:integration]}]}
