@@ -32,7 +32,7 @@ jobs:
           restore-keys: cljdeps-
 
       - name: Debug
-        run: ls -la
+        run: clojure -Srepro -M:test:dev:poly info
 
       - name: Run Tests
         run: clojure -Srepro -A:test:dev -M:poly test project:dev
