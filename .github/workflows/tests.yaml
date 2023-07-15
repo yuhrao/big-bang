@@ -1,18 +1,19 @@
 on:
+  workflow_dispatch:
   pull_request:
-    types:
-      - opened
-      - edited
+
 jobs:
   unit-testing:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '20'
+
       - name: Setup Clojure
         uses: DeLaGuardo/setup-clojure@11.0
         with:
@@ -29,9 +30,6 @@ jobs:
           # List all files containing dependencies:
           key: cljdeps-${{ hashFiles('deps.edn', 'bb.edn') }}
           restore-keys: cljdeps-
-
-      - name: Download dependencies
-        run: clj -A:test:poly -Sdeps
 
       - name: Run Tests
         run: clojure -Srepro -M:test:poly test project:dev
