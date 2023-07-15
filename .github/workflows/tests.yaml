@@ -35,4 +35,4 @@ jobs:
         run: clojure -A:test:dev:poly -P
 
       - name: Run Tests
-        run: clojure -Srepro -M:test:poly test project:dev
+        run: clojure -Srepro -A:test:dev -M:poly test project:dev
