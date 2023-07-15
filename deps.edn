@@ -1,11 +1,16 @@
 {:deps    {org.clojure/clojure {:mvn/version "1.11.1"}
-           big-bang/config     {:local/root "./components/config"}}
+           big-bang/config     {:local/root "./components/config"}
+           big-bang/database   {:local/root "./components/database"}}
+
  :aliases {:dev  {:extra-paths ["development/src"
-                                "components/config/src"]
+                                "components/config/src"
+                                "components/database/src"]
                   :extra-deps  {org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}}}
 
-           :test {:extra-paths ["components/config/test"]
-                  :extra-deps  {nubank/matcher-combinators {:mvn/version "3.8.5"}}}
+           :test {:extra-paths ["components/config/test"
+                                "components/database/test"]
+                  :extra-deps  {nubank/matcher-combinators {:mvn/version "3.8.5"}
+                                org.xerial/sqlite-jdbc     {:mvn/version "3.42.0.0"}}}
 
            :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
                   :extra-deps {polyfy/polylith

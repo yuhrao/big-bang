@@ -1,0 +1,8 @@
+{:deps    {org.clojure/clojure    {:mvn/version "1.11.1"}
+           org.clojure/tools.deps {:mvn/version "0.16.1264"}
+           big-bang/database      {:local/root "../../components/database"}
+           big-bang/config        {:local/root "../../components/config"}}
+
+ :aliases {:test {:extra-paths ["../../resources/ci"
+                                "components/database/test"]
+                  :extra-deps  {}}}}
