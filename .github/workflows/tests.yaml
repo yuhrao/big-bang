@@ -31,5 +31,8 @@ jobs:
           key: cljdeps-${{ hashFiles('deps.edn', 'bb.edn') }}
           restore-keys: cljdeps-
 
+      - name: Download dependencies
+        run: clojure -A:test:dev:poly -P
+
       - name: Run Tests
         run: clojure -Srepro -M:test:poly test project:dev
