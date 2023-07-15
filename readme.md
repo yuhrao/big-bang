@@ -9,3 +9,17 @@ You can also get in touch with the Polylith Team via our [forum](https://polylit
 # big-bang
 
 Where everything begins...
+
+## Components
+
+### Config
+Manage configurations. Get 'em from environment variables or system properties
+
+### Database
+
+Interact with databases (mainly SQL) running migrations, executing DML and DQL in it.
+
+#### Libs:
+- Ragtime for migrations
+- Next JDBC for execute DML and DQL
+- HoneySQL to create SQL statements
