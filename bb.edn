@@ -1,12 +1,11 @@
 {:deps  {}
- :tasks {
-         unit-tests              (do
+ :tasks {unit-tests              (do
                                    (println "Running all unit tests")
-                                   (shell "clojure -Srepro -M:test:poly test project:dev"))
+                                   (shell "clojure -Srepro -M:dev:test:poly test project:dev"))
 
          integration-tests       (do
                                    (println "Running all integration tests")
-                                   (shell "clojure -Srepro -M:test:poly test project:itests"))
+                                   (shell "clojure -Srepro -M:dev:test:poly test project:itests"))
          get-migration-timestamp (let [now (new java.util.Date)
                                        now-str (.format (java.text.SimpleDateFormat. "yyyyMMddhhmmss") now)]
                                    (println now-str))}}

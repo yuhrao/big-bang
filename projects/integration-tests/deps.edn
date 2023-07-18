@@ -3,6 +3,6 @@
            big-bang/database      {:local/root "../../components/database"}
            big-bang/config        {:local/root "../../components/config"}}
 
- :aliases {:test {:extra-paths ["../../resources/ci"
-                                "components/database/test"]
-                  :extra-deps  {}}}}
+ :aliases {:test {:extra-paths ["../../resources/ci"]
+                  :extra-deps  {big-bang/database {:local/root "../../components/database"}
+                                big-bang/config   {:local/root "../../components/config"}}}}}

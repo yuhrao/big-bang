@@ -4,4 +4,4 @@
                   :ns-patterns  ["-test$"]
                   :source-paths ["src"]
                   :test-paths   ["test"]
-                  :foocus-meta  [:integration]}]}
+                  :focus-meta  [:integration]}]}
