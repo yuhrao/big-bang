@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # V0.1.0 (2023-07-17)
 
+## [v0.2.1] - 2023-07-20
+### :wrench: Chores
+- [`c304f42`](https://github.com/yuhrao/big-bang/commit/c304f42562e284e487eb2a997e4d9e3644c9d485) - add changelog *(commit by [@yuhrao](https://github.com/yuhrao))*
+
+
 ## Added:
 - [PR #7](https://github.com/yuhrao/big-bang/pull/7): Logger component
 
@@ -30,3 +35,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Changed:
 - [PR #4](https://github.com/yuhrao/big-bang/pull/4) Test: better test isolation to run integration tests apart from unit tests
+
+[v0.2.1]: https://github.com/yuhrao/big-bang/compare/v0.2.0...v0.2.1
