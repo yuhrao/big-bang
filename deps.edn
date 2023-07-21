@@ -1,17 +1,20 @@
 {:deps    {org.clojure/clojure {:mvn/version "1.11.1"}
            big-bang/config     {:local/root "./components/config"}
            big-bang/database   {:local/root "./components/database"}
-           big-bang/logger     {:local/root "./components/logger"}}
+           big-bang/logger     {:local/root "./components/logger"}
+           big-bang/webserver  {:local/root "./components/webserver"}}
 
  :aliases {:dev  {:extra-paths ["development/src"
                                 "components/config/src"
                                 "components/database/src"
-                                "components/logger/src"]
+                                "components/logger/src"
+                                "components/webserver/src"]
                   :extra-deps  {org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}}}
 
            :test {:extra-paths ["components/config/test"
                                 "components/database/test"
-                                "components/logger/test"]
+                                "components/logger/test"
+                                "components/webserver/test"]
                   :extra-deps  {nubank/matcher-combinators {:mvn/version "3.8.6"}}}
 
            :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]

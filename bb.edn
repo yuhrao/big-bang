@@ -1,4 +1,4 @@
-{:deps  {}
+{:deps  {babashka/fs {:mvn/version "0.4.19"}}
  :tasks {unit-tests              (do
                                    (println "Running all unit tests")
                                    (shell "clojure -Srepro -M:dev:test:poly test project:dev"))
@@ -8,4 +8,15 @@
                                    (shell "clojure -Srepro -M:dev:test:poly test project:itests"))
          get-migration-timestamp (let [now (new java.util.Date)
                                        now-str (.format (java.text.SimpleDateFormat. "yyyyMMddhhmmss") now)]
-                                   (println now-str))}}
+                                   (println now-str))
+         configure-tests         {:requires ([babashka.fs :as fs]
+                                             [clojure.string :as string])
+                                  :task (let [[brick-path] *command-line-args*]
+                                          (if brick-path
+                                            (if (fs/exists? brick-path)
+                                              (do
+                                                (fs/create-dir (str brick-path "/resources/test"))
+                                                (shell (str "ln -hF test-resources/unit-tests.edn " brick-path "/resources/unit-tests.edn"))
+                                                (shell (str "ln -hF test-resources/integrations-test.edn " brick-path "/resources/integration-tests.edn")))
+                                              (println "brick does not exists"))
+                                            (println "please provide the brick path")))}}}
