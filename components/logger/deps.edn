@@ -8,4 +8,4 @@
                                  :git/sha   "d1fcd40"
                                  :deps/root "projects/kaocha-wrapper"}
 
-                                nubank/matcher-combinators {:mvn/version "3.8.5"}}}}}
+                                nubank/matcher-combinators {:mvn/version "3.8.6"}}}}}
