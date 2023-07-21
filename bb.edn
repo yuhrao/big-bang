@@ -1,22 +1,30 @@
-{:deps  {babashka/fs {:mvn/version "0.4.19"}}
- :tasks {unit-tests              (do
-                                   (println "Running all unit tests")
-                                   (shell "clojure -Srepro -M:dev:test:poly test project:dev"))
+{:deps  {babashka/fs                         {:mvn/version "0.4.19"}
+         camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}}
+ :tasks {unit-tests        (do
+                             (println "Running all unit tests")
+                             (shell "clojure -Srepro -M:dev:test:poly test project:dev"))
 
-         integration-tests       (do
-                                   (println "Running all integration tests")
-                                   (shell "clojure -Srepro -M:dev:test:poly test project:itests"))
-         get-migration-timestamp (let [now (new java.util.Date)
-                                       now-str (.format (java.text.SimpleDateFormat. "yyyyMMddhhmmss") now)]
-                                   (println now-str))
-         configure-tests         {:requires ([babashka.fs :as fs]
-                                             [clojure.string :as string])
-                                  :task (let [[brick-path] *command-line-args*]
-                                          (if brick-path
-                                            (if (fs/exists? brick-path)
-                                              (do
-                                                (fs/create-dir (str brick-path "/resources/test"))
-                                                (shell (str "ln -hF test-resources/unit-tests.edn " brick-path "/resources/unit-tests.edn"))
-                                                (shell (str "ln -hF test-resources/integrations-test.edn " brick-path "/resources/integration-tests.edn")))
-                                              (println "brick does not exists"))
-                                            (println "please provide the brick path")))}}}
+         integration-tests (do
+                             (println "Running all integration tests")
+                             (shell "clojure -Srepro -M:dev:test:poly test project:itests"))
+         new-migration     {:requires ([babashka.fs :as fs]
+                                       [camel-snake-kebab.core :as csk])
+                            :task     (if-let [migration-name (some->> *command-line-args*
+                                                                first
+                                                                csk/->snake_case_string)]
+                                        (let [now (new java.util.Date)
+                                              now-str (.format (java.text.SimpleDateFormat. "yyyyMMddhhmmss") now)
+                                              migration-file (str "components/database/resources/migrations/main/" now-str "_" migration-name ".edn")]
+                                          (fs/create-file migration-file)
+                                          (fs/write-lines migration-file
+                                            ["{:up []"
+                                             " :down []}"])))}
+         configure-tests   {:requires ([babashka.fs :as fs])
+                            :task     (let [[brick-path] *command-line-args*]
+                                        (if brick-path
+                                          (if (fs/exists? brick-path)
+                                            (do
+                                              (shell (str "ln -hF test-resources/unit-tests.edn " brick-path "/resources/unit-tests.edn"))
+                                              (shell (str "ln -hF test-resources/integrations-test.edn " brick-path "/resources/integration-tests.edn")))
+                                            (println "brick does not exists"))
+                                          (println "please provide the brick path")))}}}
