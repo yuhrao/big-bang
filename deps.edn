@@ -15,7 +15,8 @@
                                 "components/database/test"
                                 "components/logger/test"
                                 "components/webserver/test"]
-                  :extra-deps  {nubank/matcher-combinators {:mvn/version "3.8.6"}}}
+                  :extra-deps  {nubank/matcher-combinators {:mvn/version "3.8.6"}
+                                clj-http/clj-http          {:mvn/version "3.12.3"}}}
 
            :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
                   :extra-deps {polyfy/polylith

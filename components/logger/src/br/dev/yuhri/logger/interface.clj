@@ -1,6 +1,7 @@
 (ns br.dev.yuhri.logger.interface
   (:require [br.dev.yuhri.logger.logger :as i.logger]
-            [br.dev.yuhri.logger.log :as i.log]))
+            [br.dev.yuhri.logger.log :as i.log]
+            [com.brunobonacci.mulog :as u]))
 
 (defn setup!
   "Start and configure the logger"
@@ -47,3 +48,9 @@
    (error event-name message nil))
   ([event-name message data]
    (log :error event-name message data)))
+
+(defmacro with-context [context-map & body]
+  `(u/with-context ~context-map ~@body))
+
+(defn set-global-context [context-map]
+  (u/set-global-context! context-map))
