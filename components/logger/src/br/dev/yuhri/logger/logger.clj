@@ -17,7 +17,9 @@
    :error 3})
 
 (defn- keep-log-by-level? [min-level {:keys [level]}]
-  (>= (log-levels level) (log-levels min-level)))
+  (if (nil? level)
+    false
+    (>= (log-levels level) (log-levels min-level))))
 
 (defn filter-log-level-xfn [{:keys [min-level]
                              :or   {min-level :info}}]

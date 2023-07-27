@@ -1,10 +1,11 @@
 (ns br.dev.yuhri.logger.test-tooling
   (:require [com.brunobonacci.mulog.buffer :as rb]
-            [com.brunobonacci.mulog.core]))
+            [com.brunobonacci.mulog.core]
+            [clojure.core.async :as a]))
 
 (defonce ^:private in-memory-messages (atom {}))
 
-(defn update-messages! [new-messages old-messages]
+(defn- update-messages! [new-messages old-messages]
   (concat old-messages new-messages))
 
 (deftype MemoryPublisher [config buffer]
@@ -16,10 +17,9 @@
     10)
 
   (publish [_ *buffer]
-    (let [messages (map second (rb/items *buffer))
-          _ (println config)
+    (let [messages     (map second (rb/items *buffer))
           transform-fn (or (:transform config) identity)
-          messages (transform-fn messages)]
+          messages     (transform-fn messages)]
       (when (not (empty? messages))
         (swap! in-memory-messages
                update
@@ -52,3 +52,20 @@
 
 (defn remove-messages []
   (reset! in-memory-messages {}))
+
+(defn wait-for-logs
+  ([test-id log-count]
+   (wait-for-logs test-id log-count 3000))
+  ([test-id log-count ^long timeout]
+   (let [result-chan  (a/chan 1)
+         timeout-chan (a/timeout timeout)]
+     (a/go-loop []
+       (a/put! timeout-chan true)
+       (if (<= log-count (-> test-id
+                             retrieve-messages
+                             count))
+         (a/>! result-chan true)
+         (if (a/poll! timeout-chan)
+           (recur)
+           (a/>! result-chan false))))
+     (a/<!! result-chan))))
