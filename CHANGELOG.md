@@ -47,4 +47,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Changed:
 - [PR #4](https://github.com/yuhrao/big-bang/pull/4) Test: better test isolation to run integration tests apart from unit tests
 
-[v0.3.0]: https://github.com/yuhrao/big-bang/compare/v0.1.0...v0.3.0
+[v0.2.1]: https://github.com/yuhrao/big-bang/compare/v0.2.0...v0.2.1
