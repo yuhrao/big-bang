@@ -11,5 +11,5 @@
  :projects             {"development"       {:alias "dev"}
                         "integration-tests" {:alias "itests"
                                              :test  {:create-test-runner              polylith-kaocha.test-runner/create
-                                                     :polylith-kaocha/config-resource "integrations-test.edn"}}}}
+                                                     :polylith-kaocha/config-resource "integration-tests.edn"}}}}
 

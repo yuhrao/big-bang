@@ -1,13 +1,24 @@
 # Database
 
-Component used to interact with databases. Features:
-
-- [x] Manage migrations for multiple databases
-- [ ] Execute SQL statements into a database
+Iteract with databases
 
 ## TOC
-- [How to add a new database migration](#how-to-add-a-new-database-migration)
-- [How to create migrations](#how-to-create-migrations)
+
+<!-- TOC -->
+* [Database](#database)
+  * [TOC](#toc)
+  * [Libs](#libs)
+  * [How to add a new database](#how-to-add-a-new-database)
+  * [How to create migrations](#how-to-create-migrations)
+<!-- TOC -->
+
+## Libs
+
+| Lib       | Description                |
+|-----------|----------------------------|
+| Ragtime   | Database Migrations        |
+| Next JDBC | Execute SQL statements     |
+| Honey SQL | Data driven SQL statements |
 
 ## How to add a new database
 

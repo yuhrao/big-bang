@@ -1,12 +1,11 @@
 (ns br.dev.yuhri.database.interface-test
-  (:require [br.dev.yuhri.database.interface :as database]
-            [clojure.java.io :as io]
+  (:require [br.dev.yuhri.config.interface :as config]
+            [br.dev.yuhri.database.interface :as database]
             [clojure.test :as t]
             [matcher-combinators.matchers :as matcher]
             [matcher-combinators.test]
             [next.jdbc :as jdbc]
-            [tick.core :as tick]
-            [br.dev.yuhri.config.interface :as config]))
+            [tick.core :as tick]))
 
 (defn ^:private gen-db-spec
   []
