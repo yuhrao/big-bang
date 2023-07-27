@@ -1,0 +1,9 @@
+'workspace:component': ["components/**"]
+'workspace:base': ["bases/**"]
+
+'components:webserver': ["components/webserver/**"]
+'components:logger': ["components/logger/**"]
+'components:database': ["components/database/**"]
+'components:config': ["components/config/**"]
+
+'documentation': ["**/README.md", "**/readme.md"]
