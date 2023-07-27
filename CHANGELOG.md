@@ -5,9 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v0.2.1] - 2023-07-20
-### :wrench: Chores
-- [`c304f42`](https://github.com/yuhrao/big-bang/commit/c304f42562e284e487eb2a997e4d9e3644c9d485) - add changelog *(commit by [@yuhrao](https://github.com/yuhrao))*
+## [v0.3.0] - 2023-07-27
+
+## Added
+- [PR #15](https://github.com/yuhrao/big-bang/pull/15) Webserver component
+- [PR #15](https://github.com/yuhrao/big-bang/pull/15) Logger docs
+- [PR #16](https://github.com/yuhrao/big-bang/pull/16) Auto labels for PRs
+
+## Changes
+- [PR #14](https://github.com/yuhrao/big-bang/pull/14) Log: add `trace` macro
+- [PR #15](https://github.com/yuhrao/big-bang/pull/15) Test: use hard links to reference test configuration
+- [PR #15](https://github.com/yuhrao/big-bang/pull/15) Update documentation
+- [PR #16](https://github.com/yuhrao/big-bang/pull/16) Normalize readme naming (all uppercase)
+
+## Removed
+- [PR #16](https://github.com/yuhrao/big-bang/pull/16) Auto changelog update
 
 ## V0.1.0 (2023-07-17)
 
@@ -36,5 +48,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [PR #4](https://github.com/yuhrao/big-bang/pull/4) Test: better test isolation to run integration tests apart from unit tests
 
 [v0.2.1]: https://github.com/yuhrao/big-bang/compare/v0.2.0...v0.2.1
-
-[v0.4.0]: https://github.com/yuhrao/big-bang/compare/v0.3.0...v0.4.0
