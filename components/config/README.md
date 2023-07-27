@@ -2,6 +2,17 @@
 
 Read configuration from various sources
 
+## TOC
+
+<!-- TOC -->
+* [Config](#config)
+  * [TOC](#toc)
+  * [Libs](#libs)
+  * [Usage](#usage)
+    * [Config sources](#config-sources)
+    * [Getting configuration](#getting-configuration)
+<!-- TOC -->
+
 ## Libs
 
 None.
