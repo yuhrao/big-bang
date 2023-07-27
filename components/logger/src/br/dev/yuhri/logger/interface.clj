@@ -48,3 +48,18 @@
    (error event-name message nil))
   ([event-name message data]
    (log :error event-name message data)))
+
+(defmacro with-context
+  "Add local context to logs"
+  {:style/indent 1}
+  [context-map & body]
+  `(u/with-context ~context-map ~@body))
+
+(defmacro trace
+  "Special way to log things"
+  {:style/indent 1}
+  [event-name trace-opts & body]
+  `(i.log/trace ~event-name ~trace-opts ~@body))
+
+(defn set-global-context [context-map]
+  (u/set-global-context! context-map))
