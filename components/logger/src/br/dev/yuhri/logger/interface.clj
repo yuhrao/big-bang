@@ -48,9 +48,3 @@
    (error event-name message nil))
   ([event-name message data]
    (log :error event-name message data)))
-
-(defmacro with-context [context-map & body]
-  `(u/with-context ~context-map ~@body))
-
-(defn set-global-context [context-map]
-  (u/set-global-context! context-map))
