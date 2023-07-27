@@ -7,22 +7,6 @@
     `(u/log ~event-name :level ~level :message ~message :data ~data)
     `(u/log ~event-name :level ~level :message ~message)))
 
-(defn ->standard-trace-opts [trace-opts]
-  (let [trace-opts (if (map? trace-opts)
-                     (update trace-opts :pairs #(conj % :level :info))
-                     (conj trace-opts :level :info))
-        capture-fn (:capture trace-opts)
-        capture-fn (fn [data]
-                     (when capture-fn
-                       (when-let [res (capture-fn data)]
-                         {:data res})))
-        trace-opts (if (map? trace-opts)
-                     (assoc trace-opts :capture
-                                       capture-fn)
-                     {:pairs   trace-opts
-                      :capture capture-fn})]
-    trace-opts))
-
 (defmacro trace
   ""
   {:style/indent 1}
