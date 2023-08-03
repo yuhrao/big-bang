@@ -1,17 +1,17 @@
 (ns br.dev.yuhri.webserver.core-test
-  (:require [br.dev.yuhri.webserver.core :as ws]
-            [clojure.test :as t]
-            [matcher-combinators.test]
-            [clojure.java.io :as io]
-            [br.dev.yuhri.webserver.serdes :as serdes]
-            [muuntaja.core :as mtj]
-            [clj-http.client :as http])
+  (:require
+    [br.dev.yuhri.serdes.core.content-negotiation :as content-negotiation]
+    [br.dev.yuhri.webserver.core :as ws]
+    [clj-http.client :as http]
+    [clojure.test :as t]
+    [matcher-combinators.test]
+    [muuntaja.core :as mtj])
   (:import (clojure.lang ExceptionInfo)))
 
 (defn- prepare-request [{:keys [body headers] :as req}]
   (cond-> req
           body (assoc :body (mtj/encode
-                              (serdes/muuntaja)
+                              (content-negotiation/muuntaja)
                               (get "Content-Type" headers "application/json")
                               body))))
 
@@ -19,7 +19,7 @@
   [{:keys [body headers] :as res}]
   (cond-> res
           body (assoc :body (mtj/decode
-                              (serdes/muuntaja)
+                              (content-negotiation/muuntaja)
                               (get "Content-Type" headers "application/json")
                               body))))
 
@@ -64,7 +64,9 @@
               {:status 400}
               (let [req {:request-method :get
                          :uri            "/test/validate/412"
-                         :body           (serdes/clj->json {:name 1})}]
+                         :body           (content-negotiation/encode
+                                           "application/json"
+                                           {:name 1})}]
                 (app req))))))
   (t/testing "request parsing"
     (let [payload  {"Name"       "daniel"
@@ -184,7 +186,7 @@
         (t/is (match? {:status 200
                        :body   (merge
                                  {:openapi "3.0.0"
-                                  :paths   {(keyword "/test")                  map?
+                                  :paths   {(keyword "/test")      map?
                                             (keyword "/test/{id}") map?}}
                                  openapi)}
                       res))))

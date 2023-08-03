@@ -1,8 +1,8 @@
-(ns br.dev.yuhri.serdes.json
+(ns br.dev.yuhri.serdes.formats.json
   (:require [muuntaja.core :as mtj]
             [br.dev.yuhri.serdes.content-negotiation :as content-negotiation]))
 
-(def ^:private default-muuntaja (content-negotiation/muuntaja))
+(def ^:private default-muuntaja content-negotiation/muuntaja)
 
 (defn json->clj
   ([v]
