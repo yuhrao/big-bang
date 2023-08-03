@@ -1,5 +1,5 @@
 (ns br.dev.yuhri.webserver.middlewares.log
-  (:require [br.dev.yuhri.logger.interface :as logger]
+  (:require [br.dev.yuhri.logger.core :as logger]
             [clojure.java.io :as io])
   (:import (java.io ByteArrayInputStream
                     ByteArrayOutputStream)))

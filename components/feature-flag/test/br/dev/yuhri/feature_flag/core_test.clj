@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.feature-flag.interface-test
-  (:require [br.dev.yuhri.feature-flag.interface :as ff]
+(ns br.dev.yuhri.feature-flag.core-test
+  (:require [br.dev.yuhri.feature-flag.core :as ff]
             [camel-snake-kebab.core :as csk]
             [clojure.data.json :as json]
             [clojure.test :as t]

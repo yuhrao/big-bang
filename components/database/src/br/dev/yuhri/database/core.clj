@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.database.interface
+(ns br.dev.yuhri.database.core
   (:require [br.dev.yuhri.database.migration :as migrations]
             [br.dev.yuhri.database.column-readers]
             [br.dev.yuhri.database.sql-execution :as sql-execution]))

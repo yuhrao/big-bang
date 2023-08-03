@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.feature-flag.interface
+(ns br.dev.yuhri.feature-flag.core
   (:require [br.dev.yuhri.feature-flag.unleash.client :as unleash.client]
             [br.dev.yuhri.feature-flag.unleash.flags :as unleash.flags]
             [br.dev.yuhri.feature-flag.unleash.variant :as unleash.variant]))

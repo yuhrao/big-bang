@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.database.interface-test
-  (:require [br.dev.yuhri.config.interface :as config]
-            [br.dev.yuhri.database.interface :as database]
+(ns br.dev.yuhri.database.core-test
+  (:require [br.dev.yuhri.config.core :as config]
+            [br.dev.yuhri.database.core :as database]
             [clojure.test :as t]
             [matcher-combinators.matchers :as matcher]
             [matcher-combinators.test]

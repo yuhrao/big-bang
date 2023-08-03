@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.logger.interface
+(ns br.dev.yuhri.logger.core
   (:require [br.dev.yuhri.logger.logger :as i.logger]
             [br.dev.yuhri.logger.log :as i.log]
             [com.brunobonacci.mulog :as u]))

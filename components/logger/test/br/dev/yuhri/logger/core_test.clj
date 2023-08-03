@@ -1,9 +1,9 @@
-(ns br.dev.yuhri.logger.interface-test
+(ns br.dev.yuhri.logger.core-test
   (:require [clojure.test :as t]
             [matcher-combinators.test]
             [matcher-combinators.matchers :as matchers]
             [br.dev.yuhri.logger.test-tooling :as tooling]
-            [br.dev.yuhri.logger.interface :as logger]))
+            [br.dev.yuhri.logger.core :as logger]))
 
 (def all-levels [:debug :info :warn :error])
 

@@ -26,7 +26,7 @@ Standardized logs with various targets (Publishers)
 ### Setup your logger
 
 ```clojure
-(require '[br.dev.yuhri.logger.interface :as logger])
+(require '[br.dev.yuhri.logger.core :as logger])
 
 (logger/setup! {:publishers {:console {}}
                 :min-level  :debug})
@@ -49,7 +49,7 @@ Config: same parameters as
 > You can pass an empty map as config to start a standard console publisher
 
 ```clojure
-(require '[br.dev.yuhri.logger.interface :as logger])
+(require '[br.dev.yuhri.logger.core :as logger])
 
 (logger/setup! {:publishers {:console {:pretty? false
                                        :xfn     (map identity)}}})
@@ -62,7 +62,7 @@ Config: same parameters as
 > Logger already includes `:type :simple-file` parameter
 
 ```clojure
-(require '[br.dev.yuhri.logger.interface :as logger])
+(require '[br.dev.yuhri.logger.core :as logger])
 
 (logger/setup! {:publishers {:file {:filename "/tmp/app/server.log"
                                     :xfn      (map identity)}}})

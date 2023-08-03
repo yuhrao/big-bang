@@ -1,5 +1,5 @@
 {:top-namespace        "br.dev.yuhri"
- :interface-ns         "interface"
+ :interface-ns         "core"
  :default-profile-name "default"
  :compact-views        #{}
  :vcs                  {:name     "git"

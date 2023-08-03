@@ -1,5 +1,5 @@
 (ns user
-  (:require [br.dev.yuhri.database.interface :as db]))
+  (:require [br.dev.yuhri.database.core :as db]))
 
 (defn run-migrations []
   (let [opts {:main {:datastore {:dbtype "postgres"
