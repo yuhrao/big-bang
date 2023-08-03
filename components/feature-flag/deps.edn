@@ -1,0 +1,10 @@
+{:paths   ["src" "resources"]
+ :deps    {io.getunleash/unleash-client-java {:mvn/version "8.2.0"}}
+ :aliases {:extra-paths ["test"]
+           :extra-deps  {polylith-kaocha/kaocha-wrapper
+                         {:git/url   "https://github.com/imrekoszo/polylith-kaocha"
+                          :git/tag   "v0.8.2"
+                          :git/sha   "d1fcd40"
+                          :deps/root "projects/kaocha-wrapper"}
+
+                         nubank/matcher-combinators {:mvn/version "3.8.6"}}}}
