@@ -6,5 +6,6 @@
 'components:database': [ "components/database/**" ]
 'components:config': [ "components/config/**" ]
 'components:feature-flag': [ "components/feature-flag/**" ]
+'components:commons': [ "components/commons/**" ]
 
 'documentation': [ "**/README.md", "**/readme.md" ]
