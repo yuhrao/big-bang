@@ -31,4 +31,69 @@
                                             (println "brick does not exists"))
                                           (println "please provide the brick path")))}
 
-         fix-outdated (shell "clj -T:search/outdated :upgrade true :force true")}}
+         fix-outdated      (shell "clj -T:search/outdated :upgrade true :force true")
+
+         import-flags      {:requires ([org.httpkit.client :as http]
+                                       [cheshire.core :as json]
+                                       [clojure.string :as string])
+                            :task     (let [token (System/getenv "UNLEASH_TOKEN")
+                                            host "https://dev-yuhri-unleash.fly.dev"
+                                            project-id (some-> (http/get (str host "/api/admin/projects")
+                                                                 {:headers {"Authorization" token}})
+                                                         deref
+                                                         :body
+                                                         (json/parse-string true)
+                                                         :projects
+                                                         first
+                                                         :id)
+                                            all-flags (some-> (http/get (str host "/api/admin/projects/" project-id "/features")
+                                                                {:headers {"Authorization" token
+                                                                           "Content-Type"  "application/json"}})
+                                                        deref
+                                                        :body
+                                                        (json/parse-string true)
+                                                        :features)
+                                            all-flags (map :name all-flags)
+                                            export-payload {:environment  "development"
+                                                            :downloadFile false
+                                                            :features     all-flags}
+                                            _ (println "exporting" (count all-flags) "flags")
+                                            exported-flags (-> (http/post (str host "/api/admin/features-batch/export")
+                                                                 {:headers {"Authorization" token
+                                                                            "Content-Type"  "application/json"}
+                                                                  :body    (json/generate-string export-payload)})
+                                                             deref
+                                                             :body
+                                                             (json/parse-string true))
+                                            import-payload {:project     "default"
+                                                            :environment "development"
+                                                            :data        exported-flags}
+                                            _ (println "getting session cookie")
+                                            session-cookie (-> (http/post "http://localhost:4242/auth/simple/login"
+                                                                 {:headers {"Authorization" "*:*.2b675a0884f3b350e8acf211dda68ea441df6527658202eeb58ea98f"
+                                                                            "Content-Type"  "application/json"}
+                                                                  :body    (json/generate-string {:username "admin"
+                                                                                                  :password "unleash4all"})})
+                                                             deref
+                                                             :headers
+                                                             :set-cookie
+                                                             (string/split (re-pattern ";"))
+                                                             first
+                                                             string/trim)
+                                            _ (println "validating payload")
+                                            validation-results (-> (http/post "http://localhost:4242/api/admin/features-batch/validate"
+                                                                     {:headers {"Cookie"       session-cookie
+                                                                                "Content-Type" "application/json"}
+                                                                      :body    (json/generate-string import-payload)})
+                                                                 deref
+                                                                 :body)]
+                                        (-> (http/post "http://localhost:4242/api/admin/features-batch/import"
+                                              {:headers {
+                                                         "Cookie"       session-cookie
+                                                         ;"Authorization" "user:5d42e0a67ed5a4cab73a6a5d53b329605a6c8a4ee8930cb323c4eeb0"
+                                                         "Content-Type" "application/json"}
+                                               :body    (json/generate-string import-payload)})
+                                          deref
+                                          :status
+                                          println))}}}
+

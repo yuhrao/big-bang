@@ -1,6 +1,7 @@
 {:paths   ["src" "resources"]
  :deps    {io.getunleash/unleash-client-java {:mvn/version "8.2.0"}
-           camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}}
+           camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
+           org.clojure/data.json {:mvn/version "2.4.0"}}
  :aliases {:extra-paths ["test"]
            :extra-deps  {polylith-kaocha/kaocha-wrapper
                          {:git/url   "https://github.com/imrekoszo/polylith-kaocha"
