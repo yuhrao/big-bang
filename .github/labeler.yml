@@ -1,9 +1,10 @@
-'workspace:component': ["components/**"]
-'workspace:base': ["bases/**"]
+'workspace:component': [ "components/**" ]
+'workspace:base': [ "bases/**" ]
 
-'components:webserver': ["components/webserver/**"]
-'components:logger': ["components/logger/**"]
-'components:database': ["components/database/**"]
-'components:config': ["components/config/**"]
+'components:webserver': [ "components/webserver/**" ]
+'components:logger': [ "components/logger/**" ]
+'components:database': [ "components/database/**" ]
+'components:config': [ "components/config/**" ]
+'components:feature-flag': [ "components/feature-flag/**" ]
 
-'documentation': ["**/README.md", "**/readme.md"]
+'documentation': [ "**/README.md", "**/readme.md" ]
