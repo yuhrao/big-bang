@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.config.interface-test
+(ns br.dev.yuhri.config.core-test
   (:require [clojure.test :as t]
-            [br.dev.yuhri.config.interface :as config]
+            [br.dev.yuhri.config.core :as config]
             [matcher-combinators.test]
             [clojure.string :as string]))
 

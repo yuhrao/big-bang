@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.config.interface)
+(ns br.dev.yuhri.config.core)
 
 (defn- apply-parse-fn [parse-fn v]
   (when (and parse-fn v)

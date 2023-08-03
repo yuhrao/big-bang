@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.webserver.interface-test
-  (:require [br.dev.yuhri.webserver.interface :as ws]
+(ns br.dev.yuhri.webserver.core-test
+  (:require [br.dev.yuhri.webserver.core :as ws]
             [clojure.test :as t]
             [matcher-combinators.test]
             [clojure.java.io :as io]

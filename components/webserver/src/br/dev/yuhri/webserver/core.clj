@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.webserver.interface
+(ns br.dev.yuhri.webserver.core
   (:require [br.dev.yuhri.webserver.server :as server]))
 
 (defonce servers (atom {}))

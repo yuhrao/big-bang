@@ -1,27 +1,32 @@
-{:deps    {org.clojure/clojure {:mvn/version "1.11.1"}
-           big-bang/config     {:local/root "./components/config"}
-           big-bang/database   {:local/root "./components/database"}
-           big-bang/logger     {:local/root "./components/logger"}
-           big-bang/webserver  {:local/root "./components/webserver"}}
+{:deps    {org.clojure/clojure   {:mvn/version "1.11.1"}
+           big-bang/config       {:local/root "./components/config"}
+           big-bang/database     {:local/root "./components/database"}
+           big-bang/logger       {:local/root "./components/logger"}
+           big-bang/webserver    {:local/root "./components/webserver"}
+           big-bang/feature-flag {:local/root "./components/feature-flag"}}
 
- :aliases {:dev  {:extra-paths ["development/src"
+ :aliases {:dev  {:extra-paths ["test-resources"
+
+                                "development/src"
                                 "components/config/src"
                                 "components/database/src"
                                 "components/logger/src"
-                                "components/webserver/src"]
+                                "components/webserver/src"
+                                "components/feature-flag/src"]
                   :extra-deps  {org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}}}
 
            :test {:extra-paths ["components/config/test"
                                 "components/database/test"
                                 "components/logger/test"
-                                "components/webserver/test"]
+                                "components/webserver/test"
+                                "components/feature-flag/test"]
                   :extra-deps  {nubank/matcher-combinators {:mvn/version "3.8.6"}
                                 clj-http/clj-http          {:mvn/version "3.12.3"}}}
 
            :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
                   :extra-deps {polyfy/polylith
                                {:git/url   "https://github.com/polyfy/polylith"
-                                :sha       "21cf93df244920b0dd7abac9ef4d6f120b12e233"
+                                :sha       "9053b190d5f3b0680ac4fe5c5f1851f7c0d40830"
                                 :deps/root "projects/poly"}
 
                                polylith-kaocha/test-runner

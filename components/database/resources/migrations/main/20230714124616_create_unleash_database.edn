@@ -1,3 +1,0 @@
-;; hacky way to execute it because create database cannot be ran in a transaction
-{:up ["COMMIT;CREATE DATABASE unleash;BEGIN;"]
- :down ["COMMIT;DROP DATABASE IF EXISTS unleash;BEGIN;"]}
