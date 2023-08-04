@@ -1,12 +1,7 @@
 (ns br.dev.yuhri.logger.test-tooling
   (:require [com.brunobonacci.mulog.buffer :as rb]
-            [com.brunobonacci.mulog.core]
-            [clojure.core.async :as a]))
-
-(defonce ^:private in-memory-messages (atom {}))
-
-(defn- update-messages! [new-messages old-messages]
-  (concat old-messages new-messages))
+            [com.brunobonacci.mulog.core :as uc]
+            [br.dev.yuhri.logger.core :as logger]))
 
 (deftype MemoryPublisher [config buffer]
   com.brunobonacci.mulog.publisher.PPublisher
@@ -20,52 +15,59 @@
     (let [messages     (map second (rb/items *buffer))
           transform-fn (or (:transform config) identity)
           messages     (transform-fn messages)]
-      (when (not (empty? messages))
-        (swap! in-memory-messages
-               update
-               (:test-id config)
-               (partial update-messages! messages))))
+      (when (seq messages)
+        (swap! (:out config)
+               concat
+               messages)))
     (rb/clear *buffer)))
 
-(defn- create-memory-publisher
-  [config]
+(defn test-publisher [config]
   (MemoryPublisher. config (rb/agent-buffer 100)))
 
-(defn memory-publisher
-  [test-id]
-  (when (empty? (-> in-memory-messages
-                    deref
-                    (get test-id)))
-    (swap! in-memory-messages #(assoc % test-id [])))
-  {:type         :custom
-   :fqn-function create-memory-publisher
-   :test-id      test-id})
+(defn wait-until
+  "it waits for test* (thunk) to return true or for `or-at-most` millis to have passed."
+  [test* or-at-most]
+  (let [start (System/currentTimeMillis)]
+    (loop []
+      (when-not (or (test*)
+                    (> (- (System/currentTimeMillis) start) or-at-most))
+        (Thread/sleep (long (/ or-at-most 5)))
+        (recur)))))
 
-(defn retrieve-messages [test-id]
-  (-> in-memory-messages
-      deref
-      (get test-id)))
 
-(defn clear-messages [test-id]
-  (swap! in-memory-messages assoc test-id [])
-  nil)
 
-(defn remove-messages []
-  (reset! in-memory-messages {}))
+(defmacro with-test-publisher
+  [config & body]
+  `(let [cfg#    (merge {:rounds 1} ~config)
+         outbox# (atom [])
+         flush#  (atom 0)
+         w#      (add-watch outbox# :flush
+                            (fn [_# _# o# n#]
+                              (when (< (count o#) (count n#))
+                                (swap! flush# inc))))
+         gbc#    @com.brunobonacci.mulog.core/global-context
+         _#      (reset! com.brunobonacci.mulog.core/global-context {})]
 
-(defn wait-for-logs
-  ([test-id log-count]
-   (wait-for-logs test-id log-count 3000))
-  ([test-id log-count ^long timeout]
-   (let [result-chan  (a/chan 1)
-         timeout-chan (a/timeout timeout)]
-     (a/go-loop []
-       (a/put! timeout-chan true)
-       (if (<= log-count (-> test-id
-                             retrieve-messages
-                             count))
-         (a/>! result-chan true)
-         (if (a/poll! timeout-chan)
-           (recur)
-           (a/>! result-chan false))))
-     (a/<!! result-chan))))
+     (logger/setup! (assoc ~config :publishers {:memory {:type         :custom
+                                                         :fqn-function test-publisher
+                                                         :out          outbox#}}))
+
+     ~@body
+
+     (reset! com.brunobonacci.mulog.core/global-context gbc#)
+     ;; wait for the publisher to deliver the events
+     (wait-until
+       (fn [] (> @flush# 0))
+       (* (inc (:rounds cfg#))
+          uc/PUBLISH-INTERVAL))
+     ;; stop the publisher
+     (logger/stop!)
+     @outbox#))
+
+(comment
+  (with-test-publisher
+    {:min-level :debug
+     :round 3}
+    (logger/log :info :test "abd"))
+
+  )

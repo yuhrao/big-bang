@@ -3,9 +3,9 @@
 
 (defmacro log
   [event-name level message data]
-  (if data
-    `(u/log ~event-name :level ~level :message ~message :data ~data)
-    `(u/log ~event-name :level ~level :message ~message)))
+  `(if (seq ~data)
+    (u/log ~event-name :level ~level :message ~message :data ~data)
+    (u/log ~event-name :level ~level :message ~message)))
 
 (defmacro trace
   ""

@@ -37,7 +37,8 @@
                                          :handler    (fn [_req]
 
                                                        {:status 200})}}]]]
-        app    (ws/app {:routes routes})]
+        app    (ws/app {:routes routes
+                        :disable-logs? true})]
     (t/testing "route request"
       (let [req {:request-method :get
                  :uri            "/test"}
@@ -87,7 +88,8 @@
                                                                    (t/is (match? expected body))
                                                                    (t/is {:custom-header "true"}
                                                                          headers)
-                                                                   {:status 200})}}]]})]
+                                                                   {:status 200})}}]]
+                            :disable-logs? true})]
       (->
         {:request-method :get
          :uri            "/test"
@@ -105,6 +107,7 @@
                                 (reset! assertion true)
                                 (handler req)))}
           app        (ws/app {:routes      routes
+                              :disable-logs? true
                               :middlewares [middleware]})]
       (app {:request-method :get
             :uri            "/test"})
@@ -123,6 +126,7 @@
                                           (throw (ex-info "something wrong" {:has "happened"})))}]]]]
     (ws/start! {:server-id :test
                 :routes    routes
+                :disable-logs? true
                 :port      3333})
     (t/testing "success"
       (t/is {:status 200
@@ -164,7 +168,8 @@
         server-opts {:server-id :swagger-test
                      :port      1234
                      :openapi   openapi
-                     :routes    routes}
+                     :routes    routes
+                     :disable-logs? true}
         base-url    "http://localhost:1234"]
 
     (ws/start! server-opts)
