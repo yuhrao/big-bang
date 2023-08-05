@@ -44,6 +44,7 @@ jobs:
       DB_NAME: 'psql'
       DB_USER: 'app'
       DB_PASSWORD: 'app'
+      DB_PORT: '5432'
     services:
       database:
        image: postgres:15
