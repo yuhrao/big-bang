@@ -1,10 +1,14 @@
 'workspace:component': [ "components/**" ]
 'workspace:base': [ "bases/**" ]
 
-'components:webserver': [ "components/webserver/**" ]
-'components:logger': [ "components/logger/**" ]
-'components:database': [ "components/database/**" ]
-'components:config': [ "components/config/**" ]
-'components:feature-flag': [ "components/feature-flag/**" ]
+'components:commons':
+  - "components/logger/**"
+  - "components/config/**"
+  - "components/http-kit/**"
+  - "components/testing/**"
+  - "components/serdes/**"
+  - "components/webserver/**"
+  - "components/database/**"
+  - "components/feature-flag/**"
 
 'documentation': [ "**/README.md", "**/readme.md" ]

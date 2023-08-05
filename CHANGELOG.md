@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.5] - 2023-08-03
+
+### Added
+- [PR #24] Serdes component for content negotiation & format parsing
+- [PR #24] HTTP Client component
+- [PR #24] Testing component
+
+### Changed
+- [PR #24] Webserver: replace internal content negotiation by serdes component
+- [PR #24] Webserver: use HTTP Client component for internal tests
+- [PR #24] Test: Better way to manage test runner configurations for each kind of test
+- [PR #24] Reduced labels to be more concise
+
+## Fixed:
+- [PR #24] Logger: huge improvement in test consistency
+
 ## [v1.0.0] - 2023-08-03
 
 ### Added
@@ -72,6 +88,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v0.2.1]: https://github.com/yuhrao/big-bang/compare/v0.2.0...v0.2.1
 
 [v1.0.0]: https://github.com/yuhrao/big-bang/compare/v0.2.1...v1.0.0
+[v1.1.0]: https://github.com/yuhrao/big-bang/compare/v1.0.0...v1.1.0
 
 [//]: # (PRS)
 
@@ -86,3 +103,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [PR #16]: https://github.com/yuhrao/big-bang/pull/16
 
 [PR #22]: https://github.com/no-code-no-bugs/big-bang/pull/22
+
+[PR #24]: https://github.com/no-code-no-bugs/big-bang/pull/24

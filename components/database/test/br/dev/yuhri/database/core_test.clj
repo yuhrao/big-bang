@@ -9,11 +9,11 @@
 
 (defn ^:private gen-db-spec
   []
-  (let [cfg (config/create {:host     {:env     "HOST"
+  (let [cfg (config/create {:host     {:env     "DB_HOST"
                                        :default "localhost"}
-                            :port     {:env      "PORT"
+                            :port     {:env      "DB_PORT"
                                        :parse-fn #(Integer/parseInt %)
-                                       :default  5432}
+                                       :default  5433}
                             :dbname   {:env     "DB_NAME"
                                        :default "psql"}
                             :user     {:env     "DB_USER"

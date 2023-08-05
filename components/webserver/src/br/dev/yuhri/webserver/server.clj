@@ -1,6 +1,6 @@
 (ns br.dev.yuhri.webserver.server
   (:require [br.dev.yuhri.webserver.middlewares :as y.middlewares]
-            [br.dev.yuhri.webserver.serdes :as serdes]
+            [br.dev.yuhri.serdes.core.content-negotiation :as content-negotiation]
             [reitit.coercion.malli :as r.malli.coercion]
             [reitit.interceptor.sieppari :as r.sieppari]
             [reitit.openapi :as r.openapi]
@@ -17,22 +17,24 @@
 
 (defn- create-router [{:keys [routes
                               middlewares
-                              openapi]}]
-  (let [middlewares (concat
-                      [y.middlewares/trace-id-middleware
-                       y.middlewares/log-middleware
-                       r.swagger/swagger-feature
-                       r.openapi/openapi-feature
-                       r.m.params/parameters-middleware
-                       y.middlewares/format-header-middleware
-                       r.m.muuntaja/format-negotiate-middleware
-                       r.m.muuntaja/format-response-middleware
-                       r.m.muuntaja/format-request-middleware
-                       r.m.exception/exception-middleware
-                       ring.coercion/coerce-response-middleware
-                       ring.coercion/coerce-request-middleware
-                       y.middlewares/status-code-middleware]
-                      middlewares)]
+                              openapi
+                              disable-logs?]}]
+  (let [middlewares (->> middlewares
+                         (concat
+                           [y.middlewares/trace-id-middleware
+                            (when (not disable-logs?) y.middlewares/log-middleware)
+                            r.swagger/swagger-feature
+                            r.openapi/openapi-feature
+                            r.m.params/parameters-middleware
+                            y.middlewares/format-header-middleware
+                            r.m.muuntaja/format-negotiate-middleware
+                            r.m.muuntaja/format-response-middleware
+                            r.m.muuntaja/format-request-middleware
+                            r.m.exception/exception-middleware
+                            ring.coercion/coerce-response-middleware
+                            ring.coercion/coerce-request-middleware
+                            y.middlewares/status-code-middleware])
+                         (remove empty?))]
     (ring/router
       (cond->> routes
                openapi (concat [["/openapi.json"
@@ -55,8 +57,8 @@
                                                                                          {:name "openapi" :url "/openapi.json"}]
                                                                       :urls.primaryName "openapi"
                                                                       :operationsSorter "alpha"}})}}]]))
-      {:data {:coercion r.malli.coercion/coercion
-              :muuntaja (serdes/muuntaja)
+      {:data {:coercion   r.malli.coercion/coercion
+              :muuntaja   (content-negotiation/muuntaja)
               :middleware middlewares}})))
 
 (defn app [opts]

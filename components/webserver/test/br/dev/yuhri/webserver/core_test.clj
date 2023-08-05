@@ -1,17 +1,17 @@
 (ns br.dev.yuhri.webserver.core-test
-  (:require [br.dev.yuhri.webserver.core :as ws]
-            [clojure.test :as t]
-            [matcher-combinators.test]
-            [clojure.java.io :as io]
-            [br.dev.yuhri.webserver.serdes :as serdes]
-            [muuntaja.core :as mtj]
-            [clj-http.client :as http])
+  (:require
+    [br.dev.yuhri.serdes.core.content-negotiation :as content-negotiation]
+    [br.dev.yuhri.webserver.core :as ws]
+    [clj-http.client :as http]
+    [clojure.test :as t]
+    [matcher-combinators.test]
+    [muuntaja.core :as mtj])
   (:import (clojure.lang ExceptionInfo)))
 
 (defn- prepare-request [{:keys [body headers] :as req}]
   (cond-> req
           body (assoc :body (mtj/encode
-                              (serdes/muuntaja)
+                              (content-negotiation/muuntaja)
                               (get "Content-Type" headers "application/json")
                               body))))
 
@@ -19,7 +19,7 @@
   [{:keys [body headers] :as res}]
   (cond-> res
           body (assoc :body (mtj/decode
-                              (serdes/muuntaja)
+                              (content-negotiation/muuntaja)
                               (get "Content-Type" headers "application/json")
                               body))))
 
@@ -37,7 +37,8 @@
                                          :handler    (fn [_req]
 
                                                        {:status 200})}}]]]
-        app    (ws/app {:routes routes})]
+        app    (ws/app {:routes routes
+                        :disable-logs? true})]
     (t/testing "route request"
       (let [req {:request-method :get
                  :uri            "/test"}
@@ -64,7 +65,9 @@
               {:status 400}
               (let [req {:request-method :get
                          :uri            "/test/validate/412"
-                         :body           (serdes/clj->json {:name 1})}]
+                         :body           (content-negotiation/encode
+                                           "application/json"
+                                           {:name 1})}]
                 (app req))))))
   (t/testing "request parsing"
     (let [payload  {"Name"       "daniel"
@@ -85,7 +88,8 @@
                                                                    (t/is (match? expected body))
                                                                    (t/is {:custom-header "true"}
                                                                          headers)
-                                                                   {:status 200})}}]]})]
+                                                                   {:status 200})}}]]
+                            :disable-logs? true})]
       (->
         {:request-method :get
          :uri            "/test"
@@ -103,6 +107,7 @@
                                 (reset! assertion true)
                                 (handler req)))}
           app        (ws/app {:routes      routes
+                              :disable-logs? true
                               :middlewares [middleware]})]
       (app {:request-method :get
             :uri            "/test"})
@@ -121,6 +126,7 @@
                                           (throw (ex-info "something wrong" {:has "happened"})))}]]]]
     (ws/start! {:server-id :test
                 :routes    routes
+                :disable-logs? true
                 :port      3333})
     (t/testing "success"
       (t/is {:status 200
@@ -162,7 +168,8 @@
         server-opts {:server-id :swagger-test
                      :port      1234
                      :openapi   openapi
-                     :routes    routes}
+                     :routes    routes
+                     :disable-logs? true}
         base-url    "http://localhost:1234"]
 
     (ws/start! server-opts)
@@ -184,7 +191,7 @@
         (t/is (match? {:status 200
                        :body   (merge
                                  {:openapi "3.0.0"
-                                  :paths   {(keyword "/test")                  map?
+                                  :paths   {(keyword "/test")      map?
                                             (keyword "/test/{id}") map?}}
                                  openapi)}
                       res))))

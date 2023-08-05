@@ -1,18 +1,17 @@
-(ns br.dev.yuhri.webserver.serdes
-  (:require [clojure.data.json :as json]
-            [camel-snake-kebab.core :as csk]
-            [camel-snake-kebab.extras :as cske]
-            [muuntaja.core :as mtj]
+(ns br.dev.yuhri.serdes.content-negotiation.json
+  (:require [camel-snake-kebab.core :as csk]
+            [clojure.data.json :as json]
             [muuntaja.format.core :as mtj.core])
-  (:import (java.io InputStreamReader
-                    InputStream
-                    Writer
-                    OutputStream)))
+  (:import (java.io InputStream
+                    InputStreamReader
+                    OutputStream
+                    Writer)))
 
 (defn encoder-key-fn [k]
-  (if (number? k)
-    (str k)
-    (csk/->kebab-case-string k)))
+  (cond
+    (number? k) (str k)
+    (keyword? k) (name k)
+    :else k))
 
 (defn clj->json [x]
   (json/write-str x :key-fn encoder-key-fn))
@@ -48,21 +47,8 @@
       (fn [^OutputStream output-stream]
         (write data output-stream)))))
 
-(defn- extract-content-type [request]
-  (let [headers (some->> request
-                         :headers
-                         (cske/transform-keys csk/->kebab-case-keyword))]
-    (or
-      (:content-type request)
-      (:content-type headers)
-      "application/json")))
-
-(defn muuntaja []
-  (-> mtj/default-options
-      (assoc-in [:formats "application/json"]
-                (mtj.core/map->Format
-                  {:name    "application/json"
-                   :decoder [decoder]
-                   :encoder [encoder]}))
-      (assoc-in [:http :extract-content-type] extract-content-type)
-      mtj/create))
+(def json-format
+  (mtj.core/map->Format
+    {:name    "application/json"
+     :decoder [decoder]
+     :encoder [encoder]}))
