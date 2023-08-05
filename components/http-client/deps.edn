@@ -1,13 +1,7 @@
 {:paths   ["src" "resources"]
- :deps    {clj-http/clj-http {:mvn/version "3.12.3"}
+ :deps    {clj-http/clj-http                   {:mvn/version "3.12.3"}
            camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
-           big-bang/serdes   {:local/root "../serdes"}}
+           big-bang/serdes                     {:local/root "../serdes"}}
  :aliases {:test {:extra-paths ["test"]
-                  :extra-deps  {polylith-kaocha/kaocha-wrapper
-                                {:git/url   "https://github.com/imrekoszo/polylith-kaocha"
-                                 :git/tag   "v0.8.2"
-                                 :git/sha   "d1fcd40"
-                                 :deps/root "projects/kaocha-wrapper"}
-
-                                nubank/matcher-combinators {:mvn/version "3.8.6"}}}}}
+                  :extra-deps  {big-bang/testing {:local/root "../testing"}}}}}
 

@@ -6,10 +6,8 @@
                         :auto-add false}
  :tag-patterns         {:stable  "stable-*"
                         :release "v[0-9]*"}
- :test                 {:create-test-runner              polylith-kaocha.test-runner/create
-                        :polylith-kaocha/config-resource "unit-tests.edn"}
+ :test                 {:create-test-runner                              polylith-kaocha.test-runner/create
+                        :polylith-kaocha.kaocha-wrapper/post-load-config br.dev.yuhri.testing.core/unit-post-load-config}
  :projects             {"development"       {:alias "dev"}
                         "integration-tests" {:alias "itests"
-                                             :test  {:create-test-runner              polylith-kaocha.test-runner/create
-                                                     :polylith-kaocha/config-resource "integration-tests.edn"}}}}
-
+                                             :test  {:polylith-kaocha.kaocha-wrapper/post-load-config br.dev.yuhri.testing.core/integration-post-load-config}}}}

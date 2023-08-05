@@ -25,7 +25,8 @@
                                 "components/webserver/test"
                                 "components/feature-flag/test"
                                 "components/serdes/test"
-                                "components/http-client/test"]
+                                "components/http-client/test"
+                                "components/testing/test"]
                   :extra-deps  {nubank/matcher-combinators {:mvn/version "3.8.6"}
                                 clj-http/clj-http          {:mvn/version "3.12.3"}}}
 
