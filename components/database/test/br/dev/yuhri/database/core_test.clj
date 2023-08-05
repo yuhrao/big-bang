@@ -13,7 +13,7 @@
                                        :default "localhost"}
                             :port     {:env      "PORT"
                                        :parse-fn #(Integer/parseInt %)
-                                       :default  5432}
+                                       :default  5433}
                             :dbname   {:env     "DB_NAME"
                                        :default "psql"}
                             :user     {:env     "DB_USER"
