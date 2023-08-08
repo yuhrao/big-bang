@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+- [PR #25] Data Cloak component
+- [PR #25] Logger: Add support for Data Cloak obscurer
+- [PR #25] Webserver: Add obscurer as route data to protect sensitive data
+
 ## [v1.3.5] - 2023-08-03
 
 ### Added
@@ -86,22 +93,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [//]: # (Versions)
 
 [v0.2.1]: https://github.com/yuhrao/big-bang/compare/v0.2.0...v0.2.1
-
 [v1.0.0]: https://github.com/yuhrao/big-bang/compare/v0.2.1...v1.0.0
 [v1.1.0]: https://github.com/yuhrao/big-bang/compare/v1.0.0...v1.1.0
+[v1.3.5]: https://github.com/yuhrao/big-bang/compare/v1.1.0...v1.3.5
 
 [//]: # (PRS)
 
 [PR #04]: https://github.com/yuhrao/big-bang/pull/4
-
 [PR #07]: https://github.com/yuhrao/big-bang/pull/7
-
 [PR #14]: https://github.com/yuhrao/big-bang/pull/14
-
 [PR #15]: https://github.com/yuhrao/big-bang/pull/15
-
 [PR #16]: https://github.com/yuhrao/big-bang/pull/16
-
 [PR #22]: https://github.com/no-code-no-bugs/big-bang/pull/22
-
 [PR #24]: https://github.com/no-code-no-bugs/big-bang/pull/24
+[PR #25]: https://github.com/no-code-no-bugs/big-bang/pull/25
