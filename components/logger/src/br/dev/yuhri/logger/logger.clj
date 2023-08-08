@@ -25,8 +25,12 @@
                              :or   {min-level :info}}]
   (filter (partial keep-log-by-level? min-level)))
 
-(defn- default-transform-xfns [opts]
-  [(filter-log-level-xfn opts)])
+(defn apply-obscurer-xfn [{:keys [obscurer]}]
+  (map #(update % :data obscurer)))
+
+(defn- default-transform-xfns [{:keys [obscurer] :as opts}]
+  (cond-> [(filter-log-level-xfn opts)]
+          obscurer (conj (apply-obscurer-xfn opts))))
 
 (defn- create-transform-fn [xfns]
   (let [xfn (apply comp xfns)]

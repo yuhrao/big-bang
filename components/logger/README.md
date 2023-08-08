@@ -67,3 +67,22 @@ Config: same parameters as
 (logger/setup! {:publishers {:file {:filename "/tmp/app/server.log"
                                     :xfn      (map identity)}}})
 ```
+
+### Obscurer
+Obscure sensitive data. Pass a function that receives a map (that's the log's data) and return a map with data obscured.
+It's recommended to use `br.dev.yuhri.data-cloak.core.map/obscurer`
+
+```clojure
+(require '[br.dev.yuhri.logger.core :as logger]
+         '[br.dev.yuhri.data-cloak.core.map :as dc.map]
+         '[br.dev.yuhri.data-cloak.core.string :as dc.string])
+
+
+(logger/setup! {:publishers {:file {:filename "/tmp/app/server.log"}}
+                :obscurer (dc.map/obscurer {:email dc.string/email})})
+
+(logger/info ::my-log "something to be logged"
+             {:email "some-mail@gmail.com"
+              :random "value"})
+;; =>> {...logfields :data {:email "so*****il@gmail.com" :random "value"}}
+```
