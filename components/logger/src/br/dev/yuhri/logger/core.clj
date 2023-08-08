@@ -4,7 +4,11 @@
             [com.brunobonacci.mulog :as u]))
 
 (defn setup!
-  "Start and configure the logger"
+  "Start and configure the logger
+  opts:
+  - min-level: minimum level to be logged
+  - publishers: a map with publishers to put logs into. See `publishers` section in README
+  - obscurer: an obscurer function. Check out `br.dev.yuhri.data-cloak.core.map` namespace. It obscures ONLY FIELDS IN LOG'S DATA"
   [opts]
   (i.logger/setup! opts))
 

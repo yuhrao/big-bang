@@ -10,5 +10,6 @@
   - "components/webserver/**"
   - "components/database/**"
   - "components/feature-flag/**"
+  - "components/data-cloak/**"
 
 'documentation': [ "**/README.md", "**/readme.md" ]

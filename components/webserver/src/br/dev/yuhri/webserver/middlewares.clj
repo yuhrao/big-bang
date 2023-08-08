@@ -1,7 +1,8 @@
 (ns br.dev.yuhri.webserver.middlewares
   (:require [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]
-            [br.dev.yuhri.webserver.middlewares.log :as y.mid.log]))
+            [br.dev.yuhri.webserver.middlewares.log :as y.mid.log]
+            [br.dev.yuhri.webserver.middlewares.obscurer :as y.mid.obscurer]))
 
 (def format-header-middleware
   {:name ::format-header
@@ -51,3 +52,5 @@
                (update res :headers #(assoc % "X-Trace-Id" (str trace-id))))))})
 
 (def log-middleware y.mid.log/log-middleware)
+
+(def obscurer-middleware y.mid.obscurer/obscurer-middleware)

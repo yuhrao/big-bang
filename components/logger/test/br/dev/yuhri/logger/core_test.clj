@@ -1,9 +1,11 @@
 (ns br.dev.yuhri.logger.core-test
-  (:require [clojure.test :as t]
-            [matcher-combinators.test]
-            [matcher-combinators.matchers :as matcher]
+  (:require [br.dev.yuhri.data-cloak.core.map :as dc.map]
+            [br.dev.yuhri.data-cloak.core.string :as dc.string]
+            [br.dev.yuhri.logger.core :as logger]
             [br.dev.yuhri.logger.test-tooling :as tooling]
-            [br.dev.yuhri.logger.core :as logger]))
+            [clojure.test :as t]
+            [matcher-combinators.matchers :as matcher]
+            [matcher-combinators.test]))
 
 (def all-levels [:debug :info :warn :error])
 
@@ -51,7 +53,7 @@
     (let [message    "custom-message"
           event-name :generic-logger
           out        (tooling/with-test-publisher
-                       {:round     3}
+                       {:round 3}
                        (doseq [level all-levels]
                          (logger/log level event-name message)))]
 
@@ -118,8 +120,7 @@
                             :data)))))
 
   (t/testing "tracer with map syntax"
-    (let [
-          context {:custom "context"}
+    (let [context {:custom "context"}
           data    {:test 1}
           out     (tooling/with-test-publisher
                     {}
@@ -134,3 +135,16 @@
                         context
                         {:data data}))
                     out)))))
+
+(t/deftest obscurer
+  (let [out (tooling/with-test-publisher
+              {:obscurer (dc.map/obscurer {:email dc.string/email})}
+              (logger/info
+                ::my-event
+                "some message"
+                {:email  "some-mail@gmail.com"
+                 :random "value"}))]
+    (t/is (match? (matcher/seq-of
+                    {:data (matcher/equals {:email  "so*****il@gmail.com"
+                                            :random "value"})})
+                  out))))
