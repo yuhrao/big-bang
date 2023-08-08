@@ -12,20 +12,29 @@ on [Slack](https://clojurians.slack.com/archives/C013B7MQHJQ).
 Where everything begins...
 
 <!-- TOC -->
+
 * [big-bang](#big-bang)
     * [Components](#components)
     * [3rd party components](#3rd-party-components)
+
 <!-- TOC -->
 
 ## Components
 
-| Name      | Description                                                                           |  
-|-----------|---------------------------------------------------------------------------------------|
-| Config    | Manage configurations. Get 'em from environment variables or system properties        |
-| Database  | Interact with databases (mainly SQL) running migrations, executing DML and DQL in it. |
-| Logger    | Logging features with normalizations and context.                                     |
-| Webserver | Run fully featured webservers with serialization/deserialization and swagger docs     |
+| Name         | Description                                                                           |  
+|--------------|---------------------------------------------------------------------------------------|
+| Config       | Manage configurations. Get 'em from environment variables or system properties        |
+| Database     | Interact with databases (mainly SQL) running migrations, executing DML and DQL in it. |
+| Logger       | Logging features with normalizations and context.                                     |
+| Webserver    | Run fully featured webservers with serialization/deserialization and swagger docs     |
+| Feature Flag | Handle everything related with feature flags (uses Unleash)                           |
+| Serdes       | Data Serialization and Deserialization                                                |
+| HTTP Client  | Execute HTTP requests                                                                 |
+| Data Cloak   | Obscure sensitive data                                                                |
 
 ## 3rd party components
 
 - [Directus](https://github.com/directus/directus)
+- [Unleash](https://github.com/Unleash/unleash)
+- [Ory Kratos](https://www.ory.sh/docs/kratos/ory-kratos-intro)(Identity Management Platform)
+- [Ory Oathkeeper](https://www.ory.sh/docs/oathkeeper/) (Authorization Layer for HTTP)
