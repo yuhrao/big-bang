@@ -6,7 +6,7 @@
             [matcher-combinators.matchers :as matchers]
             [muuntaja.core :as mtj]))
 
-(t/deftest client
+(t/deftest ^:integration client
   (let [base-url "https://postman-echo.com"]
     (t/testing "client with defaults"
       (t/is (match?
