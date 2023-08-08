@@ -33,6 +33,7 @@
                             r.m.exception/exception-middleware
                             ring.coercion/coerce-response-middleware
                             ring.coercion/coerce-request-middleware
+                            y.middlewares/obscurer-middleware
                             y.middlewares/status-code-middleware])
                          (remove empty?))]
     (ring/router

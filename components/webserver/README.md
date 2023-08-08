@@ -53,6 +53,8 @@ Doc routes:
 - `/swagger.json`: Swagger 2 specs
 
 ```clojure
+(require '[br.dev.yuhri.webserver.core :as ws])
+
 (def openapi {:info {:title       "My app"
                      :version     "0.0.0"
                      :description "My beautiful app"}})
@@ -83,3 +85,29 @@ Doc routes:
 Logs are enabled by default and it uses the `logger` component internally. You can disable logs passing `:disable-logs?` to server options
 
 Notice that you **must** start logger to be able to see logs being produced
+
+### Obscurers
+
+Obscurers are meant to handle sensitive data and protect them.
+You can optionally pass a `:obscurer` key in a route spec to obscure response body and headers
+
+
+```clojure
+(require '[br.dev.yuhri.webserver.core :as ws]
+         '[br.dev.yuhri.data-cloak.core.string :as dc.string])
+
+(def routes [["/test/a" {:get {:obscurers {:body    {:email dc.string/email}
+                                           :headers {:x-custom dc.string/all}}
+                               :handler   (constantly {:status  :ok
+                                                       :headers {:x-custom "test"}
+                                                       :body    {:email "random-mail@gmail.com"}})}}]
+             
+             ["/test/b" {:get {:obscurers {:body    {:email dc.string/email}
+                                           :headers {:x-custom dc.string/all}}
+                               :handler   (constantly {:status :no-content})}}]])
+(def server-opts {:server-id :swagger-test
+                  :port      1234
+                  :routes    routes})
+
+(ws/server server-opts)
+```

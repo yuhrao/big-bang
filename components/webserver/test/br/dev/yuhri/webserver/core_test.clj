@@ -4,8 +4,11 @@
     [br.dev.yuhri.webserver.core :as ws]
     [clj-http.client :as http]
     [clojure.test :as t]
+    [matcher-combinators.matchers :as matcher]
     [matcher-combinators.test]
-    [muuntaja.core :as mtj])
+    [muuntaja.core :as mtj]
+    [br.dev.yuhri.data-cloak.core.map :as dc.map]
+    [br.dev.yuhri.data-cloak.core.string :as dc.string])
   (:import (clojure.lang ExceptionInfo)))
 
 (defn- prepare-request [{:keys [body headers] :as req}]
@@ -37,7 +40,7 @@
                                          :handler    (fn [_req]
 
                                                        {:status 200})}}]]]
-        app    (ws/app {:routes routes
+        app    (ws/app {:routes        routes
                         :disable-logs? true})]
     (t/testing "route request"
       (let [req {:request-method :get
@@ -78,17 +81,17 @@
                     :age        12
                     :birth-date "1998-03-12"
                     :camel-case true}
-          app      (ws/app {:routes [["/test" {:get {:parameters {:body [:map
-                                                                         [:name :string]
-                                                                         [:age :int]
-                                                                         [:birth-date :string]
-                                                                         [:camel-case :boolean]]}
-                                                     :handler    (fn [{body    :body-params
-                                                                       headers :headers}]
-                                                                   (t/is (match? expected body))
-                                                                   (t/is {:custom-header "true"}
-                                                                         headers)
-                                                                   {:status 200})}}]]
+          app      (ws/app {:routes        [["/test" {:get {:parameters {:body [:map
+                                                                                [:name :string]
+                                                                                [:age :int]
+                                                                                [:birth-date :string]
+                                                                                [:camel-case :boolean]]}
+                                                            :handler    (fn [{body    :body-params
+                                                                              headers :headers}]
+                                                                          (t/is (match? expected body))
+                                                                          (t/is {:custom-header "true"}
+                                                                                headers)
+                                                                          {:status 200})}}]]
                             :disable-logs? true})]
       (->
         {:request-method :get
@@ -106,9 +109,9 @@
                               (fn [req]
                                 (reset! assertion true)
                                 (handler req)))}
-          app        (ws/app {:routes      routes
+          app        (ws/app {:routes        routes
                               :disable-logs? true
-                              :middlewares [middleware]})]
+                              :middlewares   [middleware]})]
       (app {:request-method :get
             :uri            "/test"})
       (t/is @assertion))))
@@ -124,10 +127,10 @@
                                                        {:status 200})}}]
                  ["/server-error" {:get (fn [_req]
                                           (throw (ex-info "something wrong" {:has "happened"})))}]]]]
-    (ws/start! {:server-id :test
-                :routes    routes
+    (ws/start! {:server-id     :test
+                :routes        routes
                 :disable-logs? true
-                :port      3333})
+                :port          3333})
     (t/testing "success"
       (t/is {:status 200
              :body   {:succes true}}
@@ -143,10 +146,6 @@
               {:status 500}
               (http/post "http://localhost:3333/test/server-error")))))
   (ws/stop! :test))
-
-;(defn- parse-response [{:keys [body] :as res}]
-;  (cond-> res
-;          body (update :body serdes/json->clj)))
 
 (t/deftest swagger
   (let [openapi     {:info {:title       "My app"
@@ -165,10 +164,10 @@
                                                              [:id :string]]}
                                          :handler    (constantly {:status 200
                                                                   :body   {:status :healthy}})}}]]
-        server-opts {:server-id :swagger-test
-                     :port      1234
-                     :openapi   openapi
-                     :routes    routes
+        server-opts {:server-id     :swagger-test
+                     :port          1234
+                     :openapi       openapi
+                     :routes        routes
                      :disable-logs? true}
         base-url    "http://localhost:1234"]
 
@@ -202,3 +201,29 @@
                        :headers {"Content-Type" "text/html"}}
                       res))))
     (ws/stop! :swagger-test)))
+
+(t/deftest obscurer
+  (let [app (ws/app {:routes [["/test/a" {:get {:obscurers {:body {:email dc.string/email}
+                                                            :headers {:x-custom dc.string/all}}
+                                                :handler   (constantly {:status :ok
+                                                                        :headers {:x-custom "test"}
+                                                                        :body   {:email "random-mail@gmail.com"}})}}]
+                              ["/test/b" {:get {:obscurers {:body    {:email dc.string/email}
+                                                            :headers {:x-custom dc.string/all}}
+                                                :handler   (constantly {:status :no-content})}}]]
+                     :disable-logs? true})]
+    (t/is (match?
+            {:status 200
+             :body   (matcher/equals {:email "ra*******il@gmail.com"})
+             :headers {"X-Custom" "****"}}
+            (-> {:request-method :get
+                 :uri            "/test/a"}
+                app
+                parse-response)))
+    (t/is (match?
+              {:status 204
+               :headers {"X-Custom" matcher/absent}}
+              (-> {:request-method :get
+                   :uri            "/test/b"}
+                  app
+                  parse-response)))))
