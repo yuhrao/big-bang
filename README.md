@@ -38,3 +38,8 @@ Where everything begins...
 - [Unleash](https://github.com/Unleash/unleash)
 - [Ory Kratos](https://www.ory.sh/docs/kratos/ory-kratos-intro)(Identity Management Platform)
 - [Ory Oathkeeper](https://www.ory.sh/docs/oathkeeper/) (Authorization Layer for HTTP)
+- [Rollbar](https://rollbar.com/): Track exceptions (clj lib: [rollcage](https://github.com/circleci/rollcage))
+
+### Dev Stuff
+Some dev stuff I'm using that's helping a lot to run everything locally.
+- [MailSlurper](https://www.mailslurper.com/)
