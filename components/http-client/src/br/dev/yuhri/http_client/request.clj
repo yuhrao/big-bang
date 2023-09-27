@@ -14,16 +14,21 @@
   (encode req))
 
 (defn- normalize-req-header [{:keys [headers] :as req}]
-  (cond-> req
-          headers (update :headers
-                          (partial cske/transform-keys csk/->HTTP-Header-Case-String))))
+  (let [{:keys [content-type] :as headers}
+        (cond-> req
+                headers
+                (update :headers
+                        (partial cske/transform-keys csk/->HTTP-Header-Case-String)))]
+    (if content-type
+      headers
+      (assoc headers :content-type "application/json"))))
 
 (defn- normalize-res-header [{:keys [headers] :as res}]
   (cond-> res
           headers (update :headers
                           (partial cske/transform-keys csk/->kebab-case-keyword))))
 
-(defn- prepare-request [client {:keys [path]
+(defn- prepare-request [client {:keys [path headers]
                                 :as   req}]
   (let [base-url (->> [client req]
                       (map :base-url)
@@ -51,7 +56,7 @@
         :success?
         false
         :exception {:message (ex-message e)
-                    :cause (ex-cause e)}))))
+                    :cause   (ex-cause e)}))))
 
 (defn execute [client req]
   (->> (prepare-request client req)

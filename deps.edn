@@ -36,7 +36,7 @@
            :poly  {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
                    :extra-deps {polyfy/polylith
                                 {:git/url   "https://github.com/polyfy/polylith"
-                                 :sha       "9053b190d5f3b0680ac4fe5c5f1851f7c0d40830"
+                                 :sha       "48d8a14d31a02cd2229d99bca094fe383d3dcace"
                                  :deps/root "projects/poly"}
 
                                 polylith-kaocha/test-runner
