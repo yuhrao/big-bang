@@ -43,3 +43,21 @@ Where everything begins...
 ### Dev Stuff
 Some dev stuff I'm using that's helping a lot to run everything locally.
 - [MailSlurper](https://www.mailslurper.com/)
+
+## Dev Scripts
+
+## Run tests
+
+```shell
+# This is just a helper. Use it if you want.
+alias poly='clojure -M:poly'
+
+# unit testing
+poly test project:development
+
+# integration
+poly test project:itests
+
+# Test all
+poly test :dev
+```
