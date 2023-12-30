@@ -36,3 +36,4 @@ projects/**/pom.xml
 .calva/output-window/output.calva-repl
 .idea
 big-bang.iml
+.portal

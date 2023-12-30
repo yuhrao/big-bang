@@ -19,7 +19,8 @@
                                  big-bang/http-client         {:local/root "./components/http-client"}
                                  big-bang/data-cloak          {:local/root "./components/data-cloak"}
 
-                                 org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}}}
+                                 org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}
+                                 djblue/portal                {:mvn/version "0.51.0"}}}
 
            :test  {:extra-paths ["components/config/test"
                                  "components/database/test"
