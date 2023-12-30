@@ -1,6 +1,8 @@
 {:paths   ["src" "resources"]
- :deps    {camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
-           big-bang/serdes                     {:local/root "../serdes"}
+ :deps    {big-bang/serdes                     {:local/root "../serdes"}
+
+           camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
+           dev.weavejester/medley              {:mvn/version "1.7.0"}
            org.babashka/http-client            {:mvn/version "0.4.15"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {big-bang/testing {:local/root "../testing"}}}}}

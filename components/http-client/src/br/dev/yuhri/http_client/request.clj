@@ -1,6 +1,7 @@
 (ns br.dev.yuhri.http-client.request
   (:require [babashka.http-client :as bb.http]
-            [clojure.string :as string])
+            [clojure.string :as string]
+            [medley.core :as medley])
   (:import (clojure.lang ExceptionInfo)))
 
 (defn- prepare-path [path]
@@ -15,7 +16,7 @@
                       (keep :base-url)
                       first)
         url      (str base-url (prepare-path path))]
-    (merge
+    (medley.core/deep-merge
       (:req client)
       (-> req
           (dissoc :path)

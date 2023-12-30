@@ -4,7 +4,8 @@
     [babashka.http-client.interceptors :as bb.interceptors]
     [babashka.http-client]
     [camel-snake-kebab.core :as csk]
-    [camel-snake-kebab.extras :as cske]))
+    [camel-snake-kebab.extras :as cske])
+  (:import (clojure.lang ExceptionInfo)))
 
 (def format-headers
   {:name        ::format-headers
@@ -20,12 +21,23 @@
    :request     (fn [req]
                   (if (:body req)
                     (let [fmt (content-negotiation/extract-content-type req)]
-                      (update req :body #(content-negotiation/encode fmt %)))
+                      (try
+                        (-> req
+                          (assoc-in [:headers :content-type] fmt)
+                          (update :body #(content-negotiation/encode fmt %)))
+                        (catch ExceptionInfo e
+                          (throw (ex-info "Failed to encode body"
+                                          (assoc (ex-data e) :payload (:body req)))))))
                     req))
    :response    (fn [res]
                   (if (:body res)
                     (let [fmt (content-negotiation/extract-content-type res)]
-                      (update res :body (partial content-negotiation/decode fmt)))
+                      (try
+                        (update res :body #(content-negotiation/decode fmt %))
+                        (catch ExceptionInfo e
+                          (throw (ex-info "Failed to decode body"
+                                          (assoc (ex-data e) :payload (:body res))
+                                          (ex-cause e))))))
                     res))})
 
 (def authorization
@@ -43,8 +55,9 @@
                            bb.interceptors/query-params
                            bb.interceptors/form-params
                            bb.interceptors/multipart
-                           bb.interceptors/decompress-body
 
+                           format-headers
                            content-negotiation
                            authorization
-                           format-headers])
+
+                           bb.interceptors/decompress-body])
