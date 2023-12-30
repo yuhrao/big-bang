@@ -1,7 +1,9 @@
 (ns br.dev.yuhri.database.core
   (:require [br.dev.yuhri.database.migration :as migrations]
             [br.dev.yuhri.database.column-readers]
-            [br.dev.yuhri.database.sql-execution :as sql-execution]))
+            [next.jdbc.connection :as jdbc.conn]
+            [br.dev.yuhri.database.sql-execution :as sql-execution])
+  (:import (com.zaxxer.hikari HikariDataSource)))
 
 (defn ^:deprecated run-migrations
   ([migrations]
@@ -17,3 +19,6 @@
 
 (defn execute! [db-spec sql]
   (sql-execution/execute! db-spec sql))
+
+(defn create-pool [db-spec]
+  (jdbc.conn/->pool HikariDataSource db-spec))

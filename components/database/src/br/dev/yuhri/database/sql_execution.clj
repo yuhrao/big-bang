@@ -1,10 +1,9 @@
 (ns br.dev.yuhri.database.sql-execution
   (:require [next.jdbc :as jdbc]
-            [honey.sql :as honey]
-            [camel-snake-kebab.core :as csk]))
+            [honey.sql :as honey]))
 
 (defn- unqualify-keys [m]
-  (let [unqualify-fn (comp csk/->kebab-case-keyword name)]
+  (let [unqualify-fn (comp keyword name)]
     (->> m
          (map (juxt (comp unqualify-fn first) second))
          (into {}))))
@@ -32,7 +31,6 @@
 (defn insert! [db-spec table-name entity]
   (let [ks     (->> entity
                     keys
-                    (map csk/->snake_case_keyword)
                     vec)
         values (->> entity
                     vals
@@ -46,7 +44,6 @@
   (let [ks     (->> entities
                     first
                     keys
-                    (map csk/->snake_case_keyword)
                     vec)
         values (->> entities
                     (map (comp vec vals))

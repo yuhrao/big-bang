@@ -69,7 +69,7 @@
     (prepare-db db-spec)
     (let [entity {:id         (random-uuid)
                   :name       "honey-sql"
-                  :created-at (tick/date)}
+                  :created_at (tick/date)}
           _      (database/insert! db-spec table-name entity)
           res    (first (database/execute! db-spec {:select [:*]
                                                     :from   [table-name]}))]
