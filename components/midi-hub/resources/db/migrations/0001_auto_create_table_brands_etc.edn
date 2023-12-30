@@ -3,18 +3,19 @@
   :fields
   {:id {:primary-key true, :null false, :unique true, :type :uuid},
    :value {:unique true, :null false, :type [:varchar 255]},
-   :name {:null false, :type [:varchar 255]},
+   :brand-name {:null false, :type [:varchar 255]},
    :created-at {:null false, :type :timestamp},
    :updated-at {:null false, :type :timestamp}}}
  {:action :create-table,
   :model-name :devices,
   :fields
-  {:midi-specs {:null false, :type :jsonb},
-   :description {:null false, :type :text},
+  {:midi-specs {:type :jsonb},
+   :description {:type :text},
    :updated-at {:null false, :type :timestamp},
    :brand-id {:null false, :foreign-key :brands/id, :type :uuid},
-   :name {:null false, :type [:varchar 255]},
-   :value {:null false, :type [:varchar 255]},
-   :io-specs {:null false, :type :jsonb},
+   :value {:unique true, :null false, :type [:varchar 255]},
+   :io-specs {:type :jsonb},
    :id {:primary-key true, :null false, :unique true, :type :uuid},
-   :created-at {:null false, :type :timestamp}}})
+   :device-name {:null false, :type [:varchar 255]},
+   :created-at {:null false, :type :timestamp},
+   :metadata {:type :jsonb}}})
