@@ -61,3 +61,8 @@ poly test project:itests
 # Test all
 poly test :dev
 ```
+
+## To Do
+
+- [ ] Create API to get devices and brands
+- [ ] Create PR in openmidi to fulfill missing device data
