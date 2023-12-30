@@ -5,10 +5,7 @@
             [camel-snake-kebab.extras :as cske]
             [clojure.string :as string]
             [muuntaja.core :as mtj]
-            [muuntaja.format.form :as mtj.form]
-            [muuntaja.format.yaml :as mtj.yaml]))
-
-mtj.yaml/format
+            [muuntaja.format.form :as mtj.form]))
 
 (defn extract-content-type [req-or-res]
   (let [headers (some->> req-or-res
@@ -34,14 +31,28 @@ mtj.yaml/format
 (def muuntaja
   (mtj/create default-opts))
 
+(defn create-instance
+  [{:keys [json-opts]}]
+  (cond-> default-opts
+
+          (:encoder json-opts)
+          (assoc-in [:formats "application/json" :encoder-opts] (:encoder json-opts))
+          (:decoder json-opts)
+          (assoc-in [:formats "application/json" :decoder-opts] (:decoder json-opts))
+          true mtj/create))
+
 (defn encode
   ([format v]
    (encode muuntaja format v))
-  ([muuntaja format v]
-   (mtj/encode muuntaja format v)))
+  ([muuntaja-or-opts format v]
+   (if (mtj/muuntaja? muuntaja-or-opts)
+     (mtj/encode muuntaja-or-opts format v)
+     (mtj/encode (create-instance muuntaja-or-opts) format v))))
 
 (defn decode
   ([format v]
-   (encode muuntaja format v))
-  ([muuntaja format v]
-   (mtj/decode muuntaja format v)))
+   (decode muuntaja format v))
+  ([muuntaja-or-opts format v]
+   (if (mtj/muuntaja? muuntaja-or-opts)
+     (mtj/decode muuntaja-or-opts format v)
+     (mtj/decode (create-instance muuntaja-or-opts) format v))))

@@ -5,8 +5,6 @@
            dev.weavejester/medley              {:mvn/version "1.7.0"}
 
            metosin/muuntaja                    {:mvn/version "0.6.8"}
-           metosin/muuntaja-form               {:mvn/version "0.6.8"}
-           metosin/muuntaja-yaml               {:mvn/version "0.6.8"}
-           }
+           metosin/muuntaja-form               {:mvn/version "0.6.8"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {big-bang/testing {:local/root "../testing"}}}}}
