@@ -1,16 +1,9 @@
 (ns user
-  (:require [br.dev.yuhri.database.core :as db]))
+  (:require [portal.api :as portal]))
 
-(defn run-migrations []
-  (let [opts {:main {:datastore {:dbtype "postgres"
-                                 :dbname "psql"
-                                 :host "localhost"
-                                 :port 5432
-                                 :user "app"
-                                 :password "app"}}}]
-    (db/run-migrations opts)))
+(defonce p-instance (atom nil))
 
-(comment
-  (run-migrations)
-
-  )
+(defn start-intellij []
+  (when (nil? @p-instance)
+    (reset! p-instance (portal/open {:launcher :intellij}))
+    (add-tap #'portal/submit)))

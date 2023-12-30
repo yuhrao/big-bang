@@ -1,7 +1,7 @@
 {:paths   ["src" "resources"]
- :deps    {clj-http/clj-http                   {:mvn/version "3.12.3"}
-           camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
-           big-bang/serdes                     {:local/root "../serdes"}}
+ :deps    {camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
+           big-bang/serdes                     {:local/root "../serdes"}
+           org.babashka/http-client            {:mvn/version "0.4.15"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {big-bang/testing {:local/root "../testing"}}}}}
 
