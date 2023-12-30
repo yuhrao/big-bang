@@ -1,0 +1,20 @@
+{:brands  {:fields [[:id :uuid {:primary-key true
+                                :null        false
+                                :unique      true}]
+                    [:value [:varchar 255] {:unique true
+                                            :null   false}]
+                    [:name [:varchar 255] {:null false}]
+                    [:created_at :timestamp {:null false}]
+                    [:updated_at :timestamp {:null false}]]}
+ :devices {:fields [[:id :uuid {:primary-key true
+                                :null        false
+                                :unique      true}]
+                    [:brand_id :uuid {:null        false
+                                      :foreign-key :brands/id}]
+                    [:name [:varchar 255] {:null false}]
+                    [:value [:varchar 255] {:null false}]
+                    [:description :text {:null false}]
+                    [:midi_specs :jsonb {:null false}]
+                    [:io_specs :jsonb {:null false}]
+                    [:created_at :timestamp {:null false}]
+                    [:updated_at :timestamp {:null false}]]}}
