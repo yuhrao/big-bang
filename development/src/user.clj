@@ -1,5 +1,8 @@
 (ns user
-  (:require [portal.api :as portal]))
+  (:require
+    [portal.api :as portal]
+    [dev.database]
+    [dev.unleash]))
 
 (defonce p-instance (atom nil))
 

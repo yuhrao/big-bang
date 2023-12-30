@@ -21,8 +21,15 @@
                                  big-bang/data-cloak          {:local/root "./components/data-cloak"}
                                  big-bang/midi-hub            {:local/root "./components/midi-hub"}
 
-                                 org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}
-                                 djblue/portal                {:mvn/version "0.51.0"}}}
+                                 ;; Dev dependencies
+                                 ;; Tooling
+                                 org.clojure/tools.deps.alpha {:mvn/version "0.15.1254"}
+                                 djblue/portal                {:mvn/version "0.51.0"}
+
+                                 ;; Dev processes
+                                 babashka/fs                  {:mvn/version "0.5.20"}
+                                 babashka/process             {:mvn/version "0.5.21"}
+                                 borkdude/deps.clj            {:mvn/version "1.11.1.1429"}}}
 
            :test  {:extra-paths ["components/config/test"
                                  "components/database/test"
