@@ -19,3 +19,10 @@
       (swap! servers dissoc server-id)
       :stopped)
     (throw (ex-info "Server not found" {:server-id server-id}))))
+
+(.addShutdownHook (Runtime/getRuntime)
+                  (Thread.
+                    ^Runnable
+                    (fn []
+                      (doseq [server (keys @servers)]
+                        (stop! server)))))

@@ -1,5 +1,7 @@
 {:paths   ["src" "resources"]
- :deps    {metosin/reitit                      {:mvn/version "0.7.0-alpha7"}
+ :deps    {metosin/reitit                      {:mvn/version "0.7.0-alpha7"
+                                                :exclusions  [ring/ring]}
+           ring/ring                           {:mvn/version "1.11.0"}
            ring/ring-jetty-adapter             {:mvn/version "1.11.0"}
            camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
            metosin/malli                       {:mvn/version "0.13.0"}
