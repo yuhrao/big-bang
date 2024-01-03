@@ -37,3 +37,5 @@ projects/**/pom.xml
 .idea
 big-bang.iml
 .portal
+.lsp
+.clj-kondo
