@@ -5,7 +5,8 @@
             [clojure.string :as string]
             [br.dev.yuhri.midi-hub.lib.db :as mh.db]
             [medley.core :as medley]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [malli.core :as malli]))
 
 (defn- get-brands []
   (->> "https://raw.githubusercontent.com/Morningstar-Engineering/openmidi/master/data/mapping.json"
@@ -21,6 +22,11 @@
       [v k]
       [k v])))
 
+;; CC values has some standards
+;; CC list can have multiple parameters with same "value".
+;; That means that it can be a range or a value mapping
+;; if min = max => value_mapping
+;; if min != max => range
 (defn- assoc-value-mappings [{:keys [description] :as param}]
   (try
     (cond
@@ -78,26 +84,77 @@
     (coll? v) (map deep-trim-strings v)
     :else v))
 
-(defn- device-missing-data [{:keys [device-name value midi-specs io-specs] :as device}]
-  (cond-> #{}
+(defonce dbg (atom nil))
 
-          (string/blank? device-name)
-          (conj :device-name)
+(def ^:private IoSpecs
+  [:map
+   [:midi-thru :boolean]
+   [:midi-in :string]
+   [:pahtom-power :boolean]])
 
-          (empty? midi-specs)
-          (conj :midi-specs)
+(def ^:private MidiSpecs
+  [:map
+   [:midi-clock :boolean]
+   [:cc [:sequential any?]]])
 
-          (empty? io-specs)
-          (conj :io-specs)))
+(def ^:private DeviceSpecs
+  [:map
+   [:io-specs IoSpecs]
+   [:midi-specs MidiSpecs]
+   [:device-name :string]])
 
-(defn- make-device [{:keys [value] :as device}]
+(defn- device-missing-data [device]
+  (->> (malli/explain DeviceSpecs device)
+       :errors
+       (map (comp last :path))
+       set))
+
+;; TODO: put in utils component
+(defn- safe-re-find [re s]
+  (when (not (string/blank? s))
+    (re-find re s)))
+
+(defn yes-no-none->boolean [v]
+  (when (not (string/blank? v))
+    (cond
+      (safe-re-find #"(?i)yes" v) true
+      (safe-re-find #"(?i)no|none" v) false
+      :else nil)))
+
+(defn- assoc-metadata [{:keys [value] :as device}]
   (let [missing-data (device-missing-data device)]
-   (cond-> device
+    (cond-> device
 
-           (seq missing-data)
-           (assoc-in [:metadata :missing-data] (sort (vec missing-data)))
+      (seq missing-data)
+      (assoc-in [:metadata :missing-data] (sort (vec missing-data)))
 
-           (missing-data :device-name) (assoc :device-name value))))
+      (missing-data :device-name) (assoc :device-name value))))
+
+(defn- make-device [{:keys [midi-in midi-thru phantom-power midi-clock
+                            cc]
+                     :as   device}]
+  (let [io-specs   {:midi-in       (safe-re-find #"(?i)TRS|Tip.Active|Ring.Active|DIN5|USB" midi-in)
+                    :midi-thru     (cond
+                                     (nil? midi-thru)  midi-thru
+                                     (string? midi-thru) (yes-no-none->boolean midi-thru)
+                                     :else               midi-thru)
+                    :phantom-power (cond
+                                     (nil? phantom-power)  phantom-power
+                                     (string? phantom-power) (yes-no-none->boolean phantom-power)
+                                     :else                   phantom-power)}
+        midi-specs {:cc         (map assoc-value-mappings cc)
+                    :midi-clock (cond
+                                  (nil? midi-clock)  midi-clock
+                                  (string? midi-clock) (yes-no-none->boolean midi-clock)
+                                  :else                midi-clock)}]
+    (-> device
+        (select-keys [:brand-value :device-name :value])
+        (assoc
+         :io-specs io-specs
+         :midi-specs midi-specs)
+        deep-trim-strings
+        deep-remove-empty
+        assoc-metadata)))
 
 (defn- get-all-devices-specs []
   (->> "https://raw.githubusercontent.com/Morningstar-Engineering/openmidi/master/data/all.json"
@@ -105,17 +162,9 @@
        (#(json/json->clj % {:key-fn identity}))
        (mapcat (fn [[brand devices]]
                  (map #(assoc (second %)
-                         :value (first %)
-                         :brand-value brand) devices)))
+                              :value (first %)
+                              :brand-value brand) devices)))
        (map (partial cske/transform-keys csk/->kebab-case-keyword))
-       (map deep-trim-strings)
-       (map (fn [{:keys [cc] :as device}]
-              (assoc device :cc (map assoc-value-mappings cc))))
-       (map #(-> %
-                 (select-keys [:brand-value :device-name :value])
-                 (assoc :io-specs (select-keys % [:midi-in :midi-thru :phantom-power])
-                        :midi-specs (select-keys % [:midi-clock :pc :cc :midi-channel]))))
-       (map deep-remove-empty)
        (map make-device)))
 
 (defn- get-specs []
@@ -132,9 +181,35 @@
                              (map (juxt :value :id))
                              (into {}))]
     (doseq [device devices]
-      (tap> (mh.db/upsert-device (-> device
-                                (assoc
-                                  :brand-id
-                                  (brands-value-id (:brand-value device)))
-                                (dissoc :brand-value)))))
+      (mh.db/upsert-device (-> device
+                               (assoc
+                                :brand-id
+                                (brands-value-id (:brand-value device)))
+                               (dissoc :brand-value))))
     nil))
+
+;; TODO: get list of devices with incomplete data
+(comment
+
+  (import-specs)
+
+  (tap> (take 10 (get-all-devices-specs)))
+
+  (take 10 (get-all-devices-specs))
+
+  @dbg
+
+  (->> (mh.db/list-devices
+        {:select [:d.metadata, [:d.value :device_value] [:b.value :brand_value]]
+         :join [[:brands :b] [:= :b.id :brand_id]]
+         :where [[:is-not :metadata nil]]})
+       (sort-by :brand_value)
+       (group-by :brand_value)
+       (map (juxt first (comp (partial into {}) (partial map (juxt :device_value (comp :missing-data :metadata))) second)))
+       (into (sorted-map))
+       tap>)
+
+  (->> (get-all-devices-specs)
+       count)
+
+  )
