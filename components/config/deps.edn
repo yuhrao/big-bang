@@ -1,5 +1,10 @@
 {:paths   ["src" "resources"]
- :deps    {org.clojure/clojure {:mvn/version "1.11.1"}
+ :deps    {org.clojure/clojure                 {:mvn/version "1.11.1"}
            camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}}
- :aliases {:test {:extra-paths ["test"]
-                  :extra-deps  {big-bang/testing {:local/root "../testing"}}}}}
+ :aliases {:test   {:extra-paths ["test"]
+                    :extra-deps  {big-bang/testing {:local/root "../testing"}}}
+           :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+                    :exec-fn    deps-deploy.deps-deploy/deploy
+                    :exec-args  {:installer      :remote
+                                 :sign-releases? true
+                                 :artifact       "config.jar"}}}}

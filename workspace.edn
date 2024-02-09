@@ -1,4 +1,4 @@
-{:top-namespace        "br.dev.yuhri"
+{:top-namespace        "yuhrao"
  :interface-ns         "core"
  :default-profile-name "default"
  :compact-views        #{}

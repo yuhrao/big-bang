@@ -1,4 +1,10 @@
-{:paths ["src" "resources"]
- :deps {}
- :aliases {:test {:extra-paths ["test"]
-                  :extra-deps {big-bang/testing {:local/root "../testing"}}}}}
+{:paths   ["src" "resources"]
+ :deps    {}
+ :aliases {:test   {:extra-paths ["test"]
+                    :extra-deps  {big-bang/testing {:local/root "../testing"}}}
+           :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+                    :exec-fn    deps-deploy.deps-deploy/deploy
+                    :exec-args  {:installer      :remote
+                                 :sign-releases? true
+                                 :sign-key-id    "B07787AC8C82B9B2"
+                                 :artifact       "data-cloak.jar"}}}}
