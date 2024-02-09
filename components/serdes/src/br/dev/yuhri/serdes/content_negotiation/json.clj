@@ -2,7 +2,8 @@
   (:require [camel-snake-kebab.core :as csk]
             [clojure.data.json :as json]
             [clojure.string :as string]
-            [muuntaja.format.core :as mtj.core])
+            [muuntaja.format.core :as mtj.core]
+            [tick.core :as tick])
   (:import (java.io InputStream
                     InputStreamReader
                     OutputStream
@@ -14,8 +15,14 @@
     (keyword? k) (name k)
     :else k))
 
+(defn- value-writer [_k v]
+  (cond
+    (tick/date? v) (tick/format v)
+    (tick/date-time? v) (tick/format v)
+    :else v))
+
 (defn clj->json [x _opts]
-  (json/write-str x :key-fn encoder-key-fn))
+  (json/write-str x :key-fn encoder-key-fn :value-fn value-writer))
 
 (defn json-stream->clj [reader {:keys [key-fn]
                                 :or   {key-fn csk/->kebab-case-keyword}}]

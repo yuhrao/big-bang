@@ -73,7 +73,7 @@
               :or   {join? false
                      host  "0.0.0.0"}
               :as   opts}]
-  (jetty/run-jetty (app opts) {:join? false
+  (jetty/run-jetty (app opts) {:join? join?
                                :port  port
                                :host  host}))
 
