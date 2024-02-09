@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.logger.publishers)
+(ns yuhrao.logger.publishers)
 
 (defn console-publisher [pub-config]
   (when pub-config

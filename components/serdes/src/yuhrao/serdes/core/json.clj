@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.serdes.core.json
-  (:require [br.dev.yuhri.serdes.formats.json :as fmt.json]))
+(ns yuhrao.serdes.core.json
+  (:require [yuhrao.serdes.formats.json :as fmt.json]))
 
 (defn json->clj
   "Parses a json string or stream into a clojure collection.

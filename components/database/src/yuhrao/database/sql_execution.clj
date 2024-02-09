@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.database.sql-execution
+(ns yuhrao.database.sql-execution
   (:require [next.jdbc :as jdbc]
             [honey.sql :as honey]))
 

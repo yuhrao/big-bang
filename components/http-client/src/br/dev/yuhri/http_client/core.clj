@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.http-client.core
-  (:require [br.dev.yuhri.http-client.client :as http-client.client]
-            [br.dev.yuhri.http-client.request :as http-client.req]))
+(ns yuhrao.http-client.core
+  (:require [yuhrao.http-client.client :as http-client.client]
+            [yuhrao.http-client.request :as http-client.req]))
 
 (defn client
   "Create a new HTTP Client. Opts:

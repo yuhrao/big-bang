@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.serdes.core.yaml
-  (:require [br.dev.yuhri.serdes.formats.yaml :as fmt.yaml]))
+(ns yuhrao.serdes.core.yaml
+  (:require [yuhrao.serdes.formats.yaml :as fmt.yaml]))
 
 (defn yaml->clj
   "Parses a yaml string or stream into a clojure collection.

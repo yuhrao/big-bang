@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.midi-hub.core
-  (:require [br.dev.yuhri.midi-hub.lib.db :as mh.db]
-            [br.dev.yuhri.midi-hub.lib.openmidi :as openmidi]))
+(ns yuhrao.midi-hub.core
+  (:require [yuhrao.midi-hub.lib.db :as mh.db]
+            [yuhrao.midi-hub.lib.openmidi :as openmidi]))
 
 (defn list-brands
   "You can pass an option map with Honey SQL DSL"

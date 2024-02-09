@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.serdes.core.edn-test
-  (:require [br.dev.yuhri.serdes.core.edn :as edn]
+(ns yuhrao.serdes.core.edn-test
+  (:require [yuhrao.serdes.core.edn :as edn]
             [clojure.test :as t]
             [matcher-combinators.test]))
 

@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.data-cloak.core.map
-  (:require [br.dev.yuhri.data-cloak.map :as dc.impl.map]))
+(ns yuhrao.data-cloak.core.map
+  (:require [yuhrao.data-cloak.map :as dc.impl.map]))
 
 (defn obscure
   "Given an obscure-fns map and a map, obscure map fields

@@ -1,7 +1,7 @@
-(ns br.dev.yuhri.logger.test-tooling
+(ns yuhrao.logger.test-tooling
   (:require [com.brunobonacci.mulog.buffer :as rb]
             [com.brunobonacci.mulog.core :as uc]
-            [br.dev.yuhri.logger.core :as logger]))
+            [yuhrao.logger.core :as logger]))
 
 (deftype MemoryPublisher [config buffer]
   com.brunobonacci.mulog.publisher.PPublisher

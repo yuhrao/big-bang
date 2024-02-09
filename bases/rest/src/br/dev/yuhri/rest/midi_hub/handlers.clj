@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.rest.midi-hub.handlers
-  (:require [br.dev.yuhri.midi-hub.core :as mh]))
+(ns yuhrao.rest.midi-hub.handlers
+  (:require [yuhrao.midi-hub.core :as mh]))
 
 (defn list-brands [_]
   {:status :ok

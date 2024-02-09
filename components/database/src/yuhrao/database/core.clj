@@ -1,8 +1,8 @@
-(ns br.dev.yuhri.database.core
-  (:require [br.dev.yuhri.database.migration :as migrations]
-            [br.dev.yuhri.database.column-readers]
+(ns yuhrao.database.core
+  (:require [yuhrao.database.migration :as migrations]
+            [yuhrao.database.column-readers]
             [next.jdbc.connection :as jdbc.conn]
-            [br.dev.yuhri.database.sql-execution :as sql-execution])
+            [yuhrao.database.sql-execution :as sql-execution])
   (:import (com.zaxxer.hikari HikariDataSource)))
 
 (defn ^:deprecated run-migrations

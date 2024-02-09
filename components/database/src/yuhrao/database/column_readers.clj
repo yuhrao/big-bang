@@ -1,8 +1,8 @@
-(ns br.dev.yuhri.database.column-readers
+(ns yuhrao.database.column-readers
   (:require [next.jdbc.result-set :as rs]
             [next.jdbc.prepare :as prepare]
             [tick.core :as tick]
-            [br.dev.yuhri.serdes.core.json :as json])
+            [yuhrao.serdes.core.json :as json])
   (:import (java.sql Date Timestamp Array PreparedStatement)
            (org.postgresql.util PGobject)
            (clojure.lang ISeq IPersistentMap IPersistentVector Keyword)))

@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.serdes.core.content-negotiation
-  (:require [br.dev.yuhri.serdes.content-negotiation :as content-negotiation]))
+(ns yuhrao.serdes.core.content-negotiation
+  (:require [yuhrao.serdes.content-negotiation :as content-negotiation]))
 
 (defn muuntaja
   "Gets the default muuntaja instance for content negotiation"

@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.logger.core
-  (:require [br.dev.yuhri.logger.logger :as i.logger]
-            [br.dev.yuhri.logger.log :as i.log]
+(ns yuhrao.logger.core
+  (:require [yuhrao.logger.logger :as i.logger]
+            [yuhrao.logger.log :as i.log]
             [com.brunobonacci.mulog :as u]))
 
 (defn setup!
@@ -8,7 +8,7 @@
   opts:
   - min-level: minimum level to be logged
   - publishers: a map with publishers to put logs into. See `publishers` section in README
-  - obscurer: an obscurer function. Check out `br.dev.yuhri.data-cloak.core.map` namespace. It obscures ONLY FIELDS IN LOG'S DATA"
+  - obscurer: an obscurer function. Check out `yuhrao.data-cloak.core.map` namespace. It obscures ONLY FIELDS IN LOG'S DATA"
   [opts]
   (i.logger/setup! opts))
 

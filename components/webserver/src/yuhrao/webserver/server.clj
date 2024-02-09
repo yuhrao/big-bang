@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.webserver.server
-  (:require [br.dev.yuhri.webserver.middlewares :as y.middlewares]
-            [br.dev.yuhri.serdes.core.content-negotiation :as content-negotiation]
+(ns yuhrao.webserver.server
+  (:require [yuhrao.webserver.middlewares :as y.middlewares]
+            [yuhrao.serdes.core.content-negotiation :as content-negotiation]
             [reitit.coercion.malli :as r.malli.coercion]
             [reitit.interceptor.sieppari :as r.sieppari]
             [reitit.openapi :as r.openapi]

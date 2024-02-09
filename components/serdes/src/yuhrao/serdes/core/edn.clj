@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.serdes.core.edn
-  (:require [br.dev.yuhri.serdes.formats.edn :as fmt.edn]))
+(ns yuhrao.serdes.core.edn
+  (:require [yuhrao.serdes.formats.edn :as fmt.edn]))
 
 (defn edn->clj
   "Parses a edn string or stream into a clojure collection.

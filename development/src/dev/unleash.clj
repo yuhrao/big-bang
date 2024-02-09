@@ -1,7 +1,7 @@
 (ns dev.unleash
   (:require
-    [br.dev.yuhri.config.core :as config]
-    [br.dev.yuhri.http-client.core :as http]
+    [yuhrao.config.core :as config]
+    [yuhrao.http-client.core :as http]
     [camel-snake-kebab.core :as csk]
     [camel-snake-kebab.extras :as cske]
     [clojure.string :as string]))

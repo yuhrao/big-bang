@@ -1,8 +1,8 @@
-(ns br.dev.yuhri.http-client.interceptors-test
-  (:require [br.dev.yuhri.http-client.interceptors :as http.interceptors]
+(ns yuhrao.http-client.interceptors-test
+  (:require [yuhrao.http-client.interceptors :as http.interceptors]
             [clojure.test :as t]
             [matcher-combinators.matchers :as matcher]
-            [br.dev.yuhri.serdes.core.json :as json]
+            [yuhrao.serdes.core.json :as json]
             [matcher-combinators.test]))
 
 (t/deftest format-headers

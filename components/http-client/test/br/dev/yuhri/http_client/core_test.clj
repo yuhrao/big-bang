@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.http-client.core-test
-  (:require [br.dev.yuhri.http-client.core :as http]
+(ns yuhrao.http-client.core-test
+  (:require [yuhrao.http-client.core :as http]
             [clojure.test :as t]
             [matcher-combinators.matchers :as matcher]
             [matcher-combinators.test]

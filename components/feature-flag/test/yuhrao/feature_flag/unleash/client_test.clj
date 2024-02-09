@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.feature-flag.unleash.client-test
+(ns yuhrao.feature-flag.unleash.client-test
   (:require [clojure.test :as t]
-            [br.dev.yuhri.feature-flag.unleash.client :as unleash.client])
+            [yuhrao.feature-flag.unleash.client :as unleash.client])
   (:import (io.getunleash DefaultUnleash FakeUnleash)))
 
 (t/deftest create-client

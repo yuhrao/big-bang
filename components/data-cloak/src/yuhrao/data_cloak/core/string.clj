@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.data-cloak.core.string
-  (:require [br.dev.yuhri.data-cloak.string :as dc.impl.string]))
+(ns yuhrao.data-cloak.core.string
+  (:require [yuhrao.data-cloak.string :as dc.impl.string]))
 
 (defn offset
   "Given a string, obscure all the string content from start+<start-offset> to end-<end-offset>

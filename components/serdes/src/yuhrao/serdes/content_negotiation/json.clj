@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.serdes.content-negotiation.json
+(ns yuhrao.serdes.content-negotiation.json
   (:require [camel-snake-kebab.core :as csk]
             [clojure.data.json :as json]
             [clojure.string :as string]

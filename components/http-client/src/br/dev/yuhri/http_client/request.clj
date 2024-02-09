@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.http-client.request
+(ns yuhrao.http-client.request
   (:require [babashka.http-client :as bb.http]
             [clojure.string :as string]
             [medley.core :as medley])

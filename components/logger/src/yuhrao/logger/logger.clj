@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.logger.logger
-  (:require [br.dev.yuhri.logger.publishers :as pubs]
+(ns yuhrao.logger.logger
+  (:require [yuhrao.logger.publishers :as pubs]
             [com.brunobonacci.mulog :as u]))
 
 (defonce current-logger (atom {:stop   nil

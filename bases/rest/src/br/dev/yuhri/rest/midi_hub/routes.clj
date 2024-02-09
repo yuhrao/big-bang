@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.rest.midi-hub.routes
-  (:require [br.dev.yuhri.rest.midi-hub.handlers :as mh.handlers]
-            [br.dev.yuhri.rest.midi-hub.schema :as mh.schema]))
+(ns yuhrao.rest.midi-hub.routes
+  (:require [yuhrao.rest.midi-hub.handlers :as mh.handlers]
+            [yuhrao.rest.midi-hub.schema :as mh.schema]))
 
 (def brands
   ["/brands"

@@ -1,7 +1,7 @@
-(ns br.dev.yuhri.feature-flag.core
-  (:require [br.dev.yuhri.feature-flag.unleash.client :as unleash.client]
-            [br.dev.yuhri.feature-flag.unleash.flags :as unleash.flags]
-            [br.dev.yuhri.feature-flag.unleash.variant :as unleash.variant]))
+(ns yuhrao.feature-flag.core
+  (:require [yuhrao.feature-flag.unleash.client :as unleash.client]
+            [yuhrao.feature-flag.unleash.flags :as unleash.flags]
+            [yuhrao.feature-flag.unleash.variant :as unleash.variant]))
 
 (defn client
   "Create an unleash client. You can provide any option described in [unleash doc](https://docs.getunleash.io/reference/sdks/java#configuration-options)

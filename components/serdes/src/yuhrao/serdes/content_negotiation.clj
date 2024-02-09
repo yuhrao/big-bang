@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.serdes.content-negotiation
-  (:require [br.dev.yuhri.serdes.content-negotiation.json :as cn.json]
-            [br.dev.yuhri.serdes.content-negotiation.yaml :as cn.yaml]
+(ns yuhrao.serdes.content-negotiation
+  (:require [yuhrao.serdes.content-negotiation.json :as cn.json]
+            [yuhrao.serdes.content-negotiation.yaml :as cn.yaml]
             [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]
             [clojure.string :as string]

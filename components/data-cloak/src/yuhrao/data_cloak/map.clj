@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.data-cloak.map)
+(ns yuhrao.data-cloak.map)
 
 (defn obscurer [obscure-fns]
   (fn [m]

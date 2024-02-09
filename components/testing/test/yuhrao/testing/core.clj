@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.testing.core
+(ns yuhrao.testing.core
   (:require [polylith-kaocha.kaocha-wrapper.config :as config]))
 
 (defn test-with-focus-meta [id metadata]

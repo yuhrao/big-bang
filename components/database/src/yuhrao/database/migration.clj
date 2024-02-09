@@ -1,7 +1,7 @@
 (ns
   ^{:deprecated true
     :doc "This namespace is deprecated. Use abogoyavlensky/automigrate instead."}
-  br.dev.yuhri.database.migration
+  yuhrao.database.migration
   (:require [ragtime.next-jdbc :as rag.jdbc]
             [ragtime.repl :as rag.repl]))
 

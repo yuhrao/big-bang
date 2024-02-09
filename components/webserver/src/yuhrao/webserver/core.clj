@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.webserver.core
-  (:require [br.dev.yuhri.webserver.server :as server]))
+(ns yuhrao.webserver.core
+  (:require [yuhrao.webserver.server :as server]))
 
 (defonce servers (atom {}))
 

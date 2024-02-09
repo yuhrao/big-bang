@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.http-client.client
+(ns yuhrao.http-client.client
   (:require [clojure.string :as string]
-            [br.dev.yuhri.http-client.interceptors :as http.interceptors]))
+            [yuhrao.http-client.interceptors :as http.interceptors]))
 
 (defn- remove-trailing-slash [url]
   (if (string/ends-with? url "/")

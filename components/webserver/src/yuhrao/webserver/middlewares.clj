@@ -1,8 +1,8 @@
-(ns br.dev.yuhri.webserver.middlewares
+(ns yuhrao.webserver.middlewares
   (:require [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]
-            [br.dev.yuhri.webserver.middlewares.log :as y.mid.log]
-            [br.dev.yuhri.webserver.middlewares.obscurer :as y.mid.obscurer]))
+            [yuhrao.webserver.middlewares.log :as y.mid.log]
+            [yuhrao.webserver.middlewares.obscurer :as y.mid.obscurer]))
 
 (def format-header-middleware
   {:name ::format-header

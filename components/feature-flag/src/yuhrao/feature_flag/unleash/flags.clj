@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.feature-flag.unleash.flags
-  (:require [br.dev.yuhri.feature-flag.unleash.utils :as unleash.utils])
+(ns yuhrao.feature-flag.unleash.flags
+  (:require [yuhrao.feature-flag.unleash.utils :as unleash.utils])
   (:import (io.getunleash Unleash UnleashContext)))
 
 (defn enabled?

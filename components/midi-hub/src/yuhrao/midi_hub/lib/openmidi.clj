@@ -1,9 +1,9 @@
-(ns br.dev.yuhri.midi-hub.lib.openmidi
-  (:require [br.dev.yuhri.serdes.core.json :as json]
+(ns yuhrao.midi-hub.lib.openmidi
+  (:require [yuhrao.serdes.core.json :as json]
             [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]
             [clojure.string :as string]
-            [br.dev.yuhri.midi-hub.lib.db :as mh.db]
+            [yuhrao.midi-hub.lib.db :as mh.db]
             [medley.core :as medley]
             [clojure.set :as set]
             [malli.core :as malli]))

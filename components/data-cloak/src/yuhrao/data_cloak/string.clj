@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.data-cloak.string
+(ns yuhrao.data-cloak.string
   (:require [clojure.string :as string]))
 
 (defn offset [s {:keys [start end]

@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.midi-hub.lib.db
-  (:require [br.dev.yuhri.config.core :as config]
-            [br.dev.yuhri.database.core :as db]
+(ns yuhrao.midi-hub.lib.db
+  (:require [yuhrao.config.core :as config]
+            [yuhrao.database.core :as db]
             [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]
             [next.jdbc.connection :as jdbc.conn]

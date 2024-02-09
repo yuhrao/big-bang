@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.serdes.content-negotiation.yaml
+(ns yuhrao.serdes.content-negotiation.yaml
   (:require [camel-snake-kebab.core :as csk]
             [clj-yaml.core :as yaml]
             [clojure.string :as string]

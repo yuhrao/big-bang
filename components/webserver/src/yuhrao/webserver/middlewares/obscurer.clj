@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.webserver.middlewares.obscurer
-  (:require [br.dev.yuhri.data-cloak.core.map :as dc.map]
+(ns yuhrao.webserver.middlewares.obscurer
+  (:require [yuhrao.data-cloak.core.map :as dc.map]
             [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]))
 

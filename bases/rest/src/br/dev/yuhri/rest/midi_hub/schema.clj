@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.rest.midi-hub.schema
-  (:require [br.dev.yuhri.rest.schema :as schema]))
+(ns yuhrao.rest.midi-hub.schema
+  (:require [yuhrao.rest.schema :as schema]))
 
 (def get-by-id-params
   [:map

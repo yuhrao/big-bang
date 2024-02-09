@@ -1,8 +1,8 @@
-(ns br.dev.yuhri.rest.midi-hub-test
-  (:require [br.dev.yuhri.rest.routes :as sut]
-            [br.dev.yuhri.midi-hub.lib.db :as db]
-            [br.dev.yuhri.webserver.core :as webserver]
-            [br.dev.yuhri.serdes.core.json :as json]
+(ns yuhrao.rest.midi-hub-test
+  (:require [yuhrao.rest.routes :as sut]
+            [yuhrao.midi-hub.lib.db :as db]
+            [yuhrao.webserver.core :as webserver]
+            [yuhrao.serdes.core.json :as json]
             [clojure.test :as t]
             [matcher-combinators.test]
             [camel-snake-kebab.extras :as cske]

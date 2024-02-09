@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.rest.schema-test
+(ns yuhrao.rest.schema-test
   (:require
-   [br.dev.yuhri.rest.schema :as sut]
+   [yuhrao.rest.schema :as sut]
    [clojure.test :as t]
    [malli.core :as malli]
    [malli.transform :as m.transform]

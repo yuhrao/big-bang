@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.serdes.core.content-negotiation-test
-  (:require [br.dev.yuhri.serdes.core.content-negotiation :as content-negotiation]
+(ns yuhrao.serdes.core.content-negotiation-test
+  (:require [yuhrao.serdes.core.content-negotiation :as content-negotiation]
             [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]
             [clojure.test :as t]

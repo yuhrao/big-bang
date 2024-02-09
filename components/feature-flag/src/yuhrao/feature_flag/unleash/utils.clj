@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.feature-flag.unleash.utils
+(ns yuhrao.feature-flag.unleash.utils
   (:require [camel-snake-kebab.core :as csk])
   (:import (io.getunleash UnleashContext UnleashContext$Builder)))
 

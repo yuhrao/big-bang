@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.rest.core
-  (:require [br.dev.yuhri.webserver.core :as webserver]
-            [br.dev.yuhri.rest.routes :as routes]))
+(ns yuhrao.rest.core
+  (:require [yuhrao.webserver.core :as webserver]
+            [yuhrao.rest.routes :as routes]))
 
 (def server-id :big-bang)
 

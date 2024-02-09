@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.serdes.core.json-test
-  (:require [br.dev.yuhri.serdes.core.json :as json]
+(ns yuhrao.serdes.core.json-test
+  (:require [yuhrao.serdes.core.json :as json]
             [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]
             [clojure.test :as t]

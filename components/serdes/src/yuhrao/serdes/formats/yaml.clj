@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.serdes.formats.yaml
+(ns yuhrao.serdes.formats.yaml
 (:require [muuntaja.core :as mtj]
-  [br.dev.yuhri.serdes.content-negotiation :as content-negotiation]))
+  [yuhrao.serdes.content-negotiation :as content-negotiation]))
 
 (def ^:private default-muuntaja content-negotiation/muuntaja)
 

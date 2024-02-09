@@ -1,7 +1,7 @@
-(ns br.dev.yuhri.data-cloak.core.map-test
-  (:require [br.dev.yuhri.data-cloak.core.string :as dc.string]
+(ns yuhrao.data-cloak.core.map-test
+  (:require [yuhrao.data-cloak.core.string :as dc.string]
             [clojure.test :as t]
-            [br.dev.yuhri.data-cloak.core.map :as dc.map]
+            [yuhrao.data-cloak.core.map :as dc.map]
             [matcher-combinators.test]
             [matcher-combinators.matchers :as matcher]))
 

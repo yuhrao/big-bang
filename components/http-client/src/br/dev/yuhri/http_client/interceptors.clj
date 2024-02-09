@@ -1,6 +1,6 @@
-(ns br.dev.yuhri.http-client.interceptors
+(ns yuhrao.http-client.interceptors
   (:require
-    [br.dev.yuhri.serdes.core.content-negotiation :as content-negotiation]
+    [yuhrao.serdes.core.content-negotiation :as content-negotiation]
     [babashka.http-client.interceptors :as bb.interceptors]
     [babashka.http-client]
     [camel-snake-kebab.core :as csk]

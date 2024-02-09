@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.feature-flag.unleash.client
+(ns yuhrao.feature-flag.unleash.client
   (:require [camel-snake-kebab.core :as csk])
   (:import (io.getunleash.util UnleashConfig UnleashConfig$Builder)
            (io.getunleash DefaultUnleash FakeUnleash)

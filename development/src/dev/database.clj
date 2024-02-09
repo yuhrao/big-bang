@@ -1,6 +1,6 @@
 (ns dev.database
   (:require [babashka.process :as p]
-            [br.dev.yuhri.config.core :as config]))
+            [yuhrao.config.core :as config]))
 
 
 (def configs (config/create {:midi-hub {:env     "MIDI_HUB_JDBC_URL"

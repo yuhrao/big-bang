@@ -1,14 +1,14 @@
-(ns br.dev.yuhri.webserver.core-test
+(ns yuhrao.webserver.core-test
   (:require
-    [br.dev.yuhri.serdes.core.content-negotiation :as content-negotiation]
-    [br.dev.yuhri.webserver.core :as ws]
+    [yuhrao.serdes.core.content-negotiation :as content-negotiation]
+    [yuhrao.webserver.core :as ws]
     [clj-http.client :as http]
     [clojure.test :as t]
     [matcher-combinators.matchers :as matcher]
     [matcher-combinators.test]
     [muuntaja.core :as mtj]
-    [br.dev.yuhri.data-cloak.core.map :as dc.map]
-    [br.dev.yuhri.data-cloak.core.string :as dc.string])
+    [yuhrao.data-cloak.core.map :as dc.map]
+    [yuhrao.data-cloak.core.string :as dc.string])
   (:import (clojure.lang ExceptionInfo)))
 
 (defn- prepare-request [{:keys [body headers] :as req}]

@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.logger.log
+(ns yuhrao.logger.log
   (:require [com.brunobonacci.mulog :as u]))
 
 (defmacro log

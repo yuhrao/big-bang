@@ -1,8 +1,8 @@
-(ns br.dev.yuhri.data-cloak.core.string-test
+(ns yuhrao.data-cloak.core.string-test
   (:require [clojure.string :as string]
             [clojure.test :as t]
             [matcher-combinators.test]
-            [br.dev.yuhri.data-cloak.core.string :as dc.string]))
+            [yuhrao.data-cloak.core.string :as dc.string]))
 
 (t/deftest offsets
   (t/testing "asymmetric offset"

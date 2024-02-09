@@ -1,4 +1,4 @@
-(ns br.dev.yuhri.rest.schema
+(ns yuhrao.rest.schema
   (:require [tick.core :as tick]
             [malli.core :as malli]))
 

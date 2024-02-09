@@ -1,5 +1,5 @@
-(ns br.dev.yuhri.feature-flag.unleash.variant
-  (:require [br.dev.yuhri.feature-flag.unleash.utils :as unleash.utils]
+(ns yuhrao.feature-flag.unleash.variant
+  (:require [yuhrao.feature-flag.unleash.utils :as unleash.utils]
             [camel-snake-kebab.core :as csk]
             [clojure.data.json :as json])
   (:import (java.util Optional)

@@ -1,8 +1,8 @@
-(ns br.dev.yuhri.logger.core-test
-  (:require [br.dev.yuhri.data-cloak.core.map :as dc.map]
-            [br.dev.yuhri.data-cloak.core.string :as dc.string]
-            [br.dev.yuhri.logger.core :as logger]
-            [br.dev.yuhri.logger.test-tooling :as tooling]
+(ns yuhrao.logger.core-test
+  (:require [yuhrao.data-cloak.core.map :as dc.map]
+            [yuhrao.data-cloak.core.string :as dc.string]
+            [yuhrao.logger.core :as logger]
+            [yuhrao.logger.test-tooling :as tooling]
             [clojure.test :as t]
             [matcher-combinators.matchers :as matcher]
             [matcher-combinators.test]))
