@@ -49,9 +49,20 @@
                                 "components/midi-hub/test"
 
                                 "bases/rest/test"]
-                  :extra-deps  {lambdaisland/kaocha {:mvn/version "1.87.1366"}}}
+                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.87.1366"}}}
 
            :local {:extra-deps {big-bang/testing {:local/root "./components/testing"}}}
+
+           :build {:deps       {io.github.clojure/tools.build {:git/tag "v0.9.6" :git/sha "8e78bcc"}
+                                slipset/deps-deploy           {:mvn/version "RELEASE"}}
+                   :ns-default build}
+
+           :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+                    :exec-fn    deps-deploy.deps-deploy/deploy
+                    :exec-args  {:installer      :remote
+                                 :sign-releases? true
+                                 :sign-key-id    "B07787AC8C82B9B2"
+                                 :artifact       "target/data-cloak.jar"}}
 
            :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
                   :extra-deps {polylith/clj-poly {:mvn/version "0.2.18"}
