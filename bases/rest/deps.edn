@@ -1,0 +1,7 @@
+{:paths   ["src" "resources"]
+ :deps    {big-bang/webserver {:local/root "../../components/webserver"}
+           big-bang/midi-hub  {:local/root "../../components/midi-hub"}
+           big-bang/config    {:local/root "../../components/config"}
+           metosin/malli      {:mvn/version "0.13.0"}}
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps  {big-bang/testing {:local/root "../../components/testing"}}}}}

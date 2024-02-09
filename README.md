@@ -66,3 +66,5 @@ poly test :dev
 
 - [ ] Create API to get devices and brands
 - [ ] Create PR in openmidi to fulfill missing device data
+- [ ] Migrate JSON serde to Charred
+- [ ] Write down tests for REST schemas (commons and specific)
