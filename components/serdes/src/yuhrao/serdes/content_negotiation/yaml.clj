@@ -50,6 +50,6 @@
 
 (def yaml-format
   (core/map->Format
-    {:name    "application/x-yaml"
+    {:name    "application/yaml"
      :decoder [decoder {:keywords true}]
      :encoder [encoder]}))

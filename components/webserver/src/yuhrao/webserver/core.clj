@@ -22,7 +22,7 @@
 
 (.addShutdownHook (Runtime/getRuntime)
                   (Thread.
-                    ^Runnable
-                    (fn []
-                      (doseq [server (keys @servers)]
-                        (stop! server)))))
+                   ^Runnable
+                   (fn []
+                     (doseq [server (keys @servers)]
+                       (stop! server)))))

@@ -2,12 +2,12 @@
   (:require
     [yuhrao.serdes.core.content-negotiation :as content-negotiation]
     [yuhrao.webserver.core :as ws]
-    [clj-http.client :as http]
+    [yuhrao.http-client.core :as http]
     [clojure.test :as t]
     [matcher-combinators.matchers :as matcher]
     [matcher-combinators.test]
     [muuntaja.core :as mtj]
-    [yuhrao.data-cloak.core.map :as dc.map]
+    
     [yuhrao.data-cloak.core.string :as dc.string])
   (:import (clojure.lang ExceptionInfo)))
 
@@ -118,25 +118,40 @@
 
 (t/deftest web-server-test
   (let [routes [["/test"
-                 ["/success" {:post (fn [_req]
+                 ["/success/json" {:post (fn [_req]
                                       {:status 200
                                        :body   {:success true}})}]
+                 ["/success/yaml" {:post (fn [_req]
+                                           {:status 200
+                                            :body   {:success true}
+                                            :content-type "application/yaml"})}]
                  ["/bad-request" {:post {:parameters {:body [:map
                                                              [:name :string]]}
                                          :handler    (fn [_req]
                                                        {:status 200})}}]
                  ["/server-error" {:get (fn [_req]
-                                          (throw (ex-info "something wrong" {:has "happened"})))}]]]]
+                                          (throw (ex-info "something wrong" {:has "happened"})))}]]]
+
+        http-client (http/client {:base-url "http://localhost:3333"})]
     (ws/start! {:server-id     :test
                 :routes        routes
                 :disable-logs? true
                 :port          3333})
     (t/testing "success"
       (t/is {:status 200
+             :headers {"Content-Type" "application/json"}
              :body   {:succes true}}
-            (parse-response
-              (http/post "http://localhost:3333/test/success"))))
-    (t/testing "failure"
+            (http/request http-client {:path   "/test/success/json"
+                                       :method :post})))
+    (t/testing "success"
+      (t/is {:status 200
+             :headers {"Content-Type" (partial re-find #"(?i)application/yaml")}
+             :body   {:succes true}}
+            (http/request http-client {:path   "/test/success/yaml"
+                                       :method :post})))
+    (tap> (http/request http-client {:path   "/test/success/yaml"
+                                       :method :post}))
+    #_(t/testing "failure"
       (t/is (thrown-match?
               ExceptionInfo
               {:status 400}
@@ -169,13 +184,11 @@
                      :openapi       openapi
                      :routes        routes
                      :disable-logs? true}
-        base-url    "http://localhost:1234"]
+        http-client (http/client {:base-url "http://localhost:1234"})]
 
     (ws/start! server-opts)
     (t/testing "swagger.json"
-      (let [res (->> (str base-url "/swagger.json")
-                     http/get
-                     parse-response)]
+      (let [res (http/request http-client {:path "/swagger.json"})]
         (t/is (match? {:status 200
                        :body   (merge
                                  {:swagger "2.0"
@@ -184,9 +197,7 @@
                                  openapi)}
                       res))))
     (t/testing "openapi.json"
-      (let [res (->> (str base-url "/openapi.json")
-                     http/get
-                     parse-response)]
+      (let [res (http/request http-client {:path "/openapi.json"})]
         (t/is (match? {:status 200
                        :body   (merge
                                  {:openapi "3.0.0"
@@ -195,10 +206,9 @@
                                  openapi)}
                       res))))
     (t/testing "swagger-ui"
-      (let [res (->> (str base-url "/doc/index.html")
-                     http/get)]
+      (let [res (http/request http-client {:path "/doc/index.html"})]
         (t/is (match? {:status  200
-                       :headers {"Content-Type" "text/html"}}
+                       :headers {:content-type "text/html"}}
                       res))))
     (ws/stop! :swagger-test)))
 

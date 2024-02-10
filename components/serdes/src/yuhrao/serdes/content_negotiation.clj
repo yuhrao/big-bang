@@ -8,13 +8,23 @@
             [muuntaja.core :as mtj]
             [muuntaja.format.form :as mtj.form]))
 
+;; Accept what the user want to receive (consider Accept header)
 (defn extract-content-type [req-or-res]
   (let [headers (some->> req-or-res
                          :headers
                          (cske/transform-keys csk/->kebab-case-keyword))]
     (->> [(:content-type req-or-res)
-          (:content-type headers)
-          "application/json"]
+          (:content-type headers)]
+         (remove empty?)
+         (map #(first (string/split % #";")))
+         first)))
+
+(defn extract-accept [req-or-res]
+  (let [headers (some->> req-or-res
+                         :headers
+                         (cske/transform-keys csk/->kebab-case-keyword))]
+    (->> [(:accept req-or-res)
+          (:accept headers)]
          (remove empty?)
          (map #(first (string/split % #";")))
          first)))
@@ -29,7 +39,9 @@
                 cn.yaml/yaml-format)
       (assoc-in [:formats "text/html"]
                 cn.html/html-format)
-      (assoc-in [:http :extract-content-type] extract-content-type)))
+      (assoc-in [:http :extract-content-type] extract-content-type)
+      (assoc-in [:http :extract-accept] extract-accept)))
+
 
 (def muuntaja
   (mtj/create default-opts))

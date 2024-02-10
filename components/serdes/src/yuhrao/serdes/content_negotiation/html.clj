@@ -1,7 +1,8 @@
 (ns yuhrao.serdes.content-negotiation.html
   (:require [hiccup2.core :as hiccup]
+            [hiccup.util]
             [muuntaja.format.core :as mtj.core])
-  (:import (java.io OutputStream OutputStreamWriter Writer)))
+  (:import (java.io OutputStream Writer)))
 
 (defn clj->html-str [v]
   (str (hiccup/html v)))
@@ -10,24 +11,31 @@
   (reify
     mtj.core/EncodeToBytes
     (encode-to-bytes [_ data charset]
-      (.getBytes ^String (clj->html-str data) ^String charset))
+      (let [data (cond
+                   (string? data)                         data
+                   (instance? hiccup.util.RawString data) (str data)
+                   :else                                  (clj->html-str data))]
+        (.getBytes ^String data ^String charset)))
 
     mtj.core/EncodeToOutputStream
     (encode-to-output-stream [_ data _charset]
       (fn [^OutputStream output-stream]
-        (let [writer ^Writer (java.io.OutputStreamWriter. output-stream)]
-          (.write writer (clj->html-str data))
+        (let [writer ^Writer (java.io.OutputStreamWriter. output-stream)
+              data   (cond
+                       (string? data)                         data
+                       (instance? hiccup.util.RawString data) (str data)
+                       :else                                  (clj->html-str data))]
+          (.write writer data)
           (.flush writer))))))
 
-(defn decoder [{:keys [unsafe mark keywords] :or {keywords true}}]
+(defn decoder [_]
   (reify
     mtj.core/Decode
-    (decode [_ data _]
-      (throw (ex-info "Not implemented" {}))
+    (decode [_ _ _]
       nil)))
 
 (def html-format
   (mtj.core/map->Format
-   {:name    "application/x-yaml"
+   {:name    "text/html"
     :decoder [decoder]
     :encoder [encoder]}))
