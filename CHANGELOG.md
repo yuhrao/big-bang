@@ -8,9 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Added
-- [PR #25] Data Cloak component
-- [PR #25] Logger: Add support for Data Cloak obscurer
-- [PR #25] Webserver: Add obscurer as route data to protect sensitive data
+- Data Cloak: component
+- Logger: Add support for Data Cloak obscurer
+- Webserver: Add obscurer as route data to protect sensitive data
+- Serdes: Support hiccup serialization
+- Webser: Support `text/html` encoding with hiccup
+
+### Changed:
+- CI: get version from git tag
+
+### Removed:
+- Global: remove all non-lib components
+
+### Fixed:
+- Webserver: server didn't respect `Accept` request header
 
 ## [v1.3.5] - 2023-08-03
 
