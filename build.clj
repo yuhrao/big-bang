@@ -1,9 +1,14 @@
 (ns build
   (:require [clojure.tools.build.api :as b]
-            [deps-deploy.deps-deploy :as d]))
+            [deps-deploy.deps-deploy :as d]
+            [clojure.string :as string]))
 
+(def version (as-> (b/git-process {:git-args "tag"}) $
+               (string/split-lines $)
+               (sort $)
+               (last $)
+               (string/replace $ #"v" "")))
 
-(def version (format "0.1.%s" (b/git-count-revs nil)))
 (def group-name "io.github.yuhrao")
 
 ;; delay to defer side effects (artifact downloads)
@@ -35,7 +40,6 @@
   (println "Cleaning up builds")
   (doseq [component components]
     (b/delete {:path (format "components/%s/target" component)})))
-
 
 (defn jar [_]
   (clean nil)
