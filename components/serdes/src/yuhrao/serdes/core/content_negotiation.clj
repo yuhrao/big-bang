@@ -25,3 +25,6 @@
    (decode (muuntaja) format v))
   ([muuntaja format v]
    (content-negotiation/decode muuntaja format v)))
+
+(comment
+   (encode "text/html" [:h1 "Hello, World"]))

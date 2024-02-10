@@ -1,6 +1,7 @@
 (ns yuhrao.serdes.content-negotiation
   (:require [yuhrao.serdes.content-negotiation.json :as cn.json]
             [yuhrao.serdes.content-negotiation.yaml :as cn.yaml]
+            [yuhrao.serdes.content-negotiation.html :as cn.html]
             [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]
             [clojure.string :as string]
@@ -26,6 +27,8 @@
                 mtj.form/format)
       (assoc-in [:formats "application/yaml"]
                 cn.yaml/yaml-format)
+      (assoc-in [:formats "text/html"]
+                cn.html/html-format)
       (assoc-in [:http :extract-content-type] extract-content-type)))
 
 (def muuntaja

@@ -1,30 +1,33 @@
-(ns yuhrao.serdes.formats.json
+(ns yuhrao.serdes.formats.html
   (:require [yuhrao.serdes.content-negotiation :as content-negotiation]))
 
 (def ^:private default-muuntaja content-negotiation/muuntaja)
 
-(defn json->clj
+(def ^:private content-type "text/html")
+
+(defn html->clj
   ([v]
    (content-negotiation/decode
     default-muuntaja
-    "application/json" v))
+    content-type v))
   ([v opts]
    (content-negotiation/decode
-    {:json-opts {:decoder opts}}
-    "application/json" v)))
+    {:html-opts {:decoder opts}}
+    content-type v)))
 
-(defn clj->json-stream
+(defn clj->html-stream
   ([v]
    (content-negotiation/encode
     default-muuntaja
-    "application/json" v))
+    content-type v))
   ([v opts]
    (content-negotiation/encode
-    {:json-opts {:encoder opts}}
-    "application/json" v)))
+    {:html-opts {:encoder opts}}
+    content-type v)))
 
-(defn clj->json
+(defn clj->html
   ([v]
-   (slurp (clj->json-stream v)))
+   (slurp (clj->html-stream v)))
   ([v opts]
-   (slurp (clj->json-stream v opts))))
+   (slurp (clj->html-stream v opts))))
+

@@ -21,7 +21,7 @@ Where everything begins...
 
 ## Components
 
-| Name         | Description                                                                           |  
+| Name         | Description                                                                           |
 |--------------|---------------------------------------------------------------------------------------|
 | Config       | Manage configurations. Get 'em from environment variables or system properties        |
 | Database     | Interact with databases (mainly SQL) running migrations, executing DML and DQL in it. |
@@ -36,9 +36,9 @@ Where everything begins...
 
 - [Directus](https://github.com/directus/directus)
 - [Unleash](https://github.com/Unleash/unleash)
-- [Ory Kratos](https://www.ory.sh/docs/kratos/ory-kratos-intro)(Identity Management Platform)
-- [Ory Oathkeeper](https://www.ory.sh/docs/oathkeeper/) (Authorization Layer for HTTP)
+- [Kinde Auth](https://yuhrao.kinde.com/admin) (Authorization Layer for HTTP)
 - [Rollbar](https://rollbar.com/): Track exceptions (clj lib: [rollcage](https://github.com/circleci/rollcage))
+- [Resend](https://resend.com/)
 
 ### Dev Stuff
 Some dev stuff I'm using that's helping a lot to run everything locally.
