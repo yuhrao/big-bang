@@ -2,18 +2,21 @@
 
 Standardized logs with various targets (Publishers)
 
-## TOC
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
 
-<!-- TOC -->
-* [Logger](#logger)
-  * [TOC](#toc)
-  * [Libs](#libs)
-  * [Usage](#usage)
-    * [Setup your logger](#setup-your-logger)
-    * [Publishers](#publishers)
-    * [Console Publisher](#console-publisher)
-    * [File Publisher](#file-publisher)
-<!-- TOC -->
+- [Logger](#logger)
+    - [Libs](#libs)
+    - [Usage](#usage)
+        - [Setup your logger](#setup-your-logger)
+        - [Publishers](#publishers)
+        - [Console Publisher](#console-publisher)
+        - [File Publisher](#file-publisher)
+        - [Obscurer](#obscurer)
+
+<!-- markdown-toc end -->
+
+
 
 ## Libs
 
@@ -26,7 +29,7 @@ Standardized logs with various targets (Publishers)
 ### Setup your logger
 
 ```clojure
-(require '[br.dev.yuhri.logger.core :as logger])
+(require '[yuhrao.logger.core :as logger])
 
 (logger/setup! {:publishers {:console {}}
                 :min-level  :debug})
@@ -49,7 +52,7 @@ Config: same parameters as
 > You can pass an empty map as config to start a standard console publisher
 
 ```clojure
-(require '[br.dev.yuhri.logger.core :as logger])
+(require '[yuhrao.logger.core :as logger])
 
 (logger/setup! {:publishers {:console {:pretty? false
                                        :xfn     (map identity)}}})
@@ -62,7 +65,7 @@ Config: same parameters as
 > Logger already includes `:type :simple-file` parameter
 
 ```clojure
-(require '[br.dev.yuhri.logger.core :as logger])
+(require '[yuhrao.logger.core :as logger])
 
 (logger/setup! {:publishers {:file {:filename "/tmp/app/server.log"
                                     :xfn      (map identity)}}})
@@ -70,12 +73,12 @@ Config: same parameters as
 
 ### Obscurer
 Obscure sensitive data. Pass a function that receives a map (that's the log's data) and return a map with data obscured.
-It's recommended to use `br.dev.yuhri.data-cloak.core.map/obscurer`
+It's recommended to use `yuhrao.data-cloak.core.map/obscurer`
 
 ```clojure
-(require '[br.dev.yuhri.logger.core :as logger]
-         '[br.dev.yuhri.data-cloak.core.map :as dc.map]
-         '[br.dev.yuhri.data-cloak.core.string :as dc.string])
+(require '[yuhrao.logger.core :as logger]
+         '[yuhrao.data-cloak.core.map :as dc.map]
+         '[yuhrao.data-cloak.core.string :as dc.string])
 
 
 (logger/setup! {:publishers {:file {:filename "/tmp/app/server.log"}}

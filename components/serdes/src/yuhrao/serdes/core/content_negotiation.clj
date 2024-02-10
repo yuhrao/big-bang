@@ -12,6 +12,12 @@
   [req-or-res]
   (content-negotiation/extract-content-type req-or-res))
 
+(defn extract-accept
+  "Extract accept from request.
+  If it's not present, defaults to application/json"
+  [req]
+  (content-negotiation/extract-accept req))
+
 (defn encode
   "Encode a value into a specified format (e.g. application/json)"
   ([format v]
@@ -20,7 +26,7 @@
    (content-negotiation/encode muuntaja format v)))
 
 (defn decode
-  "Decode various formats into a clojure value (usually a coll)"
+  "Decode various formats into a clojure value (usually a collection)"
   ([format v]
    (decode (muuntaja) format v))
   ([muuntaja format v]

@@ -2,6 +2,7 @@
   (:require [clojure.test :as t]
             [yuhrao.config.core :as config]
             [matcher-combinators.test]
+            [matcher-combinators.matchers :as matcher]
             [clojure.string :as string]))
 
 (defn- random-uuid-str []
@@ -57,13 +58,17 @@
                              last
                              keyword)
           prop-parse-fn string/upper-case]
-      (t/is (match? {:my-env  (env-parse-fn (System/getenv "PWD"))
-                     :my-prop (prop-parse-fn (System/getProperty "os.arch"))
-                     :both    (prop-parse-fn (System/getProperty "os.arch"))}
+      (t/is (match? (matcher/equals
+                     {:my-env  (env-parse-fn (System/getenv "PWD"))
+                      :my-prop (prop-parse-fn (System/getProperty "os.arch"))
+                      :both    (prop-parse-fn (System/getProperty "os.arch"))
+                      :default "oi"})
                     (config/create {:my-env  {:env      "PWD"
                                               :parse-fn env-parse-fn}
                                     :my-prop {:prop     "os.arch"
                                               :parse-fn prop-parse-fn}
                                     :both    {:env      "PWD"
                                               :prop     "os.arch"
+                                              :parse-fn prop-parse-fn}
+                                    :default {:default  "oi"
                                               :parse-fn prop-parse-fn}}))))))

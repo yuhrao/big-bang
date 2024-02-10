@@ -2,16 +2,17 @@
 
 Read configuration from various sources
 
-## TOC
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
 
-<!-- TOC -->
-* [Config](#config)
-  * [TOC](#toc)
-  * [Libs](#libs)
-  * [Usage](#usage)
-    * [Config sources](#config-sources)
-    * [Getting configuration](#getting-configuration)
-<!-- TOC -->
+- [Config](#config)
+    - [Libs](#libs)
+    - [Usage](#usage)
+        - [Config sources](#config-sources)
+        - [Getting configuration](#getting-configuration)
+
+<!-- markdown-toc end -->
+
 
 ## Libs
 

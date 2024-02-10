@@ -33,7 +33,7 @@
     (b/jar {:class-dir class-dir
             :jar-file jar-file})))
 
-(def components ["config" "logger" "serdes" "webserver" "data-cloak" "feature-flag" "http-client"])
+(def components ["config" "data-cloak" "database" "feature-flag" "http-client" "logger" "serdes" "webserver"])
 ;; (def components ["config"])
 
 (defn clean [_]

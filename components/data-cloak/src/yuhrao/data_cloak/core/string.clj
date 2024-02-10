@@ -2,7 +2,7 @@
   (:require [yuhrao.data-cloak.string :as dc.impl.string]))
 
 (defn offset
-  "Given a string, obscure all the string content from start+<start-offset> to end-<end-offset>
+  "Given a string, obscure all the string content from `start`+`start-offset` to `end`-`end-offset>
   opts:
   - `:start`: amount of chars at the beginning of the string to not be obscured
   - `:end`: amount of chars at the end of the string to not be obscured"

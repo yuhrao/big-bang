@@ -2,17 +2,16 @@
 
 Iteract with databases
 
-## TOC
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
 
-<!-- TOC -->
+- [Database](#database)
+    - [Libs](#libs)
+    - [How to add a new database](#how-to-add-a-new-database)
+    - [How to create migrations](#how-to-create-migrations)
 
-* [Database](#database)
-    * [TOC](#toc)
-    * [Libs](#libs)
-    * [How to add a new database](#how-to-add-a-new-database)
-    * [How to create migrations](#how-to-create-migrations)
+<!-- markdown-toc end -->
 
-<!-- TOC -->
 
 ## Libs
 
