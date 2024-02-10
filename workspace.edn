@@ -7,7 +7,7 @@
  :tag-patterns         {:stable  "stable-*"
                         :release "v[0-9]*"}
  :test                 {:create-test-runner                              polylith-kaocha.test-runner/create
-                        :polylith-kaocha.kaocha-wrapper/post-load-config br.dev.yuhri.testing.core/unit-post-load-config}
+                        :polylith-kaocha.kaocha-wrapper/post-load-config yuhrao.testing.core/unit-post-load-config}
  :projects             {"development"       {:alias "dev"}
                         "integration-tests" {:alias "itests"
-                                             :test  {:polylith-kaocha.kaocha-wrapper/post-load-config br.dev.yuhri.testing.core/integration-post-load-config}}}}
+                                             :test  {:polylith-kaocha.kaocha-wrapper/post-load-config yuhrao.testing.core/integration-post-load-config}}}}
