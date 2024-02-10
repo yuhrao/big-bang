@@ -8,10 +8,7 @@
                                "components/serdes/src"
                                "components/http-client/src"
                                "components/data-cloak/src"
-                               "components/midi-hub/src"
-                               "components/testing/src"
-
-                               "bases/rest/src"]
+                               "components/testing/src"]
                  :extra-deps {;; Components
                               org.clojure/clojure   {:mvn/version "1.11.1"}
                               big-bang/config       {:local/root "./components/config"}
@@ -22,11 +19,9 @@
                               big-bang/serdes       {:local/root "./components/serdes"}
                               big-bang/http-client  {:local/root "./components/http-client"}
                               big-bang/data-cloak   {:local/root "./components/data-cloak"}
-                              big-bang/midi-hub     {:local/root "./components/midi-hub"}
 
                               ;; Bases
 
-                              big-bang/rest {:local/root "./bases/rest"}
 
                               ;; Dev dependencies
                               ;; Tooling
@@ -45,10 +40,7 @@
                                 "components/feature-flag/test"
                                 "components/serdes/test"
                                 "components/http-client/test"
-                                "components/data-cloak/test"
-                                "components/midi-hub/test"
-
-                                "bases/rest/test"]
+                                "components/data-cloak/test"]
                   :extra-deps {lambdaisland/kaocha {:mvn/version "1.87.1366"}}}
 
            :local {:extra-deps {big-bang/testing {:local/root "./components/testing"}}}
