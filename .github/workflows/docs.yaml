@@ -38,6 +38,9 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+      - name: Install dependencies
+        working-directory: ./docs
+        run: bun install
       - name: Build Docs
         working-directory: ./docs
         run: bun run build
