@@ -1,15 +1,11 @@
-'workspace:component': [ "components/**" ]
-'workspace:base': [ "bases/**" ]
-
-'components:commons':
-  - "components/logger/**"
-  - "components/config/**"
-  - "components/http-kit/**"
-  - "components/testing/**"
-  - "components/serdes/**"
-  - "components/webserver/**"
-  - "components/database/**"
-  - "components/feature-flag/**"
-  - "components/data-cloak/**"
+'components:logger': ["components/logger/**"]
+'components:config': ["components/config/**"]
+'components:http-kit': ["components/http-kit/**"]
+'components:testing': ["components/testing/**"]
+'components:serdes': ["components/serdes/**"]
+'components:webserver': ["components/webserver/**"]
+'components:database': ["components/database/**"]
+'components:feature-flag': ["components/feature-flag/**"]
+'components:data-cloak': ["components/data-cloak/**"]
 
 'documentation': [ "**/README.md", "**/readme.md" ]
