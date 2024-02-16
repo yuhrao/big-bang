@@ -38,9 +38,16 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+
+      - name: Install dependencies
+        working-directory: ./docs
+        run: bun install
+      - name: debug
+        run: ls ./docs/node_modules
       - name: Build Docs
         working-directory: ./docs
-        run: bun install & bun run build
+        run: bun run build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
