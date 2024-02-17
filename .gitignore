@@ -40,3 +40,5 @@ big-bang.iml
 .portal
 .lsp
 .clj-kondo
+docs/build
+**/node_modules
