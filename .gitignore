@@ -42,3 +42,4 @@ big-bang.iml
 .clj-kondo
 docs/build
 **/node_modules
+docs/docs
