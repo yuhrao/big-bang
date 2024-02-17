@@ -10,7 +10,7 @@
   ```clojure
   (require '[yuhrao.data-cloak.core.string :as dc.string]
            '[yuhrao.data-cloak.core.map :as dc.map])
-  (dc.map/obscure {:password dc.string/all} {:password \"1234\") => {:password \"****\")
+  (dc.map/obscure {:password dc.string/all} {:password \"1234\"}) ;;=> {:password \"****\")
   ```
   "
   [obscure-fns m]
