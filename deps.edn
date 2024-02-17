@@ -45,15 +45,9 @@
            :local {:extra-deps {big-bang/testing {:local/root "./components/testing"}}}
 
            :build {:deps       {io.github.clojure/tools.build {:git/tag "v0.9.6" :git/sha "8e78bcc"}
-                                slipset/deps-deploy           {:mvn/version "RELEASE"}}
+                                slipset/deps-deploy           {:mvn/version "RELEASE"}
+                                babashka/fs       {:mvn/version "0.5.20"}}
                    :ns-default build}
-
-           :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
-                    :exec-fn    deps-deploy.deps-deploy/deploy
-                    :exec-args  {:installer      :remote
-                                 :sign-releases? true
-                                 :sign-key-id    "B07787AC8C82B9B2"
-                                 :artifact       "target/data-cloak.jar"}}
 
            :doc {:extra-deps {io.github.dundalek/dinodoc {:git/tag "v0.1.0" :git/sha "abb8482"}}
                  :main-opts  ["doc.clj"]}

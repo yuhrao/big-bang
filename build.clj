@@ -1,6 +1,7 @@
 (ns build
   (:require [clojure.tools.build.api :as b]
             [deps-deploy.deps-deploy :as d]
+            [babashka.fs :as fs]
             [clojure.string :as string]))
 
 (def version (as-> (b/git-process {:git-args "tag"}) $
@@ -39,7 +40,8 @@
 (defn clean [_]
   (println "Cleaning up builds")
   (doseq [component components]
-    (b/delete {:path (format "components/%s/target" component)})))
+    (fs/delete-if-exists (format "components/%s/target" component))
+    (fs/delete-if-exists (format "%s-%s.pom.asc" component version))))
 
 (defn jar [_]
   (clean nil)
@@ -52,8 +54,7 @@
     (println "Deploying:" component "=====================")
     (d/deploy
      {:installer      :remote
-      :sign-releases? true
-      :sign-key-id    "B07787AC8C82B9B2"
+      :sign-releases? false
       :pom-file       (format "components/%s/target/classes/META-INF/maven/%s/%s/pom.xml" component group-name component)
       :artifact       (format "components/%s/target/%s.jar" component component)})
     (println "============================================")))
