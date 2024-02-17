@@ -1,5 +1,5 @@
 [![Deploy static content to Pages](https://github.com/yuhrao/big-bang/actions/workflows/docs.yaml/badge.svg?branch=main)](https://yuhrao.github.io/big-bang/)
-    ![Banner](docs/static/img/big-bang-banner.png)
+![Banner](/docs/static/img/big-bang-banner.png)
 
 # big-bang
 

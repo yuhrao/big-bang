@@ -58,7 +58,7 @@ jobs:
           key: cljdeps-${{ hashFiles('deps.edn', 'bb.edn') }}
           restore-keys: cljdeps-
       - name: Fix broken images
-        run: sed -i 's/\/docs\/static\/img\/big-bang-banner.png/\/img\/big-bang-banner.png/g' README.md && cp README.md ./docs/README.md
+        run: sed -i 's/\/docs\/static//g' README.md && cp README.md ./docs/README.md
 
       - name: Generate from cljdocs
         run: clojure -M:doc
