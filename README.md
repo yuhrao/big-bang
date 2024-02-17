@@ -79,3 +79,4 @@ poly test :dev
 ## To Do
 
 - [ ] Migrate JSON serde to Charred
+- [ ] Github Action for deploy
