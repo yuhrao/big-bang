@@ -47,9 +47,6 @@ jobs:
           cli: '1.11.1.1413'
           bb: '1.3.181'
 
-      - name: Generate from cljdocs
-        run: clj -M:doc
-
       - name: Cache clojure dependencies
         uses: actions/cache@v3
         with:
@@ -60,6 +57,9 @@ jobs:
           # List all files containing dependencies:
           key: cljdeps-${{ hashFiles('deps.edn', 'bb.edn') }}
           restore-keys: cljdeps-
+
+      - name: Generate from cljdocs
+        run: clojure -M:doc
 
       - name: Configure Bun
         uses: oven-sh/setup-bun@v1
