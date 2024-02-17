@@ -2,11 +2,9 @@
   (:require [dinodoc.api :as dinodoc]
             [babashka.fs :as fs]))
 
-(def doc-tree [["Polylith" {:file "README.md"}]]) ;; (1)
+(def doc-tree [["Big Bang" {:file "README.md"}]]) ;; (1)
 
-;;(def components ["config" "data-cloak" "database" "feature-flag" "http-client" "logger" "serdes" "webserver"])
-;;
-  (def components ["config" "data-cloak" "database" "feature-flag" "http-client" "logger" "serdes" "webserver"])
+(def components ["config" "data-cloak" "database" "feature-flag" "http-client" "logger" "serdes" "webserver"])
 
 (dinodoc/generate
  {:inputs (concat
