@@ -1,50 +1,64 @@
-The Polylith documentation can be found here:
-
-- The [high-level documentation](https://polylith.gitbook.io/polylith)
-- The [Polylith Tool documentation](https://github.com/polyfy/polylith)
-- The [RealWorld example app documentation](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app)
-
-You can also get in touch with the Polylith Team via our [forum](https://polylith.freeflarum.com) or
-on [Slack](https://clojurians.slack.com/archives/C013B7MQHJQ).
+    [![Deploy static content to Pages](https://github.com/yuhrao/big-bang/actions/workflows/docs.yaml/badge.svg?branch=main)](https://yuhrao.github.io/big-bang/)
+![Banner](docs/static/img/big-bang-banner.png)
 
 # big-bang
 
-Where everything begins...
+My personal set of components to build apps.
 
-<!-- TOC -->
 
-* [big-bang](#big-bang)
-    * [Components](#components)
-    * [3rd party components](#3rd-party-components)
+### Components
+| Component    | Description                                           | Clojars                                                                                         |
+|--------------|-------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| config       | manage configuration                                  | ![clojars version](https://img.shields.io/clojars/v/io.github.yuhrao%2fconfig?style=flat)       |
+| data-cloak   | Obscure data for security                             | ![Clojars Version](https://img.shields.io/clojars/v/io.github.yuhrao%2Fdata-cloak?style=flat)   |
+| database     | Handle database oprations                             | ![Clojars Version](https://img.shields.io/clojars/v/io.github.yuhrao%2Fdatabase?style=flat)     |
+| feature-flag | Manage app features with different rollout strategies | ![Clojars Version](https://img.shields.io/clojars/v/io.github.yuhrao%2Ffeature-flag?style=flat) |
+| http-client  | HTTP requests                                         | ![Clojars Version](https://img.shields.io/clojars/v/io.github.yuhrao%2Fhttp-client?style=flat)  |
+| logger       | Write logs to variou targets                          | ![Clojars Version](https://img.shields.io/clojars/v/io.github.yuhrao%2Flogger?style=flat)       |
+| serdes       | Content Negotiation                                   | ![Clojars Version](https://img.shields.io/clojars/v/io.github.yuhrao%2Fserdes?style=flat)       |
+| webserver    | Full-featured Web Server                              | ![Clojars Version](https://img.shields.io/clojars/v/io.github.yuhrao%2Fwebserver?style=flat)    |
 
-<!-- TOC -->
 
-## Components
+<!-- Markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
 
-| Name         | Description                                                                           |
-|--------------|---------------------------------------------------------------------------------------|
-| Config       | Manage configurations. Get 'em from environment variables or system properties        |
-| Database     | Interact with databases (mainly SQL) running migrations, executing DML and DQL in it. |
-| Logger       | Logging features with normalizations and context.                                     |
-| Webserver    | Run fully featured webservers with serialization/deserialization and swagger docs     |
-| Feature Flag | Handle everything related with feature flags (uses Unleash)                           |
-| Serdes       | Data Serialization and Deserialization                                                |
-| HTTP Client  | Execute HTTP requests                                                                 |
-| Data Cloak   | Obscure sensitive data                                                                |
+- [big-bang](#big-bang)
+    - [Development Highlights](#development-highlights)
+        - [Third-party Components to Explore](#third-party-components-to-explore)
+        - [Useful Dev Tools](#useful-dev-tools)
+    - [Dev](#dev)
+        - [Polylith](#polylith)
+        - [Scripts](#scripts)
+    - [Run tests](#run-tests)
+    - [To Do](#to-do)
 
-## 3rd party components
+<!-- markdown-toc end -->
 
-- [Directus](https://github.com/directus/directus)
-- [Unleash](https://github.com/Unleash/unleash)
-- [Kinde Auth](https://yuhrao.kinde.com/admin) (Authorization Layer for HTTP)
-- [Rollbar](https://rollbar.com/): Track exceptions (clj lib: [rollcage](https://github.com/circleci/rollcage))
-- [Resend](https://resend.com/)
+## Development Highlights
 
-### Dev Stuff
-Some dev stuff I'm using that's helping a lot to run everything locally.
-- [MailSlurper](https://www.mailslurper.com/)
+### Third-party Components to Explore
 
-## Dev Scripts
+- [Directus](https://github.com/directus/directus) - Headless CMS
+- [Unleash](https://github.com/Unleash/unleash) - Feature flagging framework
+- [Kinde Auth](https://yuhrao.kinde.com/admin) - Authorization layer for HTTP services
+- [Rollbar](https://rollbar.com/) - Exception tracking (Clojure lib: [rollcage](https://github.com/circleci/rollcage))
+
+### Useful Dev Tools
+
+- [MailSlurper](https://www.mailslurper.com/) - Local email testing serveR
+
+## Dev
+### Polylith
+
+Find comprehensive guides and documentation to help you start working with Polylith as quickly as possible:
+
+- [Polylith Overview](https://polylith.gitbook.io/polylith)
+- [Polylith Tool Documentation](https://github.com/polyfy/polylith)
+- [RealWorld Example App](https://github.com/furkan3ayraktar/clojure-polylith-realworld-example-app)
+
+You can also get in touch with the Polylith Team via our [forum](https://polylith.freeflarum.com) or
+on [Slack](https://clojurians.slack.com/archives/C013B7MQHJQ).
+### Scripts
 
 ## Run tests
 
@@ -64,7 +78,4 @@ poly test :dev
 
 ## To Do
 
-- [ ] Create API to get devices and brands
-- [ ] Create PR in openmidi to fulfill missing device data
 - [ ] Migrate JSON serde to Charred
-- [ ] Write down tests for REST schemas (commons and specific)
