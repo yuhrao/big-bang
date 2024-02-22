@@ -18,29 +18,31 @@
 (defn build-component [component]
   (let [lib (symbol group-name component)
         class-dir (format "components/%s/target/classes" component)
-        jar-file (format "components/%s/target/%s.jar" component (name lib))]
+        jar-file (format "components/%s/target/%s.jar" component (name lib))
+        src-dir (format "components/%s/src" component)
+        resource-dir (format "components/%s/resources" component)]
     (b/write-pom {:class-dir class-dir
                   :lib lib
                   :version version
                   :basis @basis
-                  :src-dirs ["src"]
+                  :src-dirs [src-dir]
                   :src-pom (format "components/%s/pom.xml" component)
                   :pom-data [[:licenses
                               [:license
                                [:name "Eclipse Public License 1.0"]
                                [:url "https://opensource.org/license/epl-1-0/"]]]]})
-    (b/copy-dir {:src-dirs ["src" "resources"]
+    (b/copy-dir {:src-dirs [src-dir resource-dir]
                  :target-dir class-dir})
     (b/jar {:class-dir class-dir
             :jar-file jar-file})))
 
 (def components ["config" "data-cloak" "database" "feature-flag" "http-client" "logger" "serdes" "webserver"])
-;; (def components ["config"])
 
 (defn clean [_]
   (println "Cleaning up builds")
   (doseq [component components]
-    (fs/delete-if-exists (format "components/%s/target" component))
+  (println "Cleaning" component)
+    (fs/delete-tree (fs/file (format "components/%s/target" component)))
     (fs/delete-if-exists (format "%s-%s.pom.asc" component version))))
 
 (defn jar [_]
@@ -55,6 +57,7 @@
     (d/deploy
      {:installer      :remote
       :sign-releases? false
-      :pom-file       (format "components/%s/target/classes/META-INF/maven/%s/%s/pom.xml" component group-name component)
-      :artifact       (format "components/%s/target/%s.jar" component component)})
+      :pom-file       (b/pom-path {:lib       (symbol group-name component)
+                                   :class-dir (format "components/%s/target/classes" component)})
+      :artifact       (b/resolve-path (format "components/%s/target/%s.jar" component component))})
     (println "============================================")))
