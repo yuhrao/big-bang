@@ -1,5 +1,5 @@
 {:paths ["src" "resources"]
- :deps  {big-bang/serdes {:local/root "../serdes"}
+ :deps  {io.github.yuhrao/serdes {:mvn/version "2.0.3"}
 
          camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
          dev.weavejester/medley              {:mvn/version "1.7.0"}

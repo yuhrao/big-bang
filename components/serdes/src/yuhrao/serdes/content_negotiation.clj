@@ -9,7 +9,7 @@
             [muuntaja.format.form :as mtj.form]))
 
 ;; Accept what the user want to receive (consider Accept header)
-(defn extract-content-type [req]
+(defn extract-content-type [req-or-res]
   (let [headers (some->> req-or-res
                          :headers
                          (cske/transform-keys csk/->kebab-case-keyword))]

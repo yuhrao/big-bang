@@ -12,9 +12,6 @@
 
 (def group-name "io.github.yuhrao")
 
-;; delay to defer side effects (artifact downloads)
-(def basis (delay (b/create-basis {:project "deps.edn"})))
-
 (defn build-component [component]
   (let [lib (symbol group-name component)
         class-dir (format "components/%s/target/classes" component)
@@ -24,7 +21,7 @@
     (b/write-pom {:class-dir class-dir
                   :lib lib
                   :version version
-                  :basis @basis
+                  :basis (b/create-basis {:project (format "components/%s/deps.edn" component)})
                   :src-dirs [src-dir]
                   :src-pom (format "components/%s/pom.xml" component)
                   :pom-data [[:licenses
@@ -36,7 +33,7 @@
     (b/jar {:class-dir class-dir
             :jar-file jar-file})))
 
-(def components ["config" "data-cloak" "database" "feature-flag" "http-client" "logger" "serdes" "webserver"])
+(def components ["config" "data-cloak" "logger" "serdes" "feature-flag" "http-client" "database" "webserver"])
 
 (defn clean [_]
   (println "Cleaning up builds")
