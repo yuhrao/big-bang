@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added:
+- `serdes`: plain text serdes
+- `serdes`: mime types map
+- `http-client`: new `:content-type` option for requests
+
+### Removed
+- `database`: commented out tests for now. They'll be worked on with more attention later.
+
+### BREAKING
+- `serdes`: content type defaults to `plain/text`
+
 ## 2.0.2
 
 ### Added
