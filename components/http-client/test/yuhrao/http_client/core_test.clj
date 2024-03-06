@@ -26,12 +26,16 @@
    (t/testing "requests with body"
      (let [req-body {:test true}
            req {:method  :post
-                :headers {:x-custom-header "value"}
+                :headers {:x-custom-header "value"
+                          :accept "application/json"
+                          :content-type "application/json"}
                 :save-request? true
                 :body req-body
                 :path "/post"}]
        (t/is (match?
-               {:request {:headers {"X-Custom-Header" "value"}
+               {:request {:headers {"X-Custom-Header" "value"
+                                    "Accept" "application/json"
+                                    "Content-Type" "application/json"}
                           :uri       (URI/create "https://postman-echo.com/post")
                           :method    :post}
                 :status  200

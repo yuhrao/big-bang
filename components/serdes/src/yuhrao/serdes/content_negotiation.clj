@@ -2,6 +2,7 @@
   (:require [yuhrao.serdes.content-negotiation.json :as cn.json]
             [yuhrao.serdes.content-negotiation.yaml :as cn.yaml]
             [yuhrao.serdes.content-negotiation.html :as cn.html]
+            [yuhrao.serdes.content-negotiation.plain-text :as cn.plain-text]
             [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]
             [clojure.string :as string]
@@ -31,17 +32,19 @@
 
 (def default-opts
   (-> mtj/default-options
-      (assoc-in [:formats "application/json"]
+      (assoc :default-format cn.plain-text/mime-type)
+      (assoc-in [:formats cn.json/mime-type]
                 cn.json/json-format)
       (assoc-in [:formats "application/x-www-form-urlencoded"]
                 mtj.form/format)
-      (assoc-in [:formats "application/yaml"]
+      (assoc-in [:formats cn.yaml/mime-type]
                 cn.yaml/yaml-format)
-      (assoc-in [:formats "text/html"]
+      (assoc-in [:formats cn.html/mime-type]
                 cn.html/html-format)
+      (assoc-in [:formats cn.plain-text/mime-type]
+                cn.plain-text/plain-text-format)
       (assoc-in [:http :extract-content-type] extract-content-type)
       (assoc-in [:http :extract-accept] extract-accept)))
-
 
 (def muuntaja
   (mtj/create default-opts))
@@ -49,7 +52,6 @@
 (defn create-instance
   [{:keys [json-opts]}]
   (cond-> default-opts
-
           (:encoder json-opts)
           (assoc-in [:formats "application/json" :encoder-opts] (:encoder json-opts))
           (:decoder json-opts)

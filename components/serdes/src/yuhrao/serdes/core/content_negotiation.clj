@@ -9,14 +9,20 @@
 (defn extract-content-type
   "Extract content type from request or response.
   If it's not present, defaults to application/json"
-  [req-or-res]
-  (content-negotiation/extract-content-type req-or-res))
+  ([req-or-res]
+   (extract-content-type req-or-res nil))
+  ([req-or-res not-found]
+   (or (content-negotiation/extract-content-type req-or-res)
+       not-found)))
 
 (defn extract-accept
   "Extract accept from request.
   If it's not present, defaults to application/json"
-  [req]
-  (content-negotiation/extract-accept req))
+  ([req]
+   (extract-accept req nil))
+  ([req not-found]
+   (or (content-negotiation/extract-accept req)
+       not-found)))
 
 (defn encode
   "Encode a value into a specified format (e.g. application/json)"

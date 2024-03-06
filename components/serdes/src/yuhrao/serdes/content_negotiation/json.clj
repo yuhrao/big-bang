@@ -9,16 +9,20 @@
                     OutputStream
                     Writer)))
 
+(def mime-type "application/json")
+
 (defn encoder-key-fn [k]
   (cond
     (number? k) (str k)
     (keyword? k) (name k)
     :else k))
 
+(def temporal?
+  (some-fn tick/date? tick/date-time? tick/duration? tick/instant? tick/zoned-date-time?))
+
 (defn- value-writer [_k v]
   (cond
-    (tick/date? v) (tick/format v)
-    (tick/date-time? v) (tick/format v)
+    (temporal? v) (tick/format v)
     :else v))
 
 (defn clj->json [x _opts]
@@ -63,6 +67,6 @@
 
 (def json-format
   (mtj.core/map->Format
-    {:name    "application/json"
+    {:name    mime-type
      :decoder [decoder]
      :encoder [encoder]}))
