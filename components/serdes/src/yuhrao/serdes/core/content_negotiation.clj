@@ -37,3 +37,10 @@
    (decode (muuntaja) format v))
   ([muuntaja format v]
    (content-negotiation/decode muuntaja format v)))
+
+;; TODO: unify this because it's declared in various places
+(def mime-types
+  {:json "application/json"
+   :html "text/html"
+   :yaml "application/yaml"
+   :edn "application/edn"})

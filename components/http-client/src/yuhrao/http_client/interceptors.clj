@@ -15,9 +15,7 @@
    :response    (fn [res]
                   (update res :headers (partial cske/transform-keys csk/->kebab-case-keyword)))})
 
-(def ^:private mime-types {:json "application/json"
-                           :edn  "application/edn"
-                           :yaml "application/yaml"})
+(def ^:private mime-types content-negotiation/mime-types)
 
 (def content-negotiation
   {:name        ::content-negotiation
