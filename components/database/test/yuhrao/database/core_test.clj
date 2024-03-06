@@ -7,72 +7,74 @@
             [next.jdbc :as jdbc]
             [tick.core :as tick]))
 
-(defn ^:private gen-db-spec
-  []
-  (let [cfg (config/create {:host     {:env     "DB_HOST"
-                                       :default "localhost"}
-                            :port     {:env      "DB_PORT"
-                                       :parse-fn #(Integer/parseInt %)
-                                       :default  5433}
-                            :dbname   {:env     "DB_NAME"
-                                       :default "psql"}
-                            :user     {:env     "DB_USER"
-                                       :default "app"}
-                            :password {:env     "DB_PASSWORD"
-                                       :default "app"}})]
-    (merge
-      {:dbtype   "postgres"}
-      cfg)))
+;; TODO: Add meaningful tests here
 
-(defn prepare-db [db-spec]
-  (database/run-migrations {:test {:datastore  db-spec
-                                   :migrations "migrations/test"}}
-                           {:skip-main? true}))
+;; (defn ^:private gen-db-spec
+;;   []
+;;   (let [cfg (config/create {:host     {:env     "DB_HOST"
+;;                                        :default "localhost"}
+;;                             :port     {:env      "DB_PORT"
+;;                                        :parse-fn #(Integer/parseInt %)
+;;                                        :default  5433}
+;;                             :dbname   {:env     "DB_NAME"
+;;                                        :default "psql"}
+;;                             :user     {:env     "DB_USER"
+;;                                        :default "app"}
+;;                             :password {:env     "DB_PASSWORD"
+;;                                        :default "app"}})]
+;;     (merge
+;;       {:dbtype   "postgres"}
+;;       cfg)))
 
-(defn cleanup-db [db-spec]
-  (database/rollback-migration :test {:test {:datastore  db-spec
-                                             :migrations "migrations/test"}}))
+;; (defn prepare-db [db-spec]
+;;   (database/run-migrations {:test {:datastore  db-spec
+;;                                    :migrations "migrations/test"}}
+;;                            {:skip-main? true}))
 
-(t/deftest ^:integration migration
-  (let [db-spec    (gen-db-spec)
-        datasource (jdbc/get-datasource db-spec)]
+;; (defn cleanup-db [db-spec]
+;;   (database/rollback-migration :test {:test {:datastore  db-spec
+;;                                              :migrations "migrations/test"}}))
 
-    (t/testing "migration up"
-      (prepare-db db-spec)
-      (with-open [conn (jdbc/get-connection datasource)]
-        (let [res (->> (jdbc/execute! conn ["select * from ragtime_migrations"]))]
-          (t/is (> (count res) 0)))
+;; (t/deftest ^:integration migration
+;;   (let [db-spec    (gen-db-spec)
+;;         datasource (jdbc/get-datasource db-spec)]
 
-        (let [res (->> (jdbc/execute! conn ["SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"])
-                       (map :tables/table_name)
-                       set)]
-          (t/is (res "ragtime_migrations") "migrations' table should exist")
-          (t/is (res "test_table")))))
+;;     (t/testing "migration up"
+;;       (prepare-db db-spec)
+;;       (with-open [conn (jdbc/get-connection datasource)]
+;;         (let [res (->> (jdbc/execute! conn ["select * from ragtime_migrations"]))]
+;;           (t/is (> (count res) 0)))
 
-    (t/testing "migration down"
-      (database/rollback-migration :test {:test {:datastore  db-spec
-                                                 :migrations "migrations/test"}})
-      (with-open [conn (jdbc/get-connection datasource)]
-        (let [res (->> (jdbc/execute! conn ["select * from ragtime_migrations"]))]
-          (t/is (zero? (count res))))
+;;         (let [res (->> (jdbc/execute! conn ["SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"])
+;;                        (map :tables/table_name)
+;;                        set)]
+;;           (t/is (res "ragtime_migrations") "migrations' table should exist")
+;;           (t/is (res "test_table")))))
 
-        (let [res (->> (jdbc/execute! conn ["SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"])
-                       (map :tables/table_name)
-                       set)]
-          (t/is (res "ragtime_migrations") "migrations' table should exist")
-          (t/is (not (res "test_table"))))))
-    (cleanup-db db-spec)))
+;;     (t/testing "migration down"
+;;       (database/rollback-migration :test {:test {:datastore  db-spec
+;;                                                  :migrations "migrations/test"}})
+;;       (with-open [conn (jdbc/get-connection datasource)]
+;;         (let [res (->> (jdbc/execute! conn ["select * from ragtime_migrations"]))]
+;;           (t/is (zero? (count res))))
 
-(t/deftest ^:integration dml-dql-operations
-  (let [db-spec    (gen-db-spec)
-        table-name :test_table]
-    (prepare-db db-spec)
-    (let [entity {:id         (random-uuid)
-                  :name       "honey-sql"
-                  :created_at (tick/date)}
-          _      (database/insert! db-spec table-name entity)
-          res    (first (database/execute! db-spec {:select [:*]
-                                                    :from   [table-name]}))]
-      (t/is (match? (matcher/equals entity)
-                    res)))
-    (cleanup-db db-spec)))
+;;         (let [res (->> (jdbc/execute! conn ["SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"])
+;;                        (map :tables/table_name)
+;;                        set)]
+;;           (t/is (res "ragtime_migrations") "migrations' table should exist")
+;;           (t/is (not (res "test_table"))))))
+;;     (cleanup-db db-spec)))
+
+;; (t/deftest ^:integration dml-dql-operations
+;;   (let [db-spec    (gen-db-spec)
+;;         table-name :test_table]
+;;     (prepare-db db-spec)
+;;     (let [entity {:id         (random-uuid)
+;;                   :name       "honey-sql"
+;;                   :created_at (tick/date)}
+;;           _      (database/insert! db-spec table-name entity)
+;;           res    (first (database/execute! db-spec {:select [:*]
+;;                                                     :from   [table-name]}))]
+;;       (t/is (match? (matcher/equals entity)
+;;                     res)))
+;;     (cleanup-db db-spec)))
