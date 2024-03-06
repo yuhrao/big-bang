@@ -42,19 +42,22 @@
     (fs/delete-tree (fs/file (format "components/%s/target" component)))
     (fs/delete-if-exists (format "%s-%s.pom.asc" component version))))
 
-(defn jar [_]
+(defn deploy [component]
+  (println "Deploying:" component "=====================")
+  (d/deploy
+   {:installer      :remote
+    :sign-releases? false
+    :pom-file       (b/pom-path {:lib       (symbol group-name component)
+                                 :class-dir (format "components/%s/target/classes" component)})
+    :artifact       (b/resolve-path (format "components/%s/target/%s.jar" component component))})
+  (println "============================================"))
+
+(defn build [{:keys [deploy?]
+              :or {deploy? false}
+              :as _opts}]
   (clean nil)
   (doseq [component components]
     (println "Building:" component)
-    (build-component component)))
-
-(defn deploy [_]
-  (doseq [component components]
-    (println "Deploying:" component "=====================")
-    (d/deploy
-     {:installer      :remote
-      :sign-releases? false
-      :pom-file       (b/pom-path {:lib       (symbol group-name component)
-                                   :class-dir (format "components/%s/target/classes" component)})
-      :artifact       (b/resolve-path (format "components/%s/target/%s.jar" component component))})
-    (println "============================================")))
+    (build-component component)
+    (when deploy?
+      (deploy component))))
