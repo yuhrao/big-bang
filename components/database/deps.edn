@@ -1,7 +1,7 @@
 {:paths ["src" "resources"]
  :deps  {org.clojure/clojure {:mvn/version "1.11.1"}
 
-         io.github.yuhrao/serdes {:mvn/version "2.0.3"}
+         io.github.yuhrao/serdes {:mvn/version "2.0.4"}
 
          camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
 
