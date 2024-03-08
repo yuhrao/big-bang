@@ -3,7 +3,7 @@
 
          camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
          dev.weavejester/medley              {:mvn/version "1.7.0"}
-         org.babashka/http-client            {:mvn/version "0.4.15"}}
+         org.babashka/http-client            {:mvn/version "0.4.16"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {big-bang/testing {:local/root "../testing"}}}}}
 

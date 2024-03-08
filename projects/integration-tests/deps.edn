@@ -1,5 +1,5 @@
 {:deps    {org.clojure/clojure    {:mvn/version "1.11.1"}
-           org.clojure/tools.deps {:mvn/version "0.18.1394"}
+           org.clojure/tools.deps {:mvn/version "0.18.1398"}
            big-bang/database      {:local/root "../../components/database"}
            big-bang/config        {:local/root "../../components/config"}
            big-bang/feature-flag  {:local/root "../../components/feature-flag"}
