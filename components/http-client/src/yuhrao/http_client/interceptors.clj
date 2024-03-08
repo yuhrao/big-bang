@@ -1,10 +1,10 @@
 (ns yuhrao.http-client.interceptors
   (:require
-    [yuhrao.serdes.core.content-negotiation :as content-negotiation]
-    [babashka.http-client.interceptors :as bb.interceptors]
-    [babashka.http-client]
-    [camel-snake-kebab.core :as csk]
-    [camel-snake-kebab.extras :as cske])
+   [yuhrao.serdes.core.content-negotiation :as content-negotiation]
+   [babashka.http-client.interceptors :as bb.interceptors]
+   [babashka.http-client]
+   [camel-snake-kebab.core :as csk]
+   [camel-snake-kebab.extras :as cske])
   (:import (clojure.lang ExceptionInfo)))
 
 (def format-headers
@@ -15,23 +15,31 @@
    :response    (fn [res]
                   (update res :headers (partial cske/transform-keys csk/->kebab-case-keyword)))})
 
+(def ^:private mime-types content-negotiation/mime-types)
+
 (def content-negotiation
   {:name        ::content-negotiation
    :description "Handle content negotiation through Muuntaja"
-   :request     (fn [req]
+   :request     (fn [{:keys [content-type] :as req}]
                   (if (:body req)
-                    (let [fmt (content-negotiation/extract-content-type req)]
+                    (let [fmt (or
+                               (mime-types content-type)
+                               (content-negotiation/extract-content-type req "plain/text"))
+                          req (if content-type
+                                (assoc-in req [:headers "Content-Type"] fmt)
+                                req)]
                       (try
                         (-> req
-                          (assoc-in [:headers :content-type] fmt)
-                          (update :body #(content-negotiation/encode fmt %)))
+                            (assoc-in [:headers :content-type] fmt)
+                            (update :body #(content-negotiation/encode fmt %)))
                         (catch ExceptionInfo e
                           (throw (ex-info "Failed to encode body"
                                           (assoc (ex-data e) :payload (:body req)))))))
                     req))
    :response    (fn [res]
+                  (tap> res)
                   (if (:body res)
-                    (let [fmt (content-negotiation/extract-content-type res)]
+                    (let [fmt (content-negotiation/extract-content-type res "plain/text")]
                       (try
                         (update res :body #(content-negotiation/decode fmt %))
                         (catch ExceptionInfo e

@@ -1,30 +1,29 @@
 (ns yuhrao.webserver.core-test
   (:require
-    [yuhrao.serdes.core.content-negotiation :as content-negotiation]
-    [yuhrao.webserver.core :as ws]
-    [yuhrao.http-client.core :as http]
-    [clojure.test :as t]
-    [matcher-combinators.matchers :as matcher]
-    [matcher-combinators.test]
-    [muuntaja.core :as mtj]
-    
-    [yuhrao.data-cloak.core.string :as dc.string])
-  (:import (clojure.lang ExceptionInfo)))
+   [yuhrao.serdes.core.content-negotiation :as content-negotiation]
+   [yuhrao.webserver.core :as ws]
+   [yuhrao.http-client.core :as http]
+   [clojure.test :as t]
+   [matcher-combinators.matchers :as matcher]
+   [matcher-combinators.test]
+   [muuntaja.core :as mtj]
+
+   [yuhrao.data-cloak.core.string :as dc.string]))
 
 (defn- prepare-request [{:keys [body headers] :as req}]
   (cond-> req
-          body (assoc :body (mtj/encode
-                              (content-negotiation/muuntaja)
-                              (get "Content-Type" headers "application/json")
-                              body))))
+    body (assoc :body (mtj/encode
+                       (content-negotiation/muuntaja)
+                       (get "Content-Type" headers "application/json")
+                       body))))
 
 (defn- parse-response
   [{:keys [body headers] :as res}]
   (cond-> res
-          body (assoc :body (mtj/decode
-                              (content-negotiation/muuntaja)
-                              (get "Content-Type" headers "application/json")
-                              body))))
+    body (assoc :body (mtj/decode
+                       (content-negotiation/muuntaja)
+                       (get "Content-Type" headers "application/json")
+                       body))))
 
 (t/deftest app-tests
   (let [routes [["/test"
@@ -40,10 +39,11 @@
                                          :handler    (fn [_req]
 
                                                        {:status 200})}}]]]
-        app    (ws/app {:routes        routes
-                        :disable-logs? true})]
+        app (ws/app {:routes        routes
+                     :disable-logs? true})]
     (t/testing "route request"
       (let [req {:request-method :get
+                 :headers        {"Accept" "application/json"}
                  :uri            "/test"}
             res (-> req prepare-request app parse-response)]
         (t/is (match? {:status  200
@@ -55,23 +55,26 @@
     (t/testing "request validation"
       (let [req {:request-method :get
                  :uri            "/test/validate/1234"
+                 :headers        {"Accept" "application/json"
+                                  "Content-Type" "application/json"}
                  :body           {:name "john"}}
             res (-> req prepare-request app parse-response)]
         (t/is (match? {:status 200}
                       res)))
       (t/is (match?
-              {:status 400}
-              (let [req {:request-method :get
-                         :uri            "/test/validate/abd"}]
-                (app req))))
+             {:status 400}
+             (let [req {:request-method :get
+                        :uri            "/test/validate/abd"}]
+               (app req))))
       (t/is (match?
-              {:status 400}
-              (let [req {:request-method :get
-                         :uri            "/test/validate/412"
-                         :body           (content-negotiation/encode
-                                           "application/json"
-                                           {:name 1})}]
-                (app req))))))
+             {:status 400}
+             (let [req {:request-method :get
+                        :uri            "/test/validate/412"
+                        :headers        {"Accept" "application/json"}
+                        :body           (content-negotiation/encode
+                                         "application/json"
+                                         {:name 1})}]
+               (app req))))))
   (t/testing "request parsing"
     (let [payload  {"Name"       "daniel"
                     "age"        12
@@ -87,19 +90,20 @@
                                                                                 [:birth-date :string]
                                                                                 [:camel-case :boolean]]}
                                                             :handler    (fn [{body    :body-params
-                                                                              headers :headers}]
+                                                                             headers :headers}]
                                                                           (t/is (match? expected body))
                                                                           (t/is {:custom-header "true"}
                                                                                 headers)
                                                                           {:status 200})}}]]
                             :disable-logs? true})]
       (->
-        {:request-method :get
-         :uri            "/test"
-         :headers        {"Custom-Header" "true"}
-         :body           payload}
-        prepare-request
-        app)))
+       {:request-method :get
+        :uri            "/test"
+        :headers        {"Custom-Header" "true"
+                         "Accept"        "application/json"}
+        :body           payload}
+       prepare-request
+       app)))
   (t/testing "custom middlewares"
     (let [assertion  (atom false)
           routes     [["/test" {:get {:handler (fn [req]
@@ -119,8 +123,8 @@
 (t/deftest web-server-test
   (let [routes [["/test"
                  ["/success/json" {:post (fn [_req]
-                                      {:status 200
-                                       :body   {:success true}})}]
+                                           {:status 200
+                                            :body   {:success true}})}]
                  ["/success/yaml" {:post (fn [_req]
                                            {:status 200
                                             :body   {:success true}
@@ -150,16 +154,17 @@
             (http/request http-client {:path   "/test/success/yaml"
                                        :method :post})))
     (tap> (http/request http-client {:path   "/test/success/yaml"
-                                       :method :post}))
+                                     :method :post}))
+    ;; TODO: fix these tests
     #_(t/testing "failure"
-      (t/is (thrown-match?
-              ExceptionInfo
-              {:status 400}
-              (http/post "http://localhost:3333/test/bad-request")))
-      (t/is (thrown-match?
-              ExceptionInfo
-              {:status 500}
-              (http/post "http://localhost:3333/test/server-error")))))
+        (t/is (thrown-match?
+               ExceptionInfo
+               {:status 400}
+               (http/post "http://localhost:3333/test/bad-request")))
+        (t/is (thrown-match?
+               ExceptionInfo
+               {:status 500}
+               (http/post "http://localhost:3333/test/server-error")))))
   (ws/stop! :test))
 
 (t/deftest swagger
@@ -188,22 +193,24 @@
 
     (ws/start! server-opts)
     (t/testing "swagger.json"
-      (let [res (http/request http-client {:path "/swagger.json"})]
+      (let [res (http/request http-client {:path "/swagger.json"
+                                           :headers {"Accept" "application/json"}})]
         (t/is (match? {:status 200
                        :body   (merge
-                                 {:swagger "2.0"
-                                  :paths   {(keyword "/test")      map?
-                                            (keyword "/test/{id}") map?}}
-                                 openapi)}
+                                {:swagger "2.0"
+                                 :paths   {(keyword "/test")      map?
+                                           (keyword "/test/{id}") map?}}
+                                openapi)}
                       res))))
     (t/testing "openapi.json"
-      (let [res (http/request http-client {:path "/openapi.json"})]
+      (let [res (http/request http-client {:path "/openapi.json"
+                                           :headers {"Accept" "application/json"}})]
         (t/is (match? {:status 200
                        :body   (merge
-                                 {:openapi "3.0.0"
-                                  :paths   {(keyword "/test")      map?
-                                            (keyword "/test/{id}") map?}}
-                                 openapi)}
+                                {:openapi "3.0.0"
+                                 :paths   {(keyword "/test")      map?
+                                           (keyword "/test/{id}") map?}}
+                                openapi)}
                       res))))
     (t/testing "swagger-ui"
       (let [res (http/request http-client {:path "/doc/index.html"})]
@@ -223,17 +230,18 @@
                                                 :handler   (constantly {:status :no-content})}}]]
                      :disable-logs? true})]
     (t/is (match?
-            {:status 200
-             :body   (matcher/equals {:email "ra*******il@gmail.com"})
-             :headers {"X-Custom" "****"}}
-            (-> {:request-method :get
-                 :uri            "/test/a"}
-                app
-                parse-response)))
+           {:status 200
+            :body   (matcher/equals {:email "ra*******il@gmail.com"})
+            :headers {"X-Custom" "****"}}
+           (-> {:request-method :get
+                :headers       {"Accept" "application/json"}
+                :uri            "/test/a"}
+               app
+               parse-response)))
     (t/is (match?
-              {:status 204
-               :headers {"X-Custom" matcher/absent}}
-              (-> {:request-method :get
-                   :uri            "/test/b"}
-                  app
-                  parse-response)))))
+           {:status 204
+            :headers {"X-Custom" matcher/absent}}
+           (-> {:request-method :get
+                :uri            "/test/b"}
+               app
+               parse-response)))))

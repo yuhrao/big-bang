@@ -24,8 +24,24 @@
 (t/deftest content-negotiation
   (let [{req-fn :request
          res-fn :response} http.interceptors/content-negotiation]
+    (t/testing "content-type option"
+      (let [payload           {:content-type :json}
+            payload-with-body (assoc payload :body {:test true})]
+        (t/is (match?
+                (matcher/equals
+                  payload)
+                (req-fn payload)))
+
+        (t/is (match?
+                (matcher/equals
+                 (-> payload-with-body
+                     (update :body json/clj->json)
+                     (assoc :headers {"Content-Type" "application/json"})))
+                (update (req-fn payload-with-body) :body #(when % (slurp %)))))))
+
     (t/testing "no body"
-      (let [payload {:headers {:content-type "application/json"}}]
+      (let [payload {:headers {:accept       "application/json"
+                               :content-type "application/json"}}]
         (t/is (match?
                 (matcher/equals
                   payload)
@@ -38,16 +54,11 @@
     (t/testing "no content type"
       (let [payload {:body {:test true}}]
         (t/is (match?
-                {:body (json/clj->json (:body payload))}
+               {:body (str (:body payload))}
                 (update (req-fn payload) :body #(when % (slurp %)))))
         (t/is (match?
-                (matcher/equals
-                  payload)
-                (res-fn (update payload :body json/clj->json))))
-        (t/is (match?
-                (matcher/equals
-                  payload)
-                (res-fn (update payload :body json/clj->json-stream))))))))
+               {:body (str (:body payload))}
+                (res-fn (update  payload :body str))))))))
 
 (t/deftest authorization
   (let [{req-fn :request} http.interceptors/authorization]

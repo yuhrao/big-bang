@@ -8,6 +8,8 @@
            (org.yaml.snakeyaml Yaml)
            (flatland.ordered.map OrderedMap)))
 
+(def mime-type "application/yaml")
+
 (defn- ordered-map->map [m]
   (->> m
        (map (fn [[k v]]
@@ -25,7 +27,7 @@
        (into {})
        (medley/remove-vals #(and (string? %) (string/blank? %)))))
 
-(defn decoder [{:keys [unsafe mark keywords] :or {keywords true}}]
+(defn decoder [{:keys [keywords] :or {keywords true}}]
   (reify
     core/Decode
     (decode [_ data _]
@@ -50,6 +52,6 @@
 
 (def yaml-format
   (core/map->Format
-    {:name    "application/yaml"
+    {:name    mime-type
      :decoder [decoder {:keywords true}]
      :encoder [encoder]}))

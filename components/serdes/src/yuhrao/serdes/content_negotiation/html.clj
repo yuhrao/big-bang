@@ -4,6 +4,8 @@
             [muuntaja.format.core :as mtj.core])
   (:import (java.io OutputStream Writer)))
 
+(def mime-type "text/html")
+
 (defn clj->html-str [v]
   (str (hiccup/html v)))
 
@@ -36,6 +38,6 @@
 
 (def html-format
   (mtj.core/map->Format
-   {:name    "text/html"
+   {:name    mime-type
     :decoder [decoder]
     :encoder [encoder]}))

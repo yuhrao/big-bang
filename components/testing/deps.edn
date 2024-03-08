@@ -4,7 +4,7 @@
             :git/tag   "v0.8.2"
             :git/sha   "d1fcd40"
             :deps/root "projects/kaocha-wrapper"}
-           nubank/matcher-combinators {:mvn/version "3.8.8"}}
+           nubank/matcher-combinators {:mvn/version "3.9.1"}}
  :aliases {:test {:extra-paths []
                   :extra-deps  {}}}}
 
