@@ -47,11 +47,15 @@
                                                (apply args)
                                                        ;; Hacky way to make it work because current swagger-ui
                                                        ;; supports only open api 3.0.n
-                                               (assoc-in [:body :openapi] "3.0.0")))}}]
+                                               (assoc-in [:body :openapi] "3.0.0")
+                                               (assoc :muuntaja/content-type "application/json")))}}]
                         ["/swagger.json"
                          {:get {:no-doc  true
                                 :swagger openapi
-                                :handler (r.swagger/create-swagger-handler)}}]
+                                :handler (fn [& args]
+                                           (-> (r.swagger/create-swagger-handler)
+                                               (apply args)
+                                               (assoc :muuntaja/content-type "application/json")))}}]
                         ["/doc/*" {:get {:no-doc  true
                                          :handler (r.swagger-ui/create-swagger-ui-handler
                                                    {:config {:validatorUrl     nil

@@ -22,7 +22,6 @@
          (.toByteArray)
          (ByteArrayInputStream.))]))
 
-
 (defn- assoc-body-str [{:keys [body] :as payload}]
   (cond
     (string? body)
@@ -43,8 +42,8 @@
   (let [route-data (route-data req)
         log-data   (-> req
                        (dissoc
-                         :reitit.core/match
-                         :reitit.core/router)
+                        :reitit.core/match
+                        :reitit.core/router)
                        (merge route-data))]
     (logger/info :request/received "request received" log-data)))
 
@@ -52,12 +51,14 @@
   {:name ::logger
    :wrap (fn [handler]
            (fn [{:keys [trace-id] :as req}]
-             (logger/with-context {:request/trace-id trace-id}
-                                  (logger/trace
-                                    :server/request
-                                    {:pairs   []
-                                     :capture identity}
-                                    (let [req (assoc-body-str req)]
-                                      (log-request req)
-                                      (assoc-body-str (handler req)))))))})
+             (if (logger/running?)
+               (logger/with-context {:request/trace-id trace-id}
+                 (logger/trace
+                  :server/request
+                   {:pairs   []
+                    :capture identity}
+                   (let [req (assoc-body-str req)]
+                     (log-request req)
+                     (assoc-body-str (handler req)))))
+               (handler req))))})
 

@@ -3,6 +3,9 @@
             [yuhrao.logger.log :as i.log]
             [com.brunobonacci.mulog :as u]))
 
+(defn running? []
+  (= :up (:status @i.logger/current-logger)))
+
 (defn setup!
   "Start and configure the logger
   opts:
@@ -64,7 +67,7 @@
   `(u/with-context ~context-map ~@body))
 
 (defmacro trace
-"Traces the execution of an operation with the outcome and the time
+  "Traces the execution of an operation with the outcome and the time
   taken in nanoseconds.
 
   ### Track duration and outcome (errors)
