@@ -3,8 +3,6 @@
             [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]))
 
-(defonce dbg (atom {}))
-
 (defn- create-obscurer-for [obscurers k]
   (if-let [obscure-fns (obscurers k)]
     (dc.map/obscurer (merge obscure-fns
@@ -13,7 +11,7 @@
 
 (def obscurer-middleware
   {:name    ::obscurer
-   :compile (fn [{:keys [obscurers]} opts]
+   :compile (fn [{:keys [obscurers]} _opts]
               (if (map? obscurers)
                 (let [body-obscurer   (create-obscurer-for obscurers :body)
                       header-obscurer (create-obscurer-for obscurers :headers)]
@@ -21,28 +19,7 @@
                            (fn [req]
                              (let [{:keys [body headers] :as res} (handler req)]
                                (cond-> res
-                                       body (update :body body-obscurer)
-                                       headers (update :headers header-obscurer)))))})
+                                 body (update :body body-obscurer)
+                                 headers (update :headers header-obscurer)))))})
                 {}))})
 
-
-(comment
-
-
-  (-> dbg
-      deref
-      :route-data
-      keys
-      #_:reitit.ring/default-options-endpoint)
-
-  (:reitit.middleware/compiled
-    :lookup
-    :conflicts
-    :update-paths
-    :coerce
-    :exception
-    :expand
-    :compile
-    :reitit.ring/default-options-endpoint
-    :data)
-  )

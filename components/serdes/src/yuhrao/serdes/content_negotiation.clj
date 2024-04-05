@@ -14,11 +14,11 @@
   (let [headers (some->> req-or-res
                          :headers
                          (cske/transform-keys csk/->kebab-case-keyword))]
-    (->> [(:content-type req-or-res)
-          (:content-type headers)]
-         (remove empty?)
-         (map #(first (string/split % #";")))
-         first)))
+    (some->> [(:content-type req-or-res)
+              (:content-type headers)]
+             (remove empty?)
+             (map #(first (string/split % #";")))
+             first)))
 
 (defn extract-accept [req]
   (let [headers (some->> req
@@ -52,11 +52,11 @@
 (defn create-instance
   [{:keys [json-opts]}]
   (cond-> default-opts
-          (:encoder json-opts)
-          (assoc-in [:formats "application/json" :encoder-opts] (:encoder json-opts))
-          (:decoder json-opts)
-          (assoc-in [:formats "application/json" :decoder-opts] (:decoder json-opts))
-          true mtj/create))
+    (:encoder json-opts)
+    (assoc-in [:formats "application/json" :encoder-opts] (:encoder json-opts))
+    (:decoder json-opts)
+    (assoc-in [:formats "application/json" :decoder-opts] (:decoder json-opts))
+    true mtj/create))
 
 (defn encode
   ([format v]

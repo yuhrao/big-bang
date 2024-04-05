@@ -90,7 +90,7 @@
                                                                                 [:birth-date :string]
                                                                                 [:camel-case :boolean]]}
                                                             :handler    (fn [{body    :body-params
-                                                                             headers :headers}]
+                                                                              headers :headers}]
                                                                           (t/is (match? expected body))
                                                                           (t/is {:custom-header "true"}
                                                                                 headers)
@@ -104,10 +104,11 @@
         :body           payload}
        prepare-request
        app)))
-  (t/testing "custom middlewares"
+  (t/testing "custom top level middlewares"
     (let [assertion  (atom false)
-          routes     [["/test" {:get {:handler (fn [req]
-                                                 {:status 200})}}]]
+          routes     [["/test" {:get {:handler (fn [_req]
+                                                 {:status :ok
+                                                  :body {:test true}})}}]]
           middleware {:name ::test
                       :wrap (fn [handler]
                               (fn [req]
@@ -115,10 +116,38 @@
                                 (handler req)))}
           app        (ws/app {:routes        routes
                               :disable-logs? true
-                              :middlewares   [middleware]})]
-      (app {:request-method :get
-            :uri            "/test"})
-      (t/is @assertion))))
+                              :middlewares   [middleware]})
+          res (app {:request-method :get
+                    :headers       {"Accept" "application/json"}
+                    :uri            "/test"})]
+
+      (t/is @assertion)
+      (t/is (match?
+             {:status 200
+              :body  {:test true}}
+             (parse-response res)))))
+  (t/testing "custom route level middlewares"
+    (let [assertion  (atom false)
+          middleware {:name ::middleware
+                      :wrap (fn [handler]
+                              (fn [req]
+                                (reset! assertion true)
+                                (handler req)))}
+          routes     [["/test" {:middleware   [middleware]
+                                :get {:handler (fn [_req]
+                                                 {:status :ok
+                                                  :body {:test true}})}}]]
+          app        (ws/app {:routes        routes
+                              :disable-logs? true})
+          res (app {:request-method :get
+                    :headers       {"Accept" "application/json"}
+                    :uri            "/test"})]
+
+      (t/is @assertion)
+      (t/is (match?
+             {:status 200
+              :body  {:test true}}
+             (parse-response res))))))
 
 (t/deftest web-server-test
   (let [routes [["/test"
@@ -153,8 +182,6 @@
              :body   {:succes true}}
             (http/request http-client {:path   "/test/success/yaml"
                                        :method :post})))
-    (tap> (http/request http-client {:path   "/test/success/yaml"
-                                     :method :post}))
     ;; TODO: fix these tests
     #_(t/testing "failure"
         (t/is (thrown-match?

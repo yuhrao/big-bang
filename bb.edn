@@ -1,7 +1,9 @@
 {:paths ["scripts"]
  :deps  {babashka/fs                         {:mvn/version "0.4.19"}
          camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}}
- :tasks {unit-tests        (do
+
+ :tasks {start-repl (shell "clojure -A:dev:test:local -M:repl/rebel")
+         unit-tests        (do
                              (println "Running all unit tests")
                              (shell "clojure -Srepro -M:dev:test:poly test project:dev"))
 

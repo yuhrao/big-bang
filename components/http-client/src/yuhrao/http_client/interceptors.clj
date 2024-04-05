@@ -37,7 +37,6 @@
                                           (assoc (ex-data e) :payload (:body req)))))))
                     req))
    :response    (fn [res]
-                  (tap> res)
                   (if (:body res)
                     (let [fmt (content-negotiation/extract-content-type res "plain/text")]
                       (try
