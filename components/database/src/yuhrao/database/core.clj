@@ -2,6 +2,7 @@
   (:require [yuhrao.database.migration :as migrations]
             [yuhrao.database.column-readers]
             [next.jdbc.connection :as jdbc.conn]
+            [next.jdbc :as jdbc]
             [yuhrao.database.sql-execution :as sql-execution])
   (:import (com.zaxxer.hikari HikariDataSource)))
 

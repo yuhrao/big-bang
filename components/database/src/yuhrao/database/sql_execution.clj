@@ -8,27 +8,25 @@
          (map (juxt (comp unqualify-fn first) second))
          (into {}))))
 
-(defn- execute-stmt! [db-spec sql]
-  (with-open [conn (jdbc/get-connection db-spec)]
-    (with-open [stmt (jdbc/prepare conn sql {:return-keys true})]
-      (let [res (jdbc/execute! stmt {:return-generated-keys true})]
-        (->> res
-             (map unqualify-keys))))))
+(defn- execute-stmt! [conn sql]
+  (with-open [stmt (jdbc/prepare conn sql {:return-keys true})]
+    (let [res (jdbc/execute! stmt {:return-generated-keys true})]
+      (->> res
+           (map unqualify-keys)))))
 
-(defn- execute-batch-stmt! [db-spec sql vals]
-  (with-open [conn (jdbc/get-connection db-spec)]
-    (with-open [stmt (jdbc/prepare conn sql {:return-keys true})]
-      (let [res (jdbc/execute-batch! stmt vals {:return-generated-keys true})]
-        (->> res
-             (map unqualify-keys))))))
+(defn- execute-batch-stmt! [conn sql vals]
+  (with-open [stmt (jdbc/prepare conn sql {:return-keys true})]
+    (let [res (jdbc/execute-batch! stmt vals {:return-generated-keys true})]
+      (->> res
+           (map unqualify-keys)))))
 
-(defn execute! [db-spec sql]
+(defn execute! [conn sql]
   (let [sql (if (vector? sql)
               sql
               (honey/format sql))]
-    (execute-stmt! db-spec sql)))
+    (execute-stmt! conn sql)))
 
-(defn insert! [db-spec table-name entity]
+(defn insert! [conn table-name entity]
   (let [ks     (->> entity
                     keys
                     vec)
@@ -38,9 +36,9 @@
         sql    (honey/format {:insert-into [table-name]
                               :columns     ks
                               :values      [values]})]
-    (execute-stmt! db-spec sql)))
+    (execute-stmt! conn sql)))
 
-(defn insert-batch! [db-spec table-name entities]
+(defn insert-batch! [conn table-name entities]
   (let [ks     (->> entities
                     first
                     keys
@@ -54,4 +52,4 @@
                     honey/format
                     first
                     (conj []))]
-    (execute-batch-stmt! db-spec sql values)))
+    (execute-batch-stmt! conn sql values)))
