@@ -6,7 +6,7 @@
             [reitit.openapi :as r.openapi]
             [reitit.ring :as ring]
             [reitit.ring.coercion :as ring.coercion]
-            [reitit.ring.middleware.exception :as r.m.exception]
+            ; [reitit.ring.middleware.exception :as r.m.exception]
             [reitit.ring.middleware.muuntaja :as r.m.muuntaja]
             [reitit.ring.middleware.parameters :as r.m.params]
             [reitit.ring.middleware.dev :as r.m.dev]
@@ -28,15 +28,15 @@
                            r.openapi/openapi-feature
                            r.m.params/parameters-middleware
                            y.middlewares/format-header-middleware
-                           r.m.muuntaja/format-response-middleware
-                           r.m.muuntaja/format-negotiate-middleware
+                           ring.coercion/coerce-request-middleware
                            r.m.muuntaja/format-request-middleware
-                           ; r.m.exception/exception-middleware
                            ring.coercion/coerce-exceptions-middleware
                            ring.coercion/coerce-response-middleware
-                           ring.coercion/coerce-request-middleware
+                           r.m.muuntaja/format-response-middleware
+                           r.m.muuntaja/format-negotiate-middleware
                            y.middlewares/obscurer-middleware
-                           y.middlewares/status-code-middleware])
+                           y.middlewares/status-code-middleware
+                           y.middlewares/exception-middleware])
                          (remove empty?))]
     (ring/router
      (cond->> routes

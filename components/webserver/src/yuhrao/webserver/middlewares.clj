@@ -2,6 +2,7 @@
   (:require [camel-snake-kebab.core :as csk]
             [camel-snake-kebab.extras :as cske]
             [yuhrao.webserver.middlewares.log :as y.mid.log]
+            [yuhrao.webserver.middlewares.exception :as y.mid.ex]
             [yuhrao.webserver.middlewares.obscurer :as y.mid.obscurer]))
 
 (def format-header-middleware
@@ -54,3 +55,8 @@
 (def log-middleware y.mid.log/log-middleware)
 
 (def obscurer-middleware y.mid.obscurer/obscurer-middleware)
+
+(def exception-middleware y.mid.ex/exception-middleware)
+
+;; TODO: create authorization middleware
+;; Have some default middlewares but also allow users to add their own middlewares

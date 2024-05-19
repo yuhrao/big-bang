@@ -12,7 +12,7 @@
 (def obscurer-middleware
   {:name    ::obscurer
    :compile (fn [{:keys [obscurers]} _opts]
-              (if (map? obscurers)
+              (if (and (map? obscurers) (seq obscurers))
                 (let [body-obscurer   (create-obscurer-for obscurers :body)
                       header-obscurer (create-obscurer-for obscurers :headers)]
                   {:wrap (fn [handler]
@@ -21,5 +21,6 @@
                                (cond-> res
                                  body (update :body body-obscurer)
                                  headers (update :headers header-obscurer)))))})
-                {}))})
-
+                {:wrap (fn [handler]
+                         (fn [req]
+                           (handler req)))}))})
