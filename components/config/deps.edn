@@ -1,5 +1,5 @@
 {:paths   ["src" "resources"]
- :deps    {org.clojure/clojure                 {:mvn/version "1.11.1"}
+ :deps    {org.clojure/clojure {:mvn/version "1.11.2"}
            camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}}
  :aliases {:test   {:extra-paths ["test"]
                     :extra-deps  {big-bang/testing {:local/root "../testing"}}}

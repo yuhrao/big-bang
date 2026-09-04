@@ -10,7 +10,7 @@
                                "components/data-cloak/src"
                                "components/testing/src"]
                  :extra-deps  {;; Components
-                               org.clojure/clojure   {:mvn/version "1.11.1"}
+                               org.clojure/clojure {:mvn/version "1.11.2"}
                                big-bang/config       {:local/root "./components/config"}
                                big-bang/database     {:local/root "./components/database"}
                                big-bang/logger       {:local/root "./components/logger"}
